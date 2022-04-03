@@ -50,8 +50,11 @@ namespace tests
 	MatrixTestOverall::MatrixTestOverall() :
 		ComplexTest("Matrix")
 	{
-		addTest(new CoherentMatrixTestOverall());
-		addTest(new IncoherentMatrixTestOverall());
+		//addTest(new CoherentMatrixTestOverall());
+		//addTest(new IncoherentMatrixTestOverall());
+		addTest(new CoherentMatrixTestScenarios());
+		addTest(new IncoherentMatrixTestScenarios());
+
 	}
 	CoherentMatrixTest1::CoherentMatrixTest1() :
 		SimpleTest("CoherentMatrix-test1")
@@ -170,16 +173,7 @@ namespace tests
 	}
 
 
-	CoherentMatrixScenarA::CoherentMatrixScenarA() :
-		SimpleTest("CoherentMatrixScenarA")
-	{
-	}
-
-	void CoherentMatrixScenarA::test()
-	{
-		//pomocnaFunkcia(1, 10, 50, 5, 5);
-		SimpleTest::logInfo("Finished coherent A without issue");
-	}
+	
 
 
 	void pomocnaFunkcia(int matrix, int size_row, int size_column, int rowCount, int columnCount)
@@ -205,6 +199,103 @@ namespace tests
 		DurationType totalTime = tests::DurationType::zero();
 
 		
+	}
+	////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////
+	CoherentMatrixTestScenarios::CoherentMatrixTestScenarios() :
+		ComplexTest("Coherent scenarios")
+	{
+		addTest(new CoherentMatrixScenarA);
+		addTest(new CoherentMatrixScenarB);
+		addTest(new CoherentMatrixScenarC);
+		addTest(new CoherentMatrixScenarD);
+	}
+
+	IncoherentMatrixTestScenarios::IncoherentMatrixTestScenarios() :
+		ComplexTest("Incoherent scenarios")
+	{
+		addTest(new IncoherentMatrixScenarA);
+		addTest(new IncoherentMatrixScenarB);
+		addTest(new IncoherentMatrixScenarC);
+		addTest(new IncoherentMatrixScenarD);
+
+	}
+
+	CoherentMatrixScenarA::CoherentMatrixScenarA() :
+		SimpleTest("CoherentMatrixScenarA")
+	{
+	}
+
+	void CoherentMatrixScenarA::test()
+	{
+		//pomocnaFunkcia(1, 10, 50, 5, 5);
+		SimpleTest::logInfo("Finished coherent A without issue");
+	}
+
+	CoherentMatrixScenarB::CoherentMatrixScenarB() :
+		SimpleTest("CoherentMatrixScenarB")
+	{
+	}
+
+	void CoherentMatrixScenarB::test()
+	{
+	}
+
+	CoherentMatrixScenarC::CoherentMatrixScenarC() :
+		SimpleTest("CoherentMatrixScenarC")
+	{
+	}
+
+	void CoherentMatrixScenarC::test()
+	{
+	}
+
+	CoherentMatrixScenarD::CoherentMatrixScenarD() :
+		SimpleTest("CoherentMatrixScenarD")
+	{
+	}
+
+	void CoherentMatrixScenarD::test()
+	{
+	}
+
+	IncoherentMatrixScenarA::IncoherentMatrixScenarA() :
+		SimpleTest("InoherentMatrixScenarA")
+	{
+	}
+
+	void IncoherentMatrixScenarA::test()
+	{
+	}
+
+	IncoherentMatrixScenarB::IncoherentMatrixScenarB() :
+		SimpleTest("InoherentMatrixScenarD")
+	{
+	}
+
+	void IncoherentMatrixScenarB::test()
+	{
+	}
+
+	IncoherentMatrixScenarC::IncoherentMatrixScenarC() :
+		SimpleTest("InoherentMatrixScenarC")
+	{
+	}
+
+	void IncoherentMatrixScenarC::test()
+	{
+	}
+
+	IncoherentMatrixScenarD::IncoherentMatrixScenarD() :
+		SimpleTest("InoherentMatrixScenarD")
+	{
+	}
+
+	void IncoherentMatrixScenarD::test()
+	{
 	}
 
 }

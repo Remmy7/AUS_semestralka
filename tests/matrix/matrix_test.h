@@ -90,8 +90,24 @@ namespace tests
 		IncoherentMatrixTest1();
 		void test() override;
 	};
-
-
+	/// <summary>
+	/// Zahàòa v sebe testy na scenáre coherent matíc.
+	/// </summary>
+	class CoherentMatrixTestScenarios
+		: public ComplexTest
+	{
+	public:
+		CoherentMatrixTestScenarios();
+	};
+	/// <summary>
+	/// Zahàòa v sebe testy na scenáre incoherent matíc.
+	/// </summary>
+	class IncoherentMatrixTestScenarios
+		: public ComplexTest
+	{
+	public:
+		IncoherentMatrixTestScenarios();
+	};
 	
 
 	/// <summary>
@@ -102,6 +118,36 @@ namespace tests
 	{
 	public:
 		CoherentMatrixScenarA();
+		void test() override;
+	};
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre súvislú maticu, scenár B
+	/// </summary>
+	class CoherentMatrixScenarB
+		: public SimpleTest
+	{
+	public:
+		CoherentMatrixScenarB();
+		void test() override;
+	};
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre súvislú maticu, scenár C
+	/// </summary>
+	class CoherentMatrixScenarC
+		: public SimpleTest
+	{
+	public:
+		CoherentMatrixScenarC();
+		void test() override;
+	};
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre súvislú maticu, scenár D
+	/// </summary>
+	class CoherentMatrixScenarD
+		: public SimpleTest
+	{
+	public:
+		CoherentMatrixScenarD();
 		void test() override;
 	};
 	/// <summary>
@@ -119,4 +165,45 @@ namespace tests
 	};*/
 	
 
+
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre nesúvislú maticu, scenár A
+	/// </summary>
+	class IncoherentMatrixScenarA
+		: public SimpleTest
+	{
+	public:
+		IncoherentMatrixScenarA();
+		void test() override;
+	};
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre nesúvislú maticu, scenár B
+	/// </summary>
+	class IncoherentMatrixScenarB
+		: public SimpleTest
+	{
+	public:
+		IncoherentMatrixScenarB();
+		void test() override;
+	};
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre nesúvislú maticu, scenár C
+	/// </summary>
+	class IncoherentMatrixScenarC
+		: public SimpleTest
+	{
+	public:
+		IncoherentMatrixScenarC();
+		void test() override;
+	};
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre nesúvislú maticu, scenár D
+	/// </summary>
+	class IncoherentMatrixScenarD
+		: public SimpleTest
+	{
+	public:
+		IncoherentMatrixScenarD();
+		void test() override;
+	};
 }
