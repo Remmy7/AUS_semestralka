@@ -82,8 +82,8 @@ namespace structures
 	template<typename T>
 	inline IncoherentMatrix<T>::IncoherentMatrix(IncoherentMatrix& other)
 	{
-		this->rowCount = other->getRowCount();
-		this->columnCount = other->getColumnCount();
+		this->rowCount = other.getRowCount();
+		this->columnCount = other.getColumnCount();
 		incoherentMatrix = new Array<Array<T>*>(rowCount);
 		for (int i = 0; i < rowCount; i++) {
 			(*incoherentMatrix)[i] = new Array<T>(*(*other.incoherentMatrix)[i]);

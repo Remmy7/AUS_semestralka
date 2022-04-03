@@ -43,6 +43,7 @@ namespace tests
 		ComplexTest("IncoherentMatrix")
 	{
 		addTest(new IncoherentMatrixTestInterface());
+		addTest(new IncoherentMatrixTest1());
 	}
 
 	MatrixTestOverall::MatrixTestOverall() :
@@ -57,12 +58,13 @@ namespace tests
 	}
 	void CoherentMatrixTest1::test()
 	{
-		//DurationType time = ;
+		DurationType time = tests::DurationType::zero();
 		SimpleTest::startStopwatch();
 		structures::CoherentMatrix<int>* coherentMatrix = new structures::CoherentMatrix<int>(20, 20);
 		coherentMatrix->at(5, 5) = 516;
 		coherentMatrix->at(coherentMatrix->getRowCount() - 1, coherentMatrix->getRowCount() - 1) = 100;
 		coherentMatrix->at(0, 0) = 200;
+
 		structures::CoherentMatrix<int>* copyCoherentMatrix = new structures::CoherentMatrix<int>(*coherentMatrix);
 		structures::CoherentMatrix<int>* assignCoherentMatrix = new structures::CoherentMatrix<int>(20, 20);
 		assignCoherentMatrix->assign(*coherentMatrix);
@@ -86,16 +88,64 @@ namespace tests
 		SimpleTest::assertTrue(copyCoherentMatrix->equals(*assignCoherentMatrix), "matrix2 is equal to matrix3");
 		
 		SimpleTest::stopStopwatch();
-		tests::DurationType time = getElapsedTime();
-		//SimpleTest::logInfo("Total time: " + );
+		time = getElapsedTime();
+		SimpleTest::logInfo("Total time: " + std::to_string(time.count()));
 		//getElapsedTime();
-		SimpleTest::logInfo("xd");
+		SimpleTest::logInfo("finished");
 
 		
 
 		delete coherentMatrix;
 		delete copyCoherentMatrix;
-		delete assignCoherentMatrix;
-		
+		delete assignCoherentMatrix;	
+	}
+	IncoherentMatrixTest1::IncoherentMatrixTest1() :
+		SimpleTest("IncoherentMatrix-test1")
+	{
+	}
+	void IncoherentMatrixTest1::test()
+	{
+		DurationType time = tests::DurationType::zero();
+		SimpleTest::startStopwatch();
+		structures::IncoherentMatrix<int>* incoherentMatrix = new structures::IncoherentMatrix<int>(20, 20);
+		incoherentMatrix->at(5, 5) = 516;
+		incoherentMatrix->at(incoherentMatrix->getRowCount() - 1, incoherentMatrix->getRowCount() - 1) = 100;
+		incoherentMatrix->at(0, 0) = 200;
+
+		structures::IncoherentMatrix<int>* copyIncoherentMatrix = new structures::IncoherentMatrix<int>(*incoherentMatrix);
+		structures::IncoherentMatrix<int>* assignIncoherentMatrix = new structures::IncoherentMatrix<int>(20, 20);
+		assignIncoherentMatrix->assign(*incoherentMatrix);
+
+		SimpleTest::assertTrue(incoherentMatrix->size() == 400, "matrix1.size == 400");
+		SimpleTest::assertTrue(copyIncoherentMatrix->size() == 400, "matrix2[10,10] == 0");
+
+		SimpleTest::assertTrue(incoherentMatrix->at(10, 10) == 0, "matrix1[10,10] == 0");
+		SimpleTest::assertTrue(incoherentMatrix->at(5, 5) == 516, "matrix1[5,5] == 516");
+
+		SimpleTest::assertTrue(copyIncoherentMatrix->at(5, 5), "matrix2[5,5] == 516");
+		SimpleTest::assertTrue(assignIncoherentMatrix->at(5, 5), "matrix3[5, 5] == 516");
+
+		SimpleTest::assertTrue(copyIncoherentMatrix->at(copyIncoherentMatrix->getRowCount() - 1, copyIncoherentMatrix->getRowCount() - 1), "matrix2[20, 20] == 100");
+		SimpleTest::assertTrue(assignIncoherentMatrix->at(assignIncoherentMatrix->getRowCount() - 1, assignIncoherentMatrix->getRowCount() - 1), "matrix3[20, 20] == 100");
+		SimpleTest::assertTrue(copyIncoherentMatrix->at(0, 0), "matrix2[0, 0] == 200");
+		SimpleTest::assertTrue(assignIncoherentMatrix->at(0, 0), "matrix3[0, 0] == 200");
+
+		SimpleTest::assertTrue(incoherentMatrix->equals(*copyIncoherentMatrix), "matrix1 is equal to matrix2");
+		SimpleTest::assertTrue(incoherentMatrix->equals(*assignIncoherentMatrix), "matrix1 is equal to matrix3");
+		SimpleTest::assertTrue(copyIncoherentMatrix->equals(*assignIncoherentMatrix), "matrix2 is equal to matrix3");
+
+		SimpleTest::stopStopwatch();
+		time = getElapsedTime();
+		SimpleTest::logInfo("Total time: " + std::to_string(time.count()));
+		//getElapsedTime();
+		SimpleTest::logInfo("finished");
+
+
+
+		delete incoherentMatrix;
+		delete copyIncoherentMatrix;
+		delete assignIncoherentMatrix;
+
+		SimpleTest::logInfo("finished");
 	}
 }
