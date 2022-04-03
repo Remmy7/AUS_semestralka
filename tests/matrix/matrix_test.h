@@ -70,6 +70,9 @@ namespace tests
 	public:
 		MatrixTestOverall();
 	};
+	/// <summary>
+	/// Testovanie pre súvislú maticu.
+	/// </summary>
 	class CoherentMatrixTest1
 		: public SimpleTest
 	{
@@ -77,6 +80,9 @@ namespace tests
 		CoherentMatrixTest1();
 		void test() override;
 	};
+	/// <summary>
+	/// Testovanie pre nesúvislú maticu.
+	/// </summary>
 	class IncoherentMatrixTest1
 		: public SimpleTest
 	{
@@ -84,4 +90,33 @@ namespace tests
 		IncoherentMatrixTest1();
 		void test() override;
 	};
+
+
+	
+
+	/// <summary>
+	/// Testovanie druhej úlohy v prvom zadaní pre súvislú maticu, scenár A
+	/// </summary>
+	class CoherentMatrixScenarA
+		: public SimpleTest
+	{
+	public:
+		CoherentMatrixScenarA();
+		void test() override;
+	};
+	/// <summary>
+	/// Pomocná funkcia, ktorú si zavolá každý scenár a vykoná òou daný scenár.
+	/// </summary>
+	/// <param name="matrix">Výber medzi coherent(1) a incoherent(2) maticou</param>
+	/// <param name="size_row">Dåžka matice</param>
+	/// <param name="size_column">Šírka matice</param>
+	/// <param name="rowCount">Pomer operácií getRowCount</param>
+	/// <param name="columnCount">Pomer operácií getColumnCount</param>
+	/*class pomocnaFunkcia
+		: public SimpleTest 
+	{
+		void pomocnaFunkcia(int matrix, int size_row, int size_column, int rowCount, int columnCount);
+	};*/
+	
+
 }

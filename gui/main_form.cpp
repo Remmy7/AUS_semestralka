@@ -29,15 +29,17 @@ void main(array<String^>^)
 	std::vector<tests::Test*> tests;
 
 	// Registracia testov:
+	// Zadanie 1
+	tests.emplace_back(new tests::MatrixTestOverall());
 
 	// 01: Vector
-	tests.emplace_back(new tests::VectorTestOverall());
+	//tests.emplace_back(new tests::VectorTestOverall());
 
 	// 02: Array
-	tests.emplace_back(new tests::ArrayTestOverall());
+	//tests.emplace_back(new tests::ArrayTestOverall());
 
 	// TODO 03: List
-	tests.emplace_back(new tests::ListTestOverall());
+	//tests.emplace_back(new tests::ListTestOverall());
 
 	// TODO 05: Stack
 	//tests.emplace_back(new tests::StackTestOverall());
@@ -54,7 +56,7 @@ void main(array<String^>^)
 	// TODO 08: Table
 	//tests.emplace_back(new tests::TableTestOverall());
 
-	tests.emplace_back(new tests::MatrixTestOverall());
+	
 
 	gui::MainForm form(tests);
 
