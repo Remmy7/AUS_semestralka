@@ -32,6 +32,8 @@ namespace tests
 		return new structures::IncoherentMatrix<int>(rows, cols);
 	}
 
+	
+
 	CoherentMatrixTestOverall::CoherentMatrixTestOverall() :
 		ComplexTest("CoherentMatrix")
 	{
@@ -56,6 +58,7 @@ namespace tests
 		addTest(new IncoherentMatrixTestScenarios());
 
 	}
+	
 	CoherentMatrixTest1::CoherentMatrixTest1() :
 		SimpleTest("CoherentMatrix-test1")
 	{
@@ -171,35 +174,6 @@ namespace tests
 
 		SimpleTest::logInfo("finished");
 	}
-
-
-	
-
-
-	void pomocnaFunkcia(int matrix, int size_row, int size_column, int rowCount, int columnCount)
-	{	
-		int operationCount = 1000000;
-
-		if (matrix == 1) {
-			structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(size_row, size_column);
-		}
-		else if (matrix == 2) {
-			structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(size_row, size_column);
-		}
-		else {
-			throw std::invalid_argument("Invalid matrix chosen! Choose coherent(1) or incoherent(2) matrix!");
-		}
-		
-		int getRowCount = (operationCount / 100) * rowCount;
-		int getColumnCount = (operationCount / 100) * columnCount;
-		int getAtCount = (operationCount / 100) * (100 - rowCount - columnCount);
-		DurationType rowCountTime = tests::DurationType::zero();
-		DurationType columnCountTime = tests::DurationType::zero();
-		DurationType atCountTime = tests::DurationType::zero();
-		DurationType totalTime = tests::DurationType::zero();
-
-		
-	}
 	////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////
@@ -227,12 +201,56 @@ namespace tests
 	CoherentMatrixScenarA::CoherentMatrixScenarA() :
 		SimpleTest("CoherentMatrixScenarA")
 	{
+		
 	}
 
 	void CoherentMatrixScenarA::test()
 	{
-		//pomocnaFunkcia(1, 10, 50, 5, 5);
-		SimpleTest::logInfo("Finished coherent A without issue");
+		srand(time(NULL));
+		SimpleTest::logInfo("Coherent matrix scenar A");
+		SimpleTest::logInfo("row size: 10");
+		SimpleTest::logInfo("column size: 50");
+		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+
+		int operationCount = 1000000;
+		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(10, 50);
+
+		int getRowCount = (operationCount / 100) * 5;
+		int getColumnCount = (operationCount / 100) * 5;
+		int getAtCount = (operationCount / 100) * (100 - 5 - 5);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 90 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 10;
+				int y = rand() % 50;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 95 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");		
 	}
 
 	CoherentMatrixScenarB::CoherentMatrixScenarB() :
@@ -242,6 +260,51 @@ namespace tests
 
 	void CoherentMatrixScenarB::test()
 	{
+		SimpleTest::logInfo("Coherent matrix scenar B");
+		SimpleTest::logInfo("row size: 2000");
+		SimpleTest::logInfo("column size: 500");
+		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+		
+		int operationCount = 1000000;
+		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(2000, 500);
+
+		int getRowCount = (operationCount / 100) * 5;
+		int getColumnCount = (operationCount / 100) * 5;
+		int getAtCount = (operationCount / 100) * (100 - 5 - 5);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 90 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 2000;
+				int y = rand() % 500;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 95 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+
 	}
 
 	CoherentMatrixScenarC::CoherentMatrixScenarC() :
@@ -251,6 +314,50 @@ namespace tests
 
 	void CoherentMatrixScenarC::test()
 	{
+		SimpleTest::logInfo("Coherent matrix scenar C");
+		SimpleTest::logInfo("row size: 50");
+		SimpleTest::logInfo("column size: 10");
+		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+
+		int operationCount = 1000000;
+		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(50, 10);
+
+		int getRowCount = (operationCount / 100) * 10;
+		int getColumnCount = (operationCount / 100) * 30;
+		int getAtCount = (operationCount / 100) * (100 - 10 - 30);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 60 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 50;
+				int y = rand() % 10;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 90 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
 	}
 
 	CoherentMatrixScenarD::CoherentMatrixScenarD() :
@@ -260,6 +367,55 @@ namespace tests
 
 	void CoherentMatrixScenarD::test()
 	{
+		SimpleTest::logInfo("Coherent matrix scenar D");
+		SimpleTest::logInfo("row size: 500");
+		SimpleTest::logInfo("column size: 2000");
+		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+
+		SimpleTest::logInfo("Coherent matrix scenar C");
+		SimpleTest::logInfo("row size: 50");
+		SimpleTest::logInfo("column size: 10");
+		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+
+		int operationCount = 1000000;
+		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(500, 2000);
+
+		int getRowCount = (operationCount / 100) * 10;
+		int getColumnCount = (operationCount / 100) * 30;
+		int getAtCount = (operationCount / 100) * (100 - 10 - 30);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 60 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 500;
+				int y = rand() % 2000;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 90 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
 	}
 
 	IncoherentMatrixScenarA::IncoherentMatrixScenarA() :
@@ -269,6 +425,50 @@ namespace tests
 
 	void IncoherentMatrixScenarA::test()
 	{
+		SimpleTest::logInfo("Incoherent matrix scenar A");
+		SimpleTest::logInfo("row size: 10");
+		SimpleTest::logInfo("column size: 50");
+		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+
+		int operationCount = 1000000;
+		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(10, 50);
+
+		int getRowCount = (operationCount / 100) * 5;
+		int getColumnCount = (operationCount / 100) * 5;
+		int getAtCount = (operationCount / 100) * (100 - 5 - 5);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 90 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 10;
+				int y = rand() % 50;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 95 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
 	}
 
 	IncoherentMatrixScenarB::IncoherentMatrixScenarB() :
@@ -278,6 +478,51 @@ namespace tests
 
 	void IncoherentMatrixScenarB::test()
 	{
+		SimpleTest::logInfo("Incoherent matrix scenar B");
+		SimpleTest::logInfo("row size: 2000");
+		SimpleTest::logInfo("column size: 500");
+		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+
+		int operationCount = 1000000;
+		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(2000, 500);
+
+		int getRowCount = (operationCount / 100) * 5;
+		int getColumnCount = (operationCount / 100) * 5;
+		int getAtCount = (operationCount / 100) * (100 - 5 - 5);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 90 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 2000;
+				int y = rand() % 500;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 95 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+
 	}
 
 	IncoherentMatrixScenarC::IncoherentMatrixScenarC() :
@@ -287,6 +532,50 @@ namespace tests
 
 	void IncoherentMatrixScenarC::test()
 	{
+		SimpleTest::logInfo("Incoherent matrix scenar C");
+		SimpleTest::logInfo("row size: 50");
+		SimpleTest::logInfo("column size: 10");
+		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+
+		int operationCount = 1000000;
+		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(50, 10);
+
+		int getRowCount = (operationCount / 100) * 10;
+		int getColumnCount = (operationCount / 100) * 30;
+		int getAtCount = (operationCount / 100) * (100 - 10 - 30);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 60 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 50;
+				int y = rand() % 10;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 90 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
 	}
 
 	IncoherentMatrixScenarD::IncoherentMatrixScenarD() :
@@ -296,6 +585,49 @@ namespace tests
 
 	void IncoherentMatrixScenarD::test()
 	{
-	}
+		SimpleTest::logInfo("Incoherent matrix scenar D");
+		SimpleTest::logInfo("row size: 500");
+		SimpleTest::logInfo("column size: 2000");
+		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
 
+		int operationCount = 1000000;
+		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(500, 2000);
+
+		int getRowCount = (operationCount / 100) * 10;
+		int getColumnCount = (operationCount / 100) * 30;
+		int getAtCount = (operationCount / 100) * (100 - 10 - 30);
+		DurationType rowCountTime = tests::DurationType::zero();
+		DurationType columnCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < 60 && getAtCount != 0) {
+				getAtCount--;
+				int x = rand() % 500;
+				int y = rand() % 2000;
+				SimpleTest::startStopwatch();
+				matrix->at(x, y);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+
+			}
+			else if (randChance < 90 && getColumnCount != 0) {
+				getColumnCount--;
+				SimpleTest::startStopwatch();
+				matrix->getColumnCount();
+				SimpleTest::stopStopwatch();
+				columnCountTime += SimpleTest::getElapsedTime();
+			}
+			else if (getRowCount != 0) {
+				getRowCount--;
+				SimpleTest::startStopwatch();
+				matrix->getRowCount();
+				SimpleTest::stopStopwatch();
+				rowCountTime += SimpleTest::getElapsedTime();
+			}
+		}
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+	}
 }

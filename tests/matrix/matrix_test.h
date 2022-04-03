@@ -21,6 +21,7 @@ namespace tests
 		virtual structures::Matrix<int>* makeMatrix(size_t rows, size_t cols) const = 0;
 	};
 
+
 	/// <summary>
 	/// Zavola vsetky metody koherentnej matice.
 	/// </summary>
@@ -69,6 +70,7 @@ namespace tests
 	{
 	public:
 		MatrixTestOverall();
+	
 	};
 	/// <summary>
 	/// Testovanie pre súvislú maticu.
@@ -79,6 +81,8 @@ namespace tests
 	public:
 		CoherentMatrixTest1();
 		void test() override;
+
+	
 	};
 	/// <summary>
 	/// Testovanie pre nesúvislú maticu.
@@ -98,6 +102,8 @@ namespace tests
 	{
 	public:
 		CoherentMatrixTestScenarios();
+	
+
 	};
 	/// <summary>
 	/// Zahàòa v sebe testy na scenáre incoherent matíc.
@@ -150,20 +156,6 @@ namespace tests
 		CoherentMatrixScenarD();
 		void test() override;
 	};
-	/// <summary>
-	/// Pomocná funkcia, ktorú si zavolá každý scenár a vykoná òou daný scenár.
-	/// </summary>
-	/// <param name="matrix">Výber medzi coherent(1) a incoherent(2) maticou</param>
-	/// <param name="size_row">Dåžka matice</param>
-	/// <param name="size_column">Šírka matice</param>
-	/// <param name="rowCount">Pomer operácií getRowCount</param>
-	/// <param name="columnCount">Pomer operácií getColumnCount</param>
-	/*class pomocnaFunkcia
-		: public SimpleTest 
-	{
-		void pomocnaFunkcia(int matrix, int size_row, int size_column, int rowCount, int columnCount);
-	};*/
-	
 
 
 	/// <summary>
