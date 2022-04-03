@@ -248,9 +248,10 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");		
+		delete matrix;
 	}
 
 	CoherentMatrixScenarB::CoherentMatrixScenarB() :
@@ -301,9 +302,10 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
 
 	}
 
@@ -355,9 +357,11 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
+
 	}
 
 	CoherentMatrixScenarD::CoherentMatrixScenarD() :
@@ -413,13 +417,15 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
+
 	}
 
 	IncoherentMatrixScenarA::IncoherentMatrixScenarA() :
-		SimpleTest("InoherentMatrixScenarA")
+		SimpleTest("IncoherentMatrixScenarA")
 	{
 	}
 
@@ -466,13 +472,15 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
+
 	}
 
 	IncoherentMatrixScenarB::IncoherentMatrixScenarB() :
-		SimpleTest("InoherentMatrixScenarD")
+		SimpleTest("IncoherentMatrixScenarD")
 	{
 	}
 
@@ -519,14 +527,16 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
+
 
 	}
 
 	IncoherentMatrixScenarC::IncoherentMatrixScenarC() :
-		SimpleTest("InoherentMatrixScenarC")
+		SimpleTest("IncoherentMatrixScenarC")
 	{
 	}
 
@@ -573,13 +583,17 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
+
+
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 	}
 
 	IncoherentMatrixScenarD::IncoherentMatrixScenarD() :
-		SimpleTest("InoherentMatrixScenarD")
+		SimpleTest("IncoherentMatrixScenarD")
 	{
 	}
 
@@ -626,8 +640,10 @@ namespace tests
 				rowCountTime += SimpleTest::getElapsedTime();
 			}
 		}
-		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		delete matrix;
+
 	}
 }
