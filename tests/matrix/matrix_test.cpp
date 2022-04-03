@@ -1,6 +1,9 @@
 #include "matrix_test.h"
 #include "../../structures/matrix/coherent_matrix.h"
 #include "../../structures/matrix/incoherent_matrix.h"
+#include <fstream>
+#include <iostream>
+#include <string>
 
 namespace tests
 {
@@ -211,6 +214,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 10");
 		SimpleTest::logInfo("column size: 50");
 		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+		structures::Logger::getInstance().logInfo("Scenár súvislej matice A:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(10, 50);
@@ -231,7 +236,7 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
-
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
 			}
 			else if (randChance < 95 && getColumnCount != 0) {
 				getColumnCount--;
@@ -239,19 +244,28 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
-			else if (getRowCount != 0) {
+			else if (randChance < 100 && getRowCount != 0) {
 				getRowCount--;
 				SimpleTest::startStopwatch();
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
+			}
+			else {
+				operationCount++;
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");		
 		delete matrix;
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 	}
 
 	CoherentMatrixScenarB::CoherentMatrixScenarB() :
@@ -265,6 +279,9 @@ namespace tests
 		SimpleTest::logInfo("row size: 2000");
 		SimpleTest::logInfo("column size: 500");
 		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+
+		structures::Logger::getInstance().logInfo("Scenár súvislej matice B:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 		
 		int operationCount = 1000000;
 		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(2000, 500);
@@ -285,6 +302,8 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+
 
 			}
 			else if (randChance < 95 && getColumnCount != 0) {
@@ -293,6 +312,7 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
@@ -300,11 +320,16 @@ namespace tests
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 		delete matrix;
 
 	}
@@ -320,6 +345,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 50");
 		SimpleTest::logInfo("column size: 10");
 		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+		structures::Logger::getInstance().logInfo("Scenár súvislej matice C:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(50, 10);
@@ -340,6 +367,8 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+
 
 			}
 			else if (randChance < 90 && getColumnCount != 0) {
@@ -348,6 +377,7 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
@@ -355,11 +385,17 @@ namespace tests
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
+
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 		delete matrix;
 
 	}
@@ -375,11 +411,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 500");
 		SimpleTest::logInfo("column size: 2000");
 		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
-
-		SimpleTest::logInfo("Coherent matrix scenar C");
-		SimpleTest::logInfo("row size: 50");
-		SimpleTest::logInfo("column size: 10");
-		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+		structures::Logger::getInstance().logInfo("Scenár súvislej matice A:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::CoherentMatrix<int>* matrix = new structures::CoherentMatrix<int>(500, 2000);
@@ -400,6 +433,8 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+
 
 			}
 			else if (randChance < 90 && getColumnCount != 0) {
@@ -408,6 +443,7 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
@@ -415,11 +451,17 @@ namespace tests
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
+
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 		delete matrix;
 
 	}
@@ -435,6 +477,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 10");
 		SimpleTest::logInfo("column size: 50");
 		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(10, 50);
@@ -455,6 +499,8 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+
 
 			}
 			else if (randChance < 95 && getColumnCount != 0) {
@@ -463,6 +509,7 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
@@ -470,11 +517,17 @@ namespace tests
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
+
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 		delete matrix;
 
 	}
@@ -490,6 +543,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 2000");
 		SimpleTest::logInfo("column size: 500");
 		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(2000, 500);
@@ -510,6 +565,7 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
 
 			}
 			else if (randChance < 95 && getColumnCount != 0) {
@@ -518,6 +574,7 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
@@ -525,11 +582,17 @@ namespace tests
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
+
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 		delete matrix;
 
 
@@ -546,6 +609,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 50");
 		SimpleTest::logInfo("column size: 10");
 		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(50, 10);
@@ -566,6 +631,7 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
 
 			}
 			else if (randChance < 90 && getColumnCount != 0) {
@@ -574,6 +640,7 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
@@ -581,6 +648,8 @@ namespace tests
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
 				rowCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
+
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
@@ -588,8 +657,12 @@ namespace tests
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
 		delete matrix;
 
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice C:");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
 
-		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
+
 	}
 
 	IncoherentMatrixScenarD::IncoherentMatrixScenarD() :
@@ -603,6 +676,8 @@ namespace tests
 		SimpleTest::logInfo("row size: 500");
 		SimpleTest::logInfo("column size: 2000");
 		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
 		structures::IncoherentMatrix<int>* matrix = new structures::IncoherentMatrix<int>(500, 2000);
@@ -623,6 +698,7 @@ namespace tests
 				matrix->at(x, y);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
 
 			}
 			else if (randChance < 90 && getColumnCount != 0) {
@@ -631,18 +707,24 @@ namespace tests
 				matrix->getColumnCount();
 				SimpleTest::stopStopwatch();
 				columnCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";column");
 			}
 			else if (getRowCount != 0) {
 				getRowCount--;
 				SimpleTest::startStopwatch();
 				matrix->getRowCount();
 				SimpleTest::stopStopwatch();
-				rowCountTime += SimpleTest::getElapsedTime();
+				rowCountTime += SimpleTest::getElapsedTime();				
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";row");
 			}
 		}
 		SimpleTest::logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
 		SimpleTest::logInfo("Dokopy èas getAt: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: ;" + std::to_string(columnCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: ;" + std::to_string(rowCountTime.count()) + ";mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 		delete matrix;
 
 	}

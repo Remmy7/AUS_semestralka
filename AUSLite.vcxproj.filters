@@ -132,11 +132,11 @@
     <ClCompile Include="tests\stdvector\stdvector_test.cpp">
       <Filter>tests\stdvector</Filter>
     </ClCompile>
-    <ClCompile Include="gui\file_log_consumer.cpp">
-      <Filter>gui</Filter>
-    </ClCompile>
     <ClCompile Include="tests\matrix\matrix_test.cpp">
       <Filter>tests\matrix</Filter>
+    </ClCompile>
+    <ClCompile Include="structures\_logger\file_log_consumer.cpp">
+      <Filter>structures\_logger</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,9 +320,6 @@
     <ClInclude Include="structures\heap_monitor.h">
       <Filter>structures\common</Filter>
     </ClInclude>
-    <ClInclude Include="gui\file_log_consumer.h">
-      <Filter>gui</Filter>
-    </ClInclude>
     <ClInclude Include="structures\matrix\matrix.h">
       <Filter>structures\matrix</Filter>
     </ClInclude>
@@ -334,6 +331,9 @@
     </ClInclude>
     <ClInclude Include="tests\matrix\matrix_test.h">
       <Filter>tests\matrix</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\_logger\file_log_consumer.h">
+      <Filter>structures\_logger</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

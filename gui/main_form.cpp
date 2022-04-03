@@ -1,7 +1,7 @@
 #include "../structures/heap_monitor.h"
 #include "main_form.h"
 #include "gui_log_consumer.h"
-#include "file_log_consumer.h"
+#include "../structures/_logger/file_log_consumer.h"
 #include "../tests/test.h"
 #include "../tests/vector/vector_test.h"
 #include "../tests/array/array_test.h"
@@ -63,16 +63,41 @@ void main(array<String^>^)
 	// Registracia odoberatelov globalneho logu:
 
 	// Odoberatel logu, ktory preposiela spravy do GUI.
-	gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
-	structures::Logger::getInstance().registerConsumer(guiLogConsumer);
+	/*gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
+	structures::Logger::getInstance().registerConsumer(guiLogConsumer);*/
 
-	/*gui::FileLogConsumer* fileLogConsumer = new gui::FileLogConsumer("log.csv");
-	structures::Logger::getInstance().registerConsumer(fileLogConsumer);*/
+	structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("matrix.csv");
+	structures::Logger::getInstance().registerConsumer(fileLogConsumer);
+
+	/// <summary>
+	/// ⁄loha 2 z prvÈho dom·ceho zadania
+	/// </summary>
+	/// <param name=""></param>
+	/*structures::FileLogConsumer* coherentMatrixScenarioA = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioA.csv");
+	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioA);
+	structures::FileLogConsumer* coherentMatrixScenarioB = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioB.csv");
+	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioB);
+	structures::FileLogConsumer* coherentMatrixScenarioC = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioC.csv");
+	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioC);
+	structures::FileLogConsumer* coherentMatrixScenarioD = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioD.csv");
+	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioD);
+
+	structures::FileLogConsumer* incoherentMatrixScenarioA = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioA.csv");
+	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioA);
+	structures::FileLogConsumer* incoherentMatrixScenarioB = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioB.csv");
+	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioB);
+	structures::FileLogConsumer* incoherentMatrixScenarioC = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioC.csv");
+	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioC);
+	structures::FileLogConsumer* incoherentMatrixScenarioD = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioD.csv");
+	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioD);*/
+
+
 
 	WF::Application::Run(%form);
 
 	// Ak ste Vas logger alokovali dynamicky, zmazatù ho mÙûete tu:
-	delete guiLogConsumer;
+	//delete guiLogConsumer;
+	delete fileLogConsumer;
 	for (tests::Test* test : tests)
 	{
 		delete test;

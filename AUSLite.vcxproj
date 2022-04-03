@@ -124,13 +124,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="gui\file_log_consumer.cpp" />
     <ClCompile Include="gui\gui_log_consumer.cpp" />
     <ClCompile Include="gui\main_form.cpp" />
     <ClCompile Include="structures\structure.cpp" />
     <ClCompile Include="structures\table\sorting\sort.cpp" />
     <ClCompile Include="structures\utils.cpp" />
     <ClCompile Include="structures\vector\vector.cpp" />
+    <ClCompile Include="structures\_logger\file_log_consumer.cpp" />
     <ClCompile Include="structures\_logger\logger.cpp" />
     <ClCompile Include="tests\array\array_test.cpp" />
     <ClCompile Include="tests\list\list_test.cpp" />
@@ -145,7 +145,6 @@
     <ClCompile Include="tests\vector\vector_test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gui\file_log_consumer.h" />
     <ClInclude Include="gui\gui_log_consumer.h" />
     <ClInclude Include="gui\main_form.h">
       <FileType>CppForm</FileType>
@@ -200,6 +199,7 @@
     <ClInclude Include="structures\types.h" />
     <ClInclude Include="structures\utils.h" />
     <ClInclude Include="structures\vector\vector.h" />
+    <ClInclude Include="structures\_logger\file_log_consumer.h" />
     <ClInclude Include="structures\_logger\logger.h" />
     <ClInclude Include="tests\array\array_test.h" />
     <ClInclude Include="tests\list\list_test.h" />
