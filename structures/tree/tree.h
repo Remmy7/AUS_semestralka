@@ -244,15 +244,23 @@ namespace structures
 	template<typename T>
 	inline TreeNode<T>* TreeNode<T>::deepCopy()
 	{
-		//TODO 07: TreeNode
-		throw std::runtime_error("TreeNode<T>::deepCopy: Not implemented yet.");
+		auto result = shallowCopy();
+
+		int pocetSpracovanychSynov = 0;
+		for (int i = 0; pocetSpracovanychSynov < degree(); i++) {
+			auto son = getSon(i);
+			if (son != nullptr) {
+				result->replaceSon(son->deepCopy(), i);
+				pocetSpracovanychSynov++;
+			}
+		}
+		return result;
 	}
 
 	template<typename T>
 	inline bool TreeNode<T>::isRoot()
 	{
-		//TODO 07: TreeNode
-		throw std::runtime_error("TreeNode<T>::isRoot: Not implemented yet.");
+		return parent_ == nullptr;
 	}
 
 	template<typename T>
@@ -276,15 +284,27 @@ namespace structures
 	template<typename T>
 	inline TreeNode<T>* TreeNode<T>::getBrother(int brothersOrder)
 	{
-		//TODO 07: TreeNode
-		throw std::runtime_error("TreeNode<T>::getBrother: Not implemented yet.");
+		if (parent_ != nullptr) {
+			return parent_->getSon(brothersOrder);
+		}
+		else {
+			throw std::logic_error("Root has no brother!");
+		}
 	}
 
 	template<typename T>
 	inline size_t TreeNode<T>::sizeOfSubtree()
 	{
-		//TODO 07: TreeNode
-		throw std::runtime_error("TreeNode<T>::sizeOfSubtree: Not implemented yet.");
+ 		int result = 1;
+		int pocetSpracovanychSynov = 0;
+		for (int i = 0; pocetSpracovanychSynov < degree(); i++) {
+			auto son = getSon(i);
+			if (son != nullptr) {
+				result += son->sizeOfSubtree();
+				pocetSpracovanychSynov++;			
+			}
+		}
+		return result;
 	}
 
 	template<typename T>
@@ -304,7 +324,7 @@ namespace structures
 	template<typename T>
 	inline Tree<T>::~Tree()
 	{
-		//TODO 07: Tree
+		clear();
 	}
 
 	template<typename T>
@@ -312,20 +332,39 @@ namespace structures
 	{
 		//TODO 07: Tree
 		throw std::runtime_error("Tree<T>::equals: Not implemented yet.");
+		/*
+		if (other == nullptr) {
+			return false;
+		}
+
+		if (this == other) {
+			return true;
+		}
+		auto iteratorThis = this->begin();
+		auto iteratorOther = other->begin();
+		auto iteratorEnd = this->end();
+
+		while (iteratorThis != iteratorEnd) {
+			if (*iteratorThis != *iteratorOther) {
+				return false;
+			}
+			iteratorThis++;
+			iteratorOther++;
+		}
+		return !(iteratorOther != other->end());
+		*/
 	}
 
 	template<typename T>
 	inline bool Tree<T>::isEmpty()
 	{
-		//TODO 07: Tree
-		throw std::runtime_error("Tree<T>::equals: Not implemented yet.");
+		return root_ == nullptr;
 	}
 
 	template<typename T>
 	inline size_t Tree<T>::size()
 	{
-		//TODO 07: Tree
-		throw std::runtime_error("Tree<T>::equals: Not implemented yet.");
+		return root_ == nullptr ? 0 : root_->sizeOfSubtree();
 	}
 
 	template<typename T>
@@ -358,15 +397,24 @@ namespace structures
 	template<typename T>
 	inline Structure& Tree<T>::assign(Structure& other)
 	{
-		//TODO 07: Tree
+		//TODO 07: Tree<T>::assign
 		throw std::runtime_error("Tree<T>::assign: Not implemented yet.");
+		/*if (this != other) {
+			clear();
+			if (other.root_ != nullptr) {
+				root_ = other.root_->deepCopy();
+			}
+		}
+
+		return *this;*/
 	}
 
 	template<typename T>
 	inline void Tree<T>::clear()
 	{
-		//TODO 07: Tree
-		throw std::runtime_error("Tree<T>::clear: Not implemented yet.");
+		delete root_;
+		root_ = nullptr;
+
 	}
 
 	template<typename T>
@@ -378,8 +426,10 @@ namespace structures
 	template<typename T>
 	inline TreeNode<T>* Tree<T>::replaceRoot(TreeNode<T>* newRoot)
 	{
-		//TODO 07: Tree
-		throw std::runtime_error("Tree<T>::replaceRoot: Not implemented yet.");
+		auto result = root_;
+		root_ = newRoot;
+		return result;
+
 	}
 
 	template<typename T>

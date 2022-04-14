@@ -533,7 +533,7 @@ namespace tests
 	}
 
 	IncoherentMatrixScenarB::IncoherentMatrixScenarB() :
-		SimpleTest("IncoherentMatrixScenarD")
+		SimpleTest("IncoherentMatrixScenarB")
 	{
 	}
 
@@ -543,7 +543,7 @@ namespace tests
 		SimpleTest::logInfo("row size: 2000");
 		SimpleTest::logInfo("column size: 500");
 		SimpleTest::logInfo("Rowcount: 5%, columncount: 5%, at: 90%");
-		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice B:");
 		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
@@ -609,7 +609,7 @@ namespace tests
 		SimpleTest::logInfo("row size: 50");
 		SimpleTest::logInfo("column size: 10");
 		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
-		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice C:");
 		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;
@@ -658,9 +658,9 @@ namespace tests
 		delete matrix;
 
 		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice C:");
-		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize: " + std::to_string(columnCountTime.count()) + " mikrosekúnd");
-		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize: " + std::to_string(rowCountTime.count()) + " mikrosekúnd");
-		structures::Logger::getInstance().logInfo("Dokopy èas at: " + std::to_string(atCountTime.count()) + " mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getColumnSize:; " + std::to_string(columnCountTime.count()) + " ;mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas getRowSize:; " + std::to_string(rowCountTime.count()) + " ;mikrosekúnd");
+		structures::Logger::getInstance().logInfo("Dokopy èas at:; " + std::to_string(atCountTime.count()) + " ;mikrosekúnd");
 
 
 	}
@@ -676,7 +676,7 @@ namespace tests
 		SimpleTest::logInfo("row size: 500");
 		SimpleTest::logInfo("column size: 2000");
 		SimpleTest::logInfo("Rowcount: 10%, columncount: 30%, at: 60%");
-		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice A:");
+		structures::Logger::getInstance().logInfo("Scenár nesúvislej matice D:");
 		structures::Logger::getInstance().logInfo("ms ; operacia");
 
 		int operationCount = 1000000;

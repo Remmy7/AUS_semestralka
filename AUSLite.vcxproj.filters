@@ -335,6 +335,9 @@
     <ClInclude Include="structures\_logger\file_log_consumer.h">
       <Filter>structures\_logger</Filter>
     </ClInclude>
+    <ClInclude Include="structures\list\double_linked_list.h">
+      <Filter>structures\list</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="images\debug.png">
