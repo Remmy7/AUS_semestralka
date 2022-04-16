@@ -1,6 +1,6 @@
 #pragma once
 
-#include "list.h"
+#include "linked_list.h"
 
 namespace structures
 {
@@ -15,10 +15,51 @@ namespace structures
 	//  - ak vyuzijete dedicnost, budete moct vyuzit predkove iteratory, 
 	//    takze ich nebudete musiet implementovat.
 	
+    /// <summary> Prvok obojstranne zretazeneho zoznamu. </summary>
+    /// <typeparam name = "T"> Typ dat ukladanych v prvku. </typeparam>
+    template<typename T>
+    class DoubleLinkedListItem : public DataItem<T>
+    {
+    public:
+        /// <summary> Konštruktor. </summary>
+        /// <param name = "data"> Dáta uchovávané prvkom. </param>
+        DoubleLinkedListItem(T data);
+
+        /// <summary> Kopírovací konštruktor. </summary>
+        /// <param name = "other"> Prvok iného obojstranne zreazeného zoznamu, z ktorého sa prevezmú prvky zoznamu. </param>
+        DoubleLinkedListItem(DoubleLinkedListItem<T>& other);
+
+        /// <summary> Deštruktor. </summary>
+        ~DoubleLinkedListItem();
+
+        /// <summary> Getter potomka prvku obojstranne zreazeného zoznamu. </summary>
+        /// <returns> Nasledujúci prvok obojstranne zreazeného zoznamu. </returns>
+        DoubleLinkedListItem<T>* getNext();
+
+        /// <summary> Getter predka prvku obojstranne zreazeného zoznamu. </summary>
+       /// <returns> Predošlı prvok obojstranne zreazeného zoznamu. </returns>
+        DoubleLinkedListItem<T>* getPrevious();
+
+        /// <summary> Setter potomka prvku obojstranne zreazeného zoznamu. </summary>
+        /// <param name = "next"> Novı nasledujúci prvok obojstranne zreazeného zoznamu. </param>
+        void setNext(DoubleLinkedListItem<T>* next);
+
+        /// <summary> Setter predka prvku obojstranne zreazeného zoznamu. </summary>
+        /// <param name = "prev"> Novy predošlı prvok obojstranne zreazeného zoznamu. </param>
+        void setPrevious(DoubleLinkedListItem<T>* prev);
+
+    private:
+        /// <summary> Potomok prvku obojstranne zreazeného zoznamu. </summary>
+        DoubleLinkedListItem<T>* next_;
+
+        /// <summary> Predok prvku obojstranne zreazeného zoznamu. </summary>
+        DoubleLinkedListItem<T>* prev_;
+    };
+
     /// <summary> Obojstranne zretazeny zoznam. </summary>
     /// <typeparam name = "T"> Typ dat ukladanych v zozname. </typepram>
 	template<typename T>
-	class DoubleLinkedList : public List<T> 
+	class DoubleLinkedList : public LinkedList<T> 
 	{
     public:
         /// <summary> Konstruktor. </summary>
@@ -90,13 +131,58 @@ namespace structures
         /// <returns> Iterator na koniec struktury. </returns>
         /// <remarks> Zabezpecuje polymorfizmus. </remarks>
         Iterator<T>* getEndIterator() override;
-
     private:
-        /// <summary> Predok v zozname. </summary>
-        LinkedListItem<T>* previous_;
-        /// <summary> Potomok v zozname. </summary>
-        LinkedListItem<T>* next_;
+        /// <summary>
+        /// Momentálny poèet prvkov v zozname.
+        /// </summary>
+        size_t size_;
+        /// <summary>
+        /// Zaèiatoènı prvok zoznamu.
+        /// </summary>
+        DoubleLinkedListItem<T>* first_;
+        /// <summary>
+        /// Koneènı prvok zoznamu.
+        /// </summary>
+        DoubleLinkedListItem<T>* last_;
+
 	};
+    template<typename T>
+    inline DoubleLinkedListItem<T>::DoubleLinkedListItem(T data) :
+        DataItem<T>(data),
+        next_(nullptr),
+        prev_(nullptr)
+    {
+    }
+    template<typename T>
+    inline DoubleLinkedListItem<T>::DoubleLinkedListItem(DoubleLinkedListItem<T>& other)
+    {
+    }
+    template<typename T>
+    inline DoubleLinkedListItem<T>::~DoubleLinkedListItem()
+    {
+        next_ = nullptr;
+        prev_ = nullptr;
+    }
+    template<typename T>
+    inline DoubleLinkedListItem<T>* DoubleLinkedListItem<T>::getNext()
+    {
+        return prev_;
+    }
+    template<typename T>
+    inline DoubleLinkedListItem<T>* DoubleLinkedListItem<T>::getPrevious()
+    {
+        return next_;
+    }
+    template<typename T>
+    inline void DoubleLinkedListItem<T>::setNext(DoubleLinkedListItem<T>* next)
+    {
+        next_ = next;
+    }
+    template<typename T>
+    inline void DoubleLinkedListItem<T>::setPrevious(DoubleLinkedListItem<T>* prev)
+    {
+        prev_ = prev;
+    }
 
     template<typename T>
     inline DoubleLinkedList<T>::DoubleLinkedList()
@@ -143,8 +229,11 @@ namespace structures
     template<typename T>
     inline T& DoubleLinkedList<T>::at(int index)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::at: Not implemented yet.");
+        DoubleLinkedListItem<T>* temp = first_;
+        for (int i = 0; i < index; i++) {
+            temp = temp->getNext();
+        }
+        return temp;
     }
 
     template<typename T>
@@ -201,4 +290,5 @@ namespace structures
         //TODO Zadanie 2: DoubleLinkedList
         throw std::runtime_error("DoubleLinkedList<T>::getEndIterator: Not implemented yet.");
     }
+    
 }
