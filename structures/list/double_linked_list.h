@@ -59,7 +59,7 @@ namespace structures
     /// <summary> Obojstranne zretazeny zoznam. </summary>
     /// <typeparam name = "T"> Typ dat ukladanych v zozname. </typepram>
 	template<typename T>
-	class DoubleLinkedList : public LinkedList<T> 
+	class DoubleLinkedList : public List<T> 
 	{
     public:
         /// <summary> Konstruktor. </summary>
@@ -154,7 +154,10 @@ namespace structures
     {
     }
     template<typename T>
-    inline DoubleLinkedListItem<T>::DoubleLinkedListItem(DoubleLinkedListItem<T>& other)
+    inline DoubleLinkedListItem<T>::DoubleLinkedListItem(DoubleLinkedListItem<T>& other) :
+        DataItem<T>(other),
+        next_(other.next_),
+        prev_(other.prev_)
     {
     }
     template<typename T>
@@ -187,108 +190,213 @@ namespace structures
     template<typename T>
     inline DoubleLinkedList<T>::DoubleLinkedList()
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::DoubleLinkedList: Not implemented yet.");
+        first_ = last_ = nullptr;
+        size_ = 0;
     }
 
     template<typename T>
     inline DoubleLinkedList<T>::DoubleLinkedList(DoubleLinkedList<T>& other)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::DoubleLinkedList: Not implemented yet.");
+        assign(other);
     }
 
     template<typename T>
     inline DoubleLinkedList<T>::~DoubleLinkedList()
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::~DoubleLinkedList: Not implemented yet.");
+        clear();
     }
 
     template<typename T>
     inline size_t DoubleLinkedList<T>::size()
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::size: Not implemented yet.");
+        return size_;
     }
 
     template<typename T>
     inline Structure& DoubleLinkedList<T>::assign(Structure& other)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::assign: Not implemented yet.");
+        if (this != &other) {
+            DoubleLinkedList<T>& otherDoubleLinkedList = dynamic_cast<DoubleLinkedList<T>&>(other);
+            clear();
+            DoubleLinkedListItem<T>* otherItem = otherDoubleLinkedList.first_;
+            while (otherItem != nullptr) {
+                add(otherItem->accessData());
+                otherItem = otherItem->getNext();
+            }
+        }
+
+        return *this;
     }
 
     template<typename T>
     inline bool DoubleLinkedList<T>::equals(Structure& other)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::equals: Not implemented yet.");
+        if (this == &other) {
+            return true;
+        }
+
+        if (size_ != other.size()) {
+            return false;
+        }
+
+        DoubleLinkedList<T>* otherDoubleLinkedList = dynamic_cast<DoubleLinkedList<T>*>(&other);
+        if (otherDoubleLinkedList == nullptr) {
+            return false;
+        }
+
+        DoubleLinkedListItem<T>* item = first_;
+        DoubleLinkedListItem<T>* otherItem = otherDoubleLinkedList->first_;
+
+        while (item != nullptr) {
+            if (item->accessData() != otherItem->accessData()) {
+                return false;
+            }
+            item = item->getNext();
+            otherItem = otherItem->getNext();
+        }
+
+        return true;
     }
 
     template<typename T>
     inline T& DoubleLinkedList<T>::at(int index)
     {
-        DoubleLinkedListItem<T>* temp = first_;
-        for (int i = 0; i < index; i++) {
-            temp = temp->getNext();
-        }
-        return temp;
+        Utils::rangeCheckExcept(index, size_, "Invalid index!");
+
+        return getItemAtIndex(index)->accessData();
     }
 
     template<typename T>
     inline void DoubleLinkedList<T>::add(const T& data)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::add: Not implemented yet.");
+        DoubleLinkedListItem<T>* newDoubleLinkedListItem = new DoubleLinkedListItem<T>(data);
+        if (size_ == 0) {
+            first_ = newDoubleLinkedListItem;
+        }
+        else {
+            last_->setNext(newDoubleLinkedListItem);
+        }
+        newDoubleLinkedListItem->setPrevious(last_);
+        last_ = newDoubleLinkedListItem;
+        size_++;
     }
 
     template<typename T>
     inline void DoubleLinkedList<T>::insert(const T& data, int index)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::insert: Not implemented yet.");
+        if (size_ == index) {
+            add(data);
+        }
+        else {
+            Utils::rangeCheckExcept(index, size_, "Invalid index!");
+
+            DoubleLinkedListItem<T>* newDoubleLinkedListItem = new DoubleLinkedListItem<T>(data);
+            if (index == 0) {
+                first_->setPrevious(newDoubleLinkedListItem);
+                newDoubleLinkedListItem->setNext(first_);
+                first_ = newDoubleLinkedListItem;
+            }
+            else {
+                DoubleLinkedListItem<T>* previousDoubleLinkedListItem = getItemAtIndex(index - 1);
+                DoubleLinkedListItem<T>* nextDoubleLinkedListItem = getItemAtIndex(index);
+                
+                nextDoubleLinkedListItem->setPrevious(newDoubleLinkedListItem);
+                newDoubleLinkedListItem->setNext(nextDoubleLinkedListItem);
+                previousDoubleLinkedListItem->setNext(newDoubleLinkedListItem);
+                newDoubleLinkedListItem->setPrevious(previousDoubleLinkedListItem);
+            }
+            size_++;
+        }
     }
 
     template<typename T>
     inline bool DoubleLinkedList<T>::tryRemove(const T& data)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::tryRemove: Not implemented yet.");
+        int index = getIndexOf(data);
+        if (index == -1) {
+            return false;
+        }
+        else {
+            removeAt(index);
+            return true;
+        }
     }
 
     template<typename T>
     inline T DoubleLinkedList<T>::removeAt(int index)
     {
-        
+        Utils::rangeCheckExcept(index, size_, "Invalid index!");
+        DoubleLinkedListItem<T>* itemToDelete;
+
+        if (index != 0) {
+            DoubleLinkedListItem<T>* previousItem = this->getItemAtIndex(index - 1);
+            DoubleLinkedListItem<T>* nextItem = this->getItemAtIndex(index + 1);
+            itemToDelete = previousItem->getNext();
+            previousItem->setNext(nextItem);
+            nextItem->setPrevious(previousItem);
+            if (itemToDelete == last_) {
+                last_ = previousItem;
+            }
+        }
+        else {
+            itemToDelete = first_;
+            first_ = first_->getNext();
+            first_->setPrevious(nullptr);
+            if (itemToDelete == last_) {
+                last_ = nullptr;
+                first_ = nullptr;
+            }
+        }
+
+        T result = itemToDelete->accessData();
+        delete itemToDelete;
+        size_--;
+
+        return result;
     }
 
     template<typename T>
     inline int DoubleLinkedList<T>::getIndexOf(const T& data)
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::getIndexOf: Not implemented yet.");
+        DoubleLinkedListItem<T>* currentDoubleLinkedListItem = first_;
+        for (size_t i = 0; i < size_; i++) {
+            if (currentDoubleLinkedListItem->accessData() == data) {
+                return i;
+            }
+            currentDoubleLinkedListItem = currentDoubleLinkedListItem->getNext();
+        }
+
+        return -1;
     }
 
     template<typename T>
     inline void DoubleLinkedList<T>::clear()
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::clear: Not implemented yet.");
+        if (size_ != 0) {
+            DoubleLinkedListItem<T>* itemToDelete = first_;
+
+            while (itemToDelete != nullptr) {
+                DoubleLinkedListItem<T>* nextItem = itemToDelete->getNext();
+                delete itemToDelete;
+                itemToDelete = nextItem;
+            }
+
+            size_ = 0;
+            first_ = nullptr;
+            last_ = nullptr;
+        }
     }
 
     template<typename T>
     inline Iterator<T>* DoubleLinkedList<T>::getBeginIterator()
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::getBeginIterator: Not implemented yet.");
+        return new DoubleLinkedListIterator(first_);
     }
 
     template<typename T>
     inline Iterator<T>* DoubleLinkedList<T>::getEndIterator()
     {
-        //TODO Zadanie 2: DoubleLinkedList
-        throw std::runtime_error("DoubleLinkedList<T>::getEndIterator: Not implemented yet.");
+        return new DoubleLinkedListIterator(nullptr);
     }
     
 }

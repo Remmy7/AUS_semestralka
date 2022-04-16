@@ -392,8 +392,6 @@ namespace structures
 
     }
 
-    //iterator musi podporovat operacie =, !=, *, ++
-
     template<typename T>
     inline Iterator<T>* LinkedList<T>::getBeginIterator()
     {

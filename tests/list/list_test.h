@@ -76,4 +76,14 @@ namespace tests
 	public:
 		ListTestOverall();
 	};
+
+	class ArrayListUnitTest :
+		 public SimpleTest
+	{
+	public:
+		ArrayListUnitTest();
+		void test() override;
+
+
+	};
 }

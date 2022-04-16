@@ -30,7 +30,11 @@ void main(array<String^>^)
 
 	// Registracia testov:
 	// Zadanie 1
-	tests.emplace_back(new tests::MatrixTestOverall());
+	//tests.emplace_back(new tests::MatrixTestOverall());
+
+	// Zadanie 2
+	tests.emplace_back(new tests::ListTestOverall());
+
 
 	// 01: Vector
 	//tests.emplace_back(new tests::VectorTestOverall());
@@ -66,32 +70,8 @@ void main(array<String^>^)
 	/*gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
 	structures::Logger::getInstance().registerConsumer(guiLogConsumer);*/
 
-	structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("matrix.csv");
+	structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("main.csv");
 	structures::Logger::getInstance().registerConsumer(fileLogConsumer);
-
-	/// <summary>
-	/// Úloha 2 z prvého domáceho zadania
-	/// </summary>
-	/// <param name=""></param>
-	/*structures::FileLogConsumer* coherentMatrixScenarioA = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioA.csv");
-	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioA);
-	structures::FileLogConsumer* coherentMatrixScenarioB = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioB.csv");
-	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioB);
-	structures::FileLogConsumer* coherentMatrixScenarioC = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioC.csv");
-	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioC);
-	structures::FileLogConsumer* coherentMatrixScenarioD = new structures::FileLogConsumer("zadanie1_uloha2/suvislaMatica/coherentMatrixScenarioD.csv");
-	structures::Logger::getInstance().registerConsumer(coherentMatrixScenarioD);
-
-	structures::FileLogConsumer* incoherentMatrixScenarioA = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioA.csv");
-	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioA);
-	structures::FileLogConsumer* incoherentMatrixScenarioB = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioB.csv");
-	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioB);
-	structures::FileLogConsumer* incoherentMatrixScenarioC = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioC.csv");
-	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioC);
-	structures::FileLogConsumer* incoherentMatrixScenarioD = new structures::FileLogConsumer("zadanie1_uloha2/nesuvislaMatica/incoherentMatrixScenarioD.csv");
-	structures::Logger::getInstance().registerConsumer(incoherentMatrixScenarioD);*/
-
-
 
 	WF::Application::Run(%form);
 

@@ -29,6 +29,8 @@ namespace tests
 		this->logPass("Compiled.");
 	}
 
+
+
 // ArrayListTestInterface:
 
 	ArrayListTestInterface::ArrayListTestInterface() :
@@ -77,4 +79,10 @@ namespace tests
 		addTest(new ArrayListTestOverall());
 		addTest(new LinkedListTestOverall());
 	}
+
+// Unit test list:
+
+
+
+// Unit test linkedlist:
 }
