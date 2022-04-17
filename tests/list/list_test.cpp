@@ -91,7 +91,42 @@ namespace tests
 	/// <param name="scenario"> Scenáriá zo zadania. </param>
 	void UnitTest::scenarioTest(int type, int scenario)
 	{
-		SimpleTest::assertTrue(1 == 1, "xdasdfawefasd");
+		int insert = 0;
+		int removeAt = 0;
+		int at = 0;
+		int getIndexOf = 0;
+		if (type > 0 || type < 2) {
+			SimpleTest::logInfo("Wrong type.");
+			return;
+		}
+		structures::List<int>* list = this->makeListType(type);
+		switch (scenario) {
+		case 1:
+			insert = 20;
+			removeAt = 20;
+			at = 50;
+			getIndexOf = 10;
+			break;
+		case 2:
+			insert = 35;
+			removeAt = 35;
+			at = 20;
+			getIndexOf = 10;
+			break;
+		case 3:
+			insert = 45;
+			removeAt = 45;
+			at = 5;
+			getIndexOf = 5;
+			break;
+		default:
+			SimpleTest::logInfo("Wrong scenario.");
+			return;
+		}
+			
+		
+		SimpleTest::assertTrue(type == scenario, "xdasdfawefasd");
+		delete list;
 	}
 
 	UnitTest::UnitTest(std::string name) :
@@ -99,9 +134,14 @@ namespace tests
 	{
 	}
 
-	void UnitTest::test()
+	structures::List<int>* UnitTest::makeListType(int type)
 	{
-		SimpleTest::assertTrue(1 == 1, "xdddd");
+		if (type == 1) {
+			return new structures::ArrayList<int>();
+		}
+		/*else {
+			return new structures::DoubleLinkedList<int>();
+		}*/
 	}
 
 	void ArrayListUnitTest::test()

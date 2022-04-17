@@ -3,6 +3,7 @@
 #include "../test.h"
 #include "../../structures/list/array_list.h"
 #include "../../structures/list/linked_list.h"
+#include "../../structures/list/double_linked_list.h"
 
 namespace tests
 {
@@ -54,8 +55,8 @@ namespace tests
 	public:
 		void scenarioTest(int type, int scenario);
 		UnitTest(std::string name);
-		void test() override;
-
+	protected:
+		virtual structures::List<int>* makeListType(int type);
 	};
 	
 	class ArrayListUnitTest
@@ -108,5 +109,7 @@ namespace tests
 	public:
 		ListTestOverall();
 	};
+
+	
 
 }
