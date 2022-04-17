@@ -205,6 +205,8 @@ namespace structures
 		return array_->at(index);
 	}
 
+	
+
 	template<typename T>
 	inline void ArrayList<T>::add(const T& data)
 	{

@@ -72,14 +72,14 @@ void main(array<String^>^)
 	gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
 	structures::Logger::getInstance().registerConsumer(guiLogConsumer);
 
-	structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("main.csv");
-	structures::Logger::getInstance().registerConsumer(fileLogConsumer);
+	//structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("main.csv");
+	//structures::Logger::getInstance().registerConsumer(fileLogConsumer);
 
 	WF::Application::Run(%form);
 
 	// Ak ste Vas logger alokovali dynamicky, zmazatù ho mÙûete tu:
 	delete guiLogConsumer;
-	delete fileLogConsumer;
+	//delete fileLogConsumer;
 	for (tests::Test* test : tests)
 	{
 		delete test;

@@ -48,6 +48,8 @@ namespace structures
         /// <param name = "prev"> Novy predoöl˝ prvok obojstranne zreùazenÈho zoznamu. </param>
         void setPrevious(DoubleLinkedListItem<T>* prev);
 
+
+
     private:
         /// <summary> Potomok prvku obojstranne zreùazenÈho zoznamu. </summary>
         DoubleLinkedListItem<T>* next_;
@@ -62,6 +64,7 @@ namespace structures
 	class DoubleLinkedList : public List<T> 
 	{
     public:
+        DoubleLinkedListItem<T>* getItemAtIndex(int index);
         /// <summary> Konstruktor. </summary>
         DoubleLinkedList();
 
@@ -131,6 +134,43 @@ namespace structures
         /// <returns> Iterator na koniec struktury. </returns>
         /// <remarks> Zabezpecuje polymorfizmus. </remarks>
         Iterator<T>* getEndIterator() override;
+
+    private:
+        /// <summary> Iterator pre DoubleLinkedList. </summary>
+        class DoubleLinkedListIterator : public Iterator<T>
+        {
+        public:
+            /// <summary> Konstruktor. </summary>
+            /// <param name = "position"> Pozicia v zretazenom zozname, na ktorej zacina. </param>
+            DoubleLinkedListIterator(DoubleLinkedListItem<T>* position);
+
+            /// <summary> Destruktor. </summary>
+            ~DoubleLinkedListIterator();
+
+            /// <summary> Operator priradenia. Priradi do seba hodnotu druheho iteratora. </summary>
+            /// <param name = "other"> Druhy iterator. </param>
+            /// <returns> Vrati seba po priradeni. </returns>
+            Iterator<T>& operator= (Iterator<T>& other) override;
+
+            /// <summary> Porovna sa s druhym iteratorom na nerovnost. </summary>
+            /// <param name = "other"> Druhy iterator. </param>
+            /// <returns> True, ak sa iteratory nerovnaju, false inak. </returns>
+            bool operator!=(Iterator<T>& other) override;
+
+            /// <summary> Vrati data, na ktore aktualne ukazuje iterator. </summary>
+            /// <returns> Data, na ktore aktualne ukazuje iterator. </returns>
+            T operator*() override;
+
+            /// <summary> Posunie iterator na dalsi prvok v strukture. </summary>
+            /// <returns> Iterator na dalsi prvok v strukture. </returns>
+            /// <remarks> Zvycajne vrati seba. Ak vrati iny iterator, povodny bude automaticky zruseny. </remarks>
+            Iterator<T>& operator++() override;
+
+        private:
+            /// <summary> Aktualna pozicia v zozname. </summary>
+            DoubleLinkedListItem<T>* position_;
+        };
+
     private:
         /// <summary>
         /// Moment·lny poËet prvkov v zozname.
@@ -144,6 +184,7 @@ namespace structures
         /// KoneËn˝ prvok zoznamu.
         /// </summary>
         DoubleLinkedListItem<T>* last_;
+
 
 	};
     template<typename T>
@@ -188,6 +229,26 @@ namespace structures
     }
 
     template<typename T>
+    inline DoubleLinkedListItem<T>* DoubleLinkedList<T>::getItemAtIndex(int index)
+    {
+        if (index <= size_ / 2) {
+            DoubleLinkedListItem<T>* item = first_;
+            for (int i = 0; i < index; ++i) {
+                item = item->getNext();
+            }
+            return item;
+        }
+        else {
+            DoubleLinkedListItem<T>* item = last_;
+            for (int i = size_ - 1; i > index; --i) {
+                item = item->getPrevious();
+            }
+            return item;
+
+        }
+    }
+
+    template<typename T>
     inline DoubleLinkedList<T>::DoubleLinkedList()
     {
         first_ = last_ = nullptr;
@@ -195,7 +256,10 @@ namespace structures
     }
 
     template<typename T>
-    inline DoubleLinkedList<T>::DoubleLinkedList(DoubleLinkedList<T>& other)
+    inline DoubleLinkedList<T>::DoubleLinkedList(DoubleLinkedList<T>& other) :
+        size_(0),
+        first_(nullptr),
+        last_(nullptr)
     {
         assign(other);
     }
@@ -399,4 +463,36 @@ namespace structures
         return new DoubleLinkedListIterator(nullptr);
     }
     
+    template<typename T>
+    inline DoubleLinkedList<T>::DoubleLinkedListIterator::DoubleLinkedListIterator(DoubleLinkedListItem<T>* position) :
+        position_(position)
+    {
+    }
+    template<typename T>
+    inline DoubleLinkedList<T>::DoubleLinkedListIterator::~DoubleLinkedListIterator()
+    {
+        position_ = nullptr;
+    }
+    template<typename T>
+    inline Iterator<T>& DoubleLinkedList<T>::DoubleLinkedListIterator::operator=(Iterator<T>& other)
+    {
+        position_ = dynamic_cast<const DoubleLinkedListIterator&>(other).position_;
+        return *this;
+    }
+    template<typename T>
+    inline bool DoubleLinkedList<T>::DoubleLinkedListIterator::operator!=(Iterator<T>& other)
+    {
+        return position_ != dynamic_cast<const DoubleLinkedListIterator&>(other).position_;
+    }
+    template<typename T>
+    inline T DoubleLinkedList<T>::DoubleLinkedListIterator::operator*()
+    {
+        return position_->accessData();
+    }
+    template<typename T>
+    inline Iterator<T>& DoubleLinkedList<T>::DoubleLinkedListIterator::operator++()
+    {
+        position_ = position_->getNext();
+        return *this;
+    }
 }

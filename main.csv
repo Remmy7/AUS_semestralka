@@ -4,11 +4,87 @@ RemoveAt [%]:	20
 At [%]:			50
 GetIndexOf [%]:  10
 ----------------------------------
-Dokopy èas insert: ;2157289;mikrosekúnd
-Dokopy èas removeAt: ;2136483;mikrosekúnd
-Dokopy èas at: ;1126074 ;mikrosekúnd
-Dokopy èas getIndexOf: ;37872222 ;mikrosekúnd
-Priemerný èas insert: ;10;mikrosekúnd
-Priemerný èas removeAt: ;10;mikrosekúnd
+Dokopy èas insert: ;236247;mikrosekúnd
+Dokopy èas removeAt: ;236087;mikrosekúnd
+Dokopy èas at: ;133374 ;mikrosekúnd
+Dokopy èas getIndexOf: ;11009238 ;mikrosekúnd
+Priemerný èas insert: ;11;mikrosekúnd
+Priemerný èas removeAt: ;11;mikrosekúnd
 Priemerný èas at: ;2 ;mikrosekúnd
-Priemerný èas getIndexOf: ;378 ;mikrosekúnd
+Priemerný èas getIndexOf: ;1100 ;mikrosekúnd
+poèet -1:9361
+ArrayList scenario: 2
+Insert [%]:		35
+RemoveAt [%]:	35
+At [%]:			20
+GetIndexOf [%]:  10
+----------------------------------
+Dokopy èas insert: ;411153;mikrosekúnd
+Dokopy èas removeAt: ;408904;mikrosekúnd
+Dokopy èas at: ;54352 ;mikrosekúnd
+Dokopy èas getIndexOf: ;14167637 ;mikrosekúnd
+Priemerný èas insert: ;11;mikrosekúnd
+Priemerný èas removeAt: ;11;mikrosekúnd
+Priemerný èas at: ;2 ;mikrosekúnd
+Priemerný èas getIndexOf: ;1416 ;mikrosekúnd
+poèet -1:9525
+ArrayList scenario: 3
+Insert [%]:		45
+RemoveAt [%]:	45
+At [%]:			5
+GetIndexOf [%]:  5
+----------------------------------
+Dokopy èas insert: ;565116;mikrosekúnd
+Dokopy èas removeAt: ;563517;mikrosekúnd
+Dokopy èas at: ;15346 ;mikrosekúnd
+Dokopy èas getIndexOf: ;5792866 ;mikrosekúnd
+Priemerný èas insert: ;12;mikrosekúnd
+Priemerný èas removeAt: ;12;mikrosekúnd
+Priemerný èas at: ;3 ;mikrosekúnd
+Priemerný èas getIndexOf: ;1158 ;mikrosekúnd
+poèet -1:4680
+DoubleLinkedList scenario: 1
+Insert [%]:		20
+RemoveAt [%]:	20
+At [%]:			50
+GetIndexOf [%]:  10
+----------------------------------
+Dokopy èas insert: ;370328;mikrosekúnd
+Dokopy èas removeAt: ;368805;mikrosekúnd
+Dokopy èas at: ;131802 ;mikrosekúnd
+Dokopy èas getIndexOf: ;12177854 ;mikrosekúnd
+Priemerný èas insert: ;18;mikrosekúnd
+Priemerný èas removeAt: ;18;mikrosekúnd
+Priemerný èas at: ;2 ;mikrosekúnd
+Priemerný èas getIndexOf: ;1217 ;mikrosekúnd
+poèet -1:9442
+DoubleLinkedList scenario: 2
+Insert [%]:		35
+RemoveAt [%]:	35
+At [%]:			20
+GetIndexOf [%]:  10
+----------------------------------
+Dokopy èas insert: ;439195;mikrosekúnd
+Dokopy èas removeAt: ;432754;mikrosekúnd
+Dokopy èas at: ;60286 ;mikrosekúnd
+Dokopy èas getIndexOf: ;17970299 ;mikrosekúnd
+Priemerný èas insert: ;12;mikrosekúnd
+Priemerný èas removeAt: ;12;mikrosekúnd
+Priemerný èas at: ;3 ;mikrosekúnd
+Priemerný èas getIndexOf: ;1797 ;mikrosekúnd
+poèet -1:9573
+DoubleLinkedList scenario: 3
+Insert [%]:		45
+RemoveAt [%]:	45
+At [%]:			5
+GetIndexOf [%]:  5
+----------------------------------
+Dokopy èas insert: ;576463;mikrosekúnd
+Dokopy èas removeAt: ;571343;mikrosekúnd
+Dokopy èas at: ;15848 ;mikrosekúnd
+Dokopy èas getIndexOf: ;10158036 ;mikrosekúnd
+Priemerný èas insert: ;12;mikrosekúnd
+Priemerný èas removeAt: ;12;mikrosekúnd
+Priemerný èas at: ;3 ;mikrosekúnd
+Priemerný èas getIndexOf: ;2031 ;mikrosekúnd
+poèet -1:4801

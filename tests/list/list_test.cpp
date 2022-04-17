@@ -20,9 +20,14 @@ namespace tests
 		delete list->getEndIterator();
 		list->getIndexOf(x);
 		list->insert(x, x);
+		list->insert(x, x);
+		list->insert(x, x);
+		list->insert(x, x);
 		list->isEmpty();
 		list->operator[](0);
 		list->removeAt(0);
+		//list->removeAt(list->size());
+		list->removeAt(list->size() - 1);
 		list->size();
 		list->tryRemove(x);
 		delete list;
@@ -92,14 +97,17 @@ namespace tests
 	/// <param name="filePath"> Cesta do s˙boru, do ktorÈho sa maj˙ zapÌsaù v˝stupnÈ d·ta. </param>
 	void UnitTest::scenarioTest(int type, int scenario, std::string filePath)
 	{
-		//structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
-		//structures::Logger::getInstance().registerConsumer(fileLogConsumer);
-		int operationCount = 1000000;
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
+		structures::Logger::getInstance().registerConsumer(fileLogConsumer);
+		int operationCount = 100000;
 		int insert = 0;
 		int removeAt = 0;
 		int at = 0;
 		int getIndexOf = 0;
 		std::string listType = "";
+
+		int temp = 0;
+		int randomRange = 10;
 
 		if (type == 1) {
 			listType = "ArrayList";
@@ -163,6 +171,13 @@ namespace tests
 		structures::Logger::getInstance().logInfo("At [%]:			" + std::to_string(at));
 		structures::Logger::getInstance().logInfo("GetIndexOf [%]:  " + std::to_string(getIndexOf));
 			
+		//vloûenie 1000 prvkov na zaËiatok.
+		for (int i = 0; i < 1000; i++) {
+			int tempInsert = rand() % randomRange;
+			list->add(tempInsert);
+		}
+
+
 		for (int replication = 1; replication <= operationCount; replication++) {
 			int randChance = rand() % 100;
 			int tempNumb = 0;
@@ -170,35 +185,54 @@ namespace tests
 				tempNumb = rand() % list->size();
 			}			
 			
-			if (list->size() == 0 || randChance < insert && insertCount != 0) {
+			if (randChance < insert && insertCount != 0) {
 				insertCount--;
+				int tempInsert = rand() % randomRange;
 				SimpleTest::startStopwatch();
-				list->insert(tempNumb, tempNumb);
+				list->insert(tempInsert, tempNumb);
 				SimpleTest::stopStopwatch();
 				insertCountTime += SimpleTest::getElapsedTime();
 				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
 			} else if (randChance < removeAt + insert && removeAtCount != 0) {
-				removeAtCount--;
-				SimpleTest::startStopwatch();
-				list->removeAt(tempNumb);
-				SimpleTest::stopStopwatch();
-				removeAtCountTime += SimpleTest::getElapsedTime();
-				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
-			} else if (randChance < at + removeAt + insert && atCount != 0) {
-				atCount--;
-				SimpleTest::startStopwatch();
-				list->at(tempNumb);
-				SimpleTest::stopStopwatch();
-				atCountTime += SimpleTest::getElapsedTime();
-				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+				if (list->size() != 0) {
+					removeAtCount--;
+					SimpleTest::startStopwatch();
+					list->removeAt(tempNumb);
+					SimpleTest::stopStopwatch();
+					removeAtCountTime += SimpleTest::getElapsedTime();
+					//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
+				}
+				else {
+					operationCount++;
+				}
+			} else if (randChance < at + removeAt + insert && atCount != 0) {			
+				if (list->size() != 0) {
+					SimpleTest::startStopwatch();
+					atCount--;
+					list->at(tempNumb);
+					SimpleTest::stopStopwatch();
+					atCountTime += SimpleTest::getElapsedTime();
+					//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+				}
+				else {
+					operationCount++;
+				}
 			} else if (randChance < 100 && getIndexOfCount != 0) {
-				getIndexOfCount--;
-				
-				SimpleTest::startStopwatch();
-				list->getIndexOf(tempNumb);
-				SimpleTest::stopStopwatch();
-				getIndexOfCountTime += SimpleTest::getElapsedTime();
-				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
+				if (list->size() != 0) {
+					getIndexOfCount--;
+					int tempInsert = rand() % randomRange;
+					SimpleTest::startStopwatch();
+					list->getIndexOf(tempInsert);
+					SimpleTest::stopStopwatch();
+					if (list->getIndexOf(tempInsert) == -1) {
+						temp++;
+					}
+					getIndexOfCountTime += SimpleTest::getElapsedTime();
+					//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
+				}
+				else {
+					operationCount++;
+				}
 			}
 		}
 
@@ -211,12 +245,14 @@ namespace tests
 		structures::Logger::getInstance().logInfo("Priemern˝ Ëas removeAt: ;" + std::to_string(removeAtCountTime.count() / ((operationCount / 100) * removeAt)) + ";mikrosek˙nd");
 		structures::Logger::getInstance().logInfo("Priemern˝ Ëas at: ;" + std::to_string(atCountTime.count() / ((operationCount / 100) * at)) + " ;mikrosek˙nd");
 		structures::Logger::getInstance().logInfo("Priemern˝ Ëas getIndexOf: ;" + std::to_string(getIndexOfCountTime.count() / ((operationCount / 100) * getIndexOf)) + " ;mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("poËet -1:" + std::to_string(temp));
 
 
 
 		
 		SimpleTest::assertTrue(type == scenario, "End of scenario.");
 		delete list;
+		delete fileLogConsumer;
 	}
 
 	UnitTest::UnitTest(std::string name) :
@@ -303,7 +339,16 @@ namespace tests
 
 	void DoubleLinkedListUnitTest::test()
 	{
-		scenarioTest(1, 1, "DoubleLinkedListUnitTest.csv");
+		structures::DoubleLinkedList<int>* dll1 = new structures::DoubleLinkedList<int>();
+		dll1->add(1);
+		dll1->add(2);
+		dll1->add(3);
+		structures::DoubleLinkedList<int>* dll2 = new structures::DoubleLinkedList<int>(*dll1);
+
+		SimpleTest::assertTrue(dll1->size() == dll2->size(), "size sedi");
+		SimpleTest::assertTrue(dll1->at(0) == dll2->at(0), "prvok sedi");
+		delete dll1;
+		delete dll2;
 	}
 	
 	DoubleLinkedListScenarioA::DoubleLinkedListScenarioA() :

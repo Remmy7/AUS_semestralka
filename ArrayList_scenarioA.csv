@@ -1,0 +1,15 @@
+ArrayList scenario: 1
+Insert [%]:		20
+RemoveAt [%]:	20
+At [%]:			50
+GetIndexOf [%]:  10
+----------------------------------
+Dokopy èas insert: ;256927;mikrosekúnd
+Dokopy èas removeAt: ;252651;mikrosekúnd
+Dokopy èas at: ;153434 ;mikrosekúnd
+Dokopy èas getIndexOf: ;157627 ;mikrosekúnd
+Priemerný èas insert: ;12;mikrosekúnd
+Priemerný èas removeAt: ;12;mikrosekúnd
+Priemerný èas at: ;3 ;mikrosekúnd
+Priemerný èas getIndexOf: ;15 ;mikrosekúnd
+poèet -1:0

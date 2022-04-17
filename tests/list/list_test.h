@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../structures/_logger/file_log_consumer.h"
 #include "../test.h"
 #include "../../structures/list/array_list.h"
 #include "../../structures/list/linked_list.h"
