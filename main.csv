@@ -3,3 +3,12 @@ Insert [%]:		20
 RemoveAt [%]:	20
 At [%]:			50
 GetIndexOf [%]:  10
+----------------------------------
+Dokopy èas insert: ;2157289;mikrosekúnd
+Dokopy èas removeAt: ;2136483;mikrosekúnd
+Dokopy èas at: ;1126074 ;mikrosekúnd
+Dokopy èas getIndexOf: ;37872222 ;mikrosekúnd
+Priemerný èas insert: ;10;mikrosekúnd
+Priemerný èas removeAt: ;10;mikrosekúnd
+Priemerný èas at: ;2 ;mikrosekúnd
+Priemerný èas getIndexOf: ;378 ;mikrosekúnd

@@ -222,7 +222,7 @@ namespace structures
 			add(data);
 		}
 		else {
-			Utils::rangeCheckExcept(index, size_, "Invalid index!");
+			Utils::rangeCheckExcept(index, size_, "Invalid index insert arraylist!");
 
 			if (size_ == array_->size()) {
 				enlarge();

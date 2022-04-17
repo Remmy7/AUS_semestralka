@@ -288,7 +288,7 @@ namespace structures
             add(data);
         }
         else {
-            Utils::rangeCheckExcept(index, size_, "Invalid index!");
+            Utils::rangeCheckExcept(index, size_, "Invalid index insert doublelinkedlist!");
 
             DoubleLinkedListItem<T>* newDoubleLinkedListItem = new DoubleLinkedListItem<T>(data);
             if (index == 0) {

@@ -165,38 +165,40 @@ namespace tests
 			
 		for (int replication = 1; replication <= operationCount; replication++) {
 			int randChance = rand() % 100;
-			if (randChance < insert && insertCount != 0) {
+			int tempNumb = 0;
+			if (list->size() > 0) {
+				tempNumb = rand() % list->size();
+			}			
+			
+			if (list->size() == 0 || randChance < insert && insertCount != 0) {
 				insertCount--;
-				int tempNumb = rand() % list->size() - 1;
 				SimpleTest::startStopwatch();
 				list->insert(tempNumb, tempNumb);
 				SimpleTest::stopStopwatch();
 				insertCountTime += SimpleTest::getElapsedTime();
-				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
+				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
 			} else if (randChance < removeAt + insert && removeAtCount != 0) {
 				removeAtCount--;
-				int tempNumb = rand() % list->size() - 1;
 				SimpleTest::startStopwatch();
 				list->removeAt(tempNumb);
 				SimpleTest::stopStopwatch();
 				removeAtCountTime += SimpleTest::getElapsedTime();
-				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
+				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
 			} else if (randChance < at + removeAt + insert && atCount != 0) {
 				atCount--;
-				int tempNumb = rand() % list->size() - 1;
 				SimpleTest::startStopwatch();
 				list->at(tempNumb);
 				SimpleTest::stopStopwatch();
 				atCountTime += SimpleTest::getElapsedTime();
-				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
 			} else if (randChance < 100 && getIndexOfCount != 0) {
 				getIndexOfCount--;
-				int tempNumb = rand() % list->size() - 1;
+				
 				SimpleTest::startStopwatch();
 				list->getIndexOf(tempNumb);
 				SimpleTest::stopStopwatch();
 				getIndexOfCountTime += SimpleTest::getElapsedTime();
-				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
+				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
 			}
 		}
 
@@ -227,7 +229,7 @@ namespace tests
 		if (type == 1) {
 			return new structures::ArrayList<int>();
 		}
-		return nullptr;
+		return new structures::ArrayList<int>();;
 		/*else {
 			return new structures::DoubleLinkedList<int>();
 		}*/
