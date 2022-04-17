@@ -21,6 +21,7 @@ namespace tests
 		virtual structures::List<int>* makeList() const = 0;
 	};
 
+	
 	/// <summary>
 	/// Zavola vsetky metody ArrayListu.
 	/// </summary>
@@ -45,6 +46,37 @@ namespace tests
 
 	protected:
 		structures::List<int>* makeList() const override;
+	};
+
+	class UnitTest
+		: public SimpleTest
+	{
+	public:
+		void scenarioTest(int type, int scenario);
+		UnitTest(std::string name);
+		void test() override;
+
+	};
+	
+	class ArrayListUnitTest
+		: public UnitTest
+	{
+	public:
+		ArrayListUnitTest();
+		void test() override;
+	};
+
+	class ArrayListScenarios
+		: public ComplexTest
+	{
+	public:
+		ArrayListScenarios();
+	};
+	class LinkedListScenarios
+		: public ComplexTest
+	{
+	public:
+		LinkedListScenarios();
 	};
 
 	/// <summary>
@@ -77,12 +109,4 @@ namespace tests
 		ListTestOverall();
 	};
 
-	/*class ArrayListUnitTest :
-		 public ListTestInterface
-	{
-	public:
-		ArrayListUnitTest();
-	protected:
-		structures::List<int>* makeList() const override;
-	};*/
 }

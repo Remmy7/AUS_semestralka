@@ -31,6 +31,8 @@ namespace tests
 
 
 
+
+
 // ArrayListTestInterface:
 
 	ArrayListTestInterface::ArrayListTestInterface() :
@@ -78,18 +80,53 @@ namespace tests
 	{
 		addTest(new ArrayListTestOverall());
 		addTest(new LinkedListTestOverall());
-		//addTest(new ArrayListUnitTest());
 	}
 
 // Unit test list:
 
+	/// <summary>
+	/// Hlavný test pre všetky scenáriá.
+	/// </summary>
+	/// <param name="type"> Typ, 1==arrayList, 2==doubleLinkedList </param>
+	/// <param name="scenario"> Scenáriá zo zadania. </param>
+	void UnitTest::scenarioTest(int type, int scenario)
+	{
+		SimpleTest::assertTrue(1 == 1, "xdasdfawefasd");
+	}
 
+	UnitTest::UnitTest(std::string name) :
+		SimpleTest(std::move(name))
+	{
+	}
 
-	/*ArrayListUnitTest::ArrayListUnitTest() :
-		ListTestInterface("ArrayList unit test")
+	void UnitTest::test()
+	{
+		SimpleTest::assertTrue(1 == 1, "xdddd");
+	}
+
+	void ArrayListUnitTest::test()
+	{
+		scenarioTest(1, 1);
+	}
+
+	ArrayListUnitTest::ArrayListUnitTest() :
+		UnitTest("ArrayListUnitTest")
 	{
 
 	}
-	*/
+
+	
+
+	ArrayListScenarios::ArrayListScenarios() :
+		ComplexTest("ArrayListScenarios")
+	{
+		addTest(new ArrayListUnitTest());
+	}
+
+	LinkedListScenarios::LinkedListScenarios() :
+		ComplexTest("LinkedListScenarios")
+	{
+	}
+
 	// Unit test linkedlist:
 }
