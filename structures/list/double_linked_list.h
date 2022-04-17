@@ -1,20 +1,23 @@
 #pragma once
 
-#include "linked_list.h"
+#include "list.h"
+#include "../structure_iterator.h"
+#include "../data_item.h"
+#include "../utils.h"
 
 namespace structures
 {
-	// implementacne tipy: 
-	//  - namiesto triedy List<T> mozete v triede DoubleLinkedList<T> 
-	//    zdedit jednostranne zretazeny zoznam (LinkedList<T>).
-	//    ak tak urobite, mozete mnoho metod odstranit a prekryt iba tie, 
-	//    ktore maju z pohladu obojsmerne zretazeneho zoznamu vyznam a
-	//    zvysok nechat na predka.
-	//  - nezabudnite si vytvorit triedu pre prvok obojstranne zretazeneho zoznamu.
-	//    opat tento prvok mozete zdedit z prvku jednostranne zretazeneho zoznamu.
-	//  - ak vyuzijete dedicnost, budete moct vyuzit predkove iteratory, 
-	//    takze ich nebudete musiet implementovat.
-	
+    // implementacne tipy: 
+    //  - namiesto triedy List<T> mozete v triede DoubleLinkedList<T> 
+    //    zdedit jednostranne zretazeny zoznam (LinkedList<T>).
+    //    ak tak urobite, mozete mnoho metod odstranit a prekryt iba tie, 
+    //    ktore maju z pohladu obojsmerne zretazeneho zoznamu vyznam a
+    //    zvysok nechat na predka.
+    //  - nezabudnite si vytvorit triedu pre prvok obojstranne zretazeneho zoznamu.
+    //    opat tento prvok mozete zdedit z prvku jednostranne zretazeneho zoznamu.
+    //  - ak vyuzijete dedicnost, budete moct vyuzit predkove iteratory, 
+    //    takze ich nebudete musiet implementovat.
+
     /// <summary> Prvok obojstranne zretazeneho zoznamu. </summary>
     /// <typeparam name = "T"> Typ dat ukladanych v prvku. </typeparam>
     template<typename T>
@@ -60,9 +63,9 @@ namespace structures
 
     /// <summary> Obojstranne zretazeny zoznam. </summary>
     /// <typeparam name = "T"> Typ dat ukladanych v zozname. </typepram>
-	template<typename T>
-	class DoubleLinkedList : public List<T> 
-	{
+    template<typename T>
+    class DoubleLinkedList : public List<T>
+    {
     public:
         DoubleLinkedListItem<T>* getItemAtIndex(int index);
         /// <summary> Konstruktor. </summary>
@@ -186,7 +189,7 @@ namespace structures
         DoubleLinkedListItem<T>* last_;
 
 
-	};
+    };
     template<typename T>
     inline DoubleLinkedListItem<T>::DoubleLinkedListItem(T data) :
         DataItem<T>(data),
@@ -210,12 +213,12 @@ namespace structures
     template<typename T>
     inline DoubleLinkedListItem<T>* DoubleLinkedListItem<T>::getNext()
     {
-        return prev_;
+        return next_;
     }
     template<typename T>
     inline DoubleLinkedListItem<T>* DoubleLinkedListItem<T>::getPrevious()
     {
-        return next_;
+        return prev_;
     }
     template<typename T>
     inline void DoubleLinkedListItem<T>::setNext(DoubleLinkedListItem<T>* next)
@@ -231,43 +234,48 @@ namespace structures
     template<typename T>
     inline DoubleLinkedListItem<T>* DoubleLinkedList<T>::getItemAtIndex(int index)
     {
+        Utils::rangeCheckExcept(index, size_, "Invalid index!");
+        DoubleLinkedListItem<T>* item = first_;
+
         if (index <= size_ / 2) {
-            DoubleLinkedListItem<T>* item = first_;
-            for (int i = 0; i < index; ++i) {
+            for (int i = 0; i < index; i++) {
                 item = item->getNext();
             }
-            return item;
         }
         else {
-            DoubleLinkedListItem<T>* item = last_;
-            for (int i = size_ - 1; i > index; --i) {
+            item = last_;
+            for (int i = size_ - 1; i > index; i--) {
                 item = item->getPrevious();
             }
-            return item;
 
+            
         }
+        return item;
     }
 
     template<typename T>
     inline DoubleLinkedList<T>::DoubleLinkedList()
     {
-        first_ = last_ = nullptr;
+        first_ = nullptr;
+        last_ = nullptr;
         size_ = 0;
     }
 
     template<typename T>
-    inline DoubleLinkedList<T>::DoubleLinkedList(DoubleLinkedList<T>& other) :
+    inline DoubleLinkedList<T>::DoubleLinkedList(DoubleLinkedList<T>& other)
+        /* :
         size_(0),
         first_(nullptr),
         last_(nullptr)
+        */
     {
-        assign(other);
+        this->assign(other);
     }
 
     template<typename T>
     inline DoubleLinkedList<T>::~DoubleLinkedList()
     {
-        clear();
+        this->clear();
     }
 
     template<typename T>
@@ -281,10 +289,10 @@ namespace structures
     {
         if (this != &other) {
             DoubleLinkedList<T>& otherDoubleLinkedList = dynamic_cast<DoubleLinkedList<T>&>(other);
-            clear();
+            this->clear();
             DoubleLinkedListItem<T>* otherItem = otherDoubleLinkedList.first_;
             while (otherItem != nullptr) {
-                add(otherItem->accessData());
+                this->add(otherItem->accessData());
                 otherItem = otherItem->getNext();
             }
         }
@@ -295,31 +303,27 @@ namespace structures
     template<typename T>
     inline bool DoubleLinkedList<T>::equals(Structure& other)
     {
-        if (this == &other) {
+        DoubleLinkedList<T>& otherDoubleLinkedList = dynamic_cast<DoubleLinkedList<T>&>(other);
+        if (this == &other)
+        {
             return true;
         }
-
-        if (size_ != other.size()) {
+        if (this == nullptr)
+        {
             return false;
         }
-
-        DoubleLinkedList<T>* otherDoubleLinkedList = dynamic_cast<DoubleLinkedList<T>*>(&other);
-        if (otherDoubleLinkedList == nullptr) {
-            return false;
-        }
-
-        DoubleLinkedListItem<T>* item = first_;
-        DoubleLinkedListItem<T>* otherItem = otherDoubleLinkedList->first_;
-
-        while (item != nullptr) {
-            if (item->accessData() != otherItem->accessData()) {
-                return false;
+        if (size_ == otherDoubleLinkedList.size())
+        {
+            for (int i = 0; i < size_; i++)
+            {
+                if (!(this->getItemAtIndex(i)->accessData() == otherDoubleLinkedList.getItemAtIndex(i)->accessData()))
+                {
+                    return false;
+                }
             }
-            item = item->getNext();
-            otherItem = otherItem->getNext();
+            return true;
         }
-
-        return true;
+        return false;
     }
 
     template<typename T>
@@ -327,7 +331,7 @@ namespace structures
     {
         Utils::rangeCheckExcept(index, size_, "Invalid index!");
 
-        return getItemAtIndex(index)->accessData();
+        return this->getItemAtIndex(index)->accessData();
     }
 
     template<typename T>
@@ -336,17 +340,20 @@ namespace structures
         DoubleLinkedListItem<T>* newDoubleLinkedListItem = new DoubleLinkedListItem<T>(data);
         if (size_ == 0) {
             first_ = newDoubleLinkedListItem;
+            last_ = newDoubleLinkedListItem;
         }
         else {
+            DoubleLinkedListItem<T>* temp = last_;
+
             last_->setNext(newDoubleLinkedListItem);
+            last_ = newDoubleLinkedListItem;
+            newDoubleLinkedListItem->setPrevious(temp);
         }
-        newDoubleLinkedListItem->setPrevious(last_);
-        last_ = newDoubleLinkedListItem;
         size_++;
     }
 
     template<typename T>
-    inline void DoubleLinkedList<T>::insert(const T& data, int index)
+    inline void DoubleLinkedList<T>::insert(const T & data, int index)
     {
         if (size_ == index) {
             add(data);
@@ -356,25 +363,26 @@ namespace structures
 
             DoubleLinkedListItem<T>* newDoubleLinkedListItem = new DoubleLinkedListItem<T>(data);
             if (index == 0) {
-                first_->setPrevious(newDoubleLinkedListItem);
                 newDoubleLinkedListItem->setNext(first_);
+                DoubleLinkedListItem<T>* temp = first_;
                 first_ = newDoubleLinkedListItem;
+                temp->setPrevious(first_);
             }
             else {
                 DoubleLinkedListItem<T>* previousDoubleLinkedListItem = getItemAtIndex(index - 1);
                 DoubleLinkedListItem<T>* nextDoubleLinkedListItem = getItemAtIndex(index);
-                
-                nextDoubleLinkedListItem->setPrevious(newDoubleLinkedListItem);
+
                 newDoubleLinkedListItem->setNext(nextDoubleLinkedListItem);
-                previousDoubleLinkedListItem->setNext(newDoubleLinkedListItem);
+                nextDoubleLinkedListItem->setPrevious(newDoubleLinkedListItem);
                 newDoubleLinkedListItem->setPrevious(previousDoubleLinkedListItem);
+                previousDoubleLinkedListItem->setNext(newDoubleLinkedListItem);
             }
             size_++;
         }
     }
 
     template<typename T>
-    inline bool DoubleLinkedList<T>::tryRemove(const T& data)
+    inline bool DoubleLinkedList<T>::tryRemove(const T & data)
     {
         int index = getIndexOf(data);
         if (index == -1) {
@@ -390,55 +398,52 @@ namespace structures
     inline T DoubleLinkedList<T>::removeAt(int index)
     {
         Utils::rangeCheckExcept(index, size_, "invalid index!");
-        DoubleLinkedListItem<T>* itemToDelete;
+        DoubleLinkedListItem<T>* delItem;
         if (first_ == last_)
         {
-            itemToDelete = first_;
+            delItem = first_;
             first_ = nullptr;
             last_ = nullptr;
         }
         else {
             if (index == 0)
             {
-                itemToDelete = first_;
+                delItem = first_;
                 first_ = first_->getNext();
                 DoubleLinkedListItem<T>* temp = nullptr;
                 first_->setPrevious(temp);
             }
             else if (index == size_ - 1)
             {
-                itemToDelete = this->getItemAtIndex(index);
-                DoubleLinkedListItem<T>* predoslyDelI = itemToDelete->getPrevious();
-                DoubleLinkedListItem<T>* temp = nullptr; 
-                predoslyDelI->setNext(temp);
-                last_ = predoslyDelI;
-            }   
+                delItem = this->getItemAtIndex(index);
+                DoubleLinkedListItem<T>* previousDeleteItem = delItem->getPrevious();
+                DoubleLinkedListItem<T>* temp = nullptr;
+                previousDeleteItem->setNext(temp);
+                last_ = previousDeleteItem;
+            }
             else
             {
-                itemToDelete = this->getItemAtIndex(index);
-                DoubleLinkedListItem<T>* prevDeleteItem = itemToDelete->getPrevious();
-                DoubleLinkedListItem<T>* nextDeleteItem = itemToDelete->getNext();
+                delItem = this->getItemAtIndex(index);
+                DoubleLinkedListItem<T>* prevDeleteItem = delItem->getPrevious();
+                DoubleLinkedListItem<T>* nextDeleteItem = delItem->getNext();
                 prevDeleteItem->setNext(nextDeleteItem);
                 nextDeleteItem->setPrevious(prevDeleteItem);
             }
         }
         size_--;
-        T data = itemToDelete->accessData();
-        delete itemToDelete;
+        T data = delItem->accessData();
+        delete delItem;
         return data;
     }
 
     template<typename T>
-    inline int DoubleLinkedList<T>::getIndexOf(const T& data)
+    inline int DoubleLinkedList<T>::getIndexOf(const T & data)
     {
-        DoubleLinkedListItem<T>* currentDoubleLinkedListItem = first_;
-        for (size_t i = 0; i < size_; i++) {
-            if (currentDoubleLinkedListItem->accessData() == data) {
+        for (unsigned i = 0; i < size_; i++) {
+            if (getItemAtIndex(i)->accessData() == data) {
                 return i;
             }
-            currentDoubleLinkedListItem = currentDoubleLinkedListItem->getNext();
         }
-
         return -1;
     }
 
@@ -471,9 +476,9 @@ namespace structures
     {
         return new DoubleLinkedListIterator(nullptr);
     }
-    
+
     template<typename T>
-    inline DoubleLinkedList<T>::DoubleLinkedListIterator::DoubleLinkedListIterator(DoubleLinkedListItem<T>* position) :
+    inline DoubleLinkedList<T>::DoubleLinkedListIterator::DoubleLinkedListIterator(DoubleLinkedListItem<T> * position) :
         position_(position)
     {
     }
@@ -483,13 +488,13 @@ namespace structures
         position_ = nullptr;
     }
     template<typename T>
-    inline Iterator<T>& DoubleLinkedList<T>::DoubleLinkedListIterator::operator=(Iterator<T>& other)
+    inline Iterator<T>& DoubleLinkedList<T>::DoubleLinkedListIterator::operator=(Iterator<T> & other)
     {
         position_ = dynamic_cast<const DoubleLinkedListIterator&>(other).position_;
         return *this;
     }
     template<typename T>
-    inline bool DoubleLinkedList<T>::DoubleLinkedListIterator::operator!=(Iterator<T>& other)
+    inline bool DoubleLinkedList<T>::DoubleLinkedListIterator::operator!=(Iterator<T> & other)
     {
         return position_ != dynamic_cast<const DoubleLinkedListIterator&>(other).position_;
     }

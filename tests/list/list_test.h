@@ -174,5 +174,58 @@ namespace tests
 		DoubleLinkedListScenarioC();
 		void test() override;
 	};
+	//// úloha 3
+	////////////////////////////////////////////////////////
+	class Uloha3Scenarios
+		: public ComplexTest
+	{
+	public:
+		Uloha3Scenarios();
+	};
+	class ArrayListTestAt :
+		public SimpleTest
+	{
+	public:
+		ArrayListTestAt();
+		void test() override;
+	};
+	class DoubleLinkedListTestAt :
+		public SimpleTest
+	{
+	public:
+		DoubleLinkedListTestAt();
+		void test() override;
+	};
 
+
+	class ArrayListTestInsert :
+		public SimpleTest
+	{
+	public:
+		ArrayListTestInsert();
+		void test() override;
+	};
+	class DoubleLinkedListTestInsert :
+		public SimpleTest
+	{
+	public:
+		DoubleLinkedListTestInsert();
+		void test() override;
+	};
+
+
+	class ArrayListTestRemoveAt :
+		public SimpleTest
+	{
+	public:
+		ArrayListTestRemoveAt();
+		void test() override;
+	};
+	class DoubleLinkedListTestRemoveAt :
+		public SimpleTest
+	{
+	public:
+		DoubleLinkedListTestRemoveAt();
+		void test() override;
+	};
 }

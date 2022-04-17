@@ -6,13 +6,13 @@ GetIndexOf [%]:;5
 èas[ms];typ_operácie
 ----------------------------------
 ----------------------------------
-Dokopy èas insert: ;543624;mikrosekúnd
-Dokopy èas removeAt: ;540689;mikrosekúnd
-Dokopy èas at: ;14101 ;mikrosekúnd
-Dokopy èas getIndexOf: ;737658 ;mikrosekúnd
-Priemerný èas insert: ;12;mikrosekúnd
-Priemerný èas removeAt: ;12;mikrosekúnd
-Priemerný èas at: ;2 ;mikrosekúnd
-Priemerný èas getIndexOf: ;147 ;mikrosekúnd
-Celkový èas: ;1836072
+Dokopy èas insert: ;493781;mikrosekúnd
+Dokopy èas removeAt: ;289080;mikrosekúnd
+Dokopy èas at: ;29130 ;mikrosekúnd
+Dokopy èas getIndexOf: ;1036572 ;mikrosekúnd
+Priemerný èas insert: ;10;mikrosekúnd
+Priemerný èas removeAt: ;6;mikrosekúnd
+Priemerný èas at: ;5 ;mikrosekúnd
+Priemerný èas getIndexOf: ;207 ;mikrosekúnd
+Celkový èas: ;1848563
 ----------------------------------

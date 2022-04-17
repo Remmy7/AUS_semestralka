@@ -4,3 +4,15 @@ RemoveAt [%]:;	20
 At [%]:;		50
 GetIndexOf [%]:;10
 èas[ms];typ_operácie
+----------------------------------
+----------------------------------
+Dokopy èas insert: ;289436;mikrosekúnd
+Dokopy èas removeAt: ;170092;mikrosekúnd
+Dokopy èas at: ;372339 ;mikrosekúnd
+Dokopy èas getIndexOf: ;2585459 ;mikrosekúnd
+Priemerný èas insert: ;14;mikrosekúnd
+Priemerný èas removeAt: ;8;mikrosekúnd
+Priemerný èas at: ;7 ;mikrosekúnd
+Priemerný èas getIndexOf: ;258 ;mikrosekúnd
+Celkový èas: ;3417326
+----------------------------------

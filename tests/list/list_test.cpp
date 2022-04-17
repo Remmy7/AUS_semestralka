@@ -369,4 +369,97 @@ namespace tests
 		scenarioTest(2, 3, "zadanie2/DoubleLinkedList_scenarioC.csv");
 	}
 
+	Uloha3Scenarios::Uloha3Scenarios() :
+		ComplexTest("Uloha3Scenarios")
+	{
+		addTest(new ArrayListTestInsert());
+		addTest(new DoubleLinkedListTestInsert());
+		addTest(new ArrayListTestAt());
+		addTest(new DoubleLinkedListTestAt());
+		addTest(new ArrayListTestRemoveAt());
+		addTest(new DoubleLinkedListTestRemoveAt());
+	}
+
+	ArrayListTestAt::ArrayListTestAt() :
+		SimpleTest("ArrayListTestAt")
+	{
+	}
+
+	void ArrayListTestAt::test()
+	{
+		
+	}
+
+	DoubleLinkedListTestAt::DoubleLinkedListTestAt() :
+		SimpleTest("DoubleLinkedListTestAt")
+	{
+	}
+
+	void DoubleLinkedListTestAt::test()
+	{
+	}
+
+	ArrayListTestInsert::ArrayListTestInsert() :
+		SimpleTest("ArrayListTestInsert")
+	{
+	}
+
+	void ArrayListTestInsert::test()
+	{
+	}
+
+	DoubleLinkedListTestInsert::DoubleLinkedListTestInsert() :
+		SimpleTest("DoubleLinkedListTestInsert")
+	{
+	}
+
+	void DoubleLinkedListTestInsert::test()
+	{
+	}
+
+	ArrayListTestRemoveAt::ArrayListTestRemoveAt() :
+		SimpleTest("ArrayListTestRemoveAt")
+	{
+	}
+
+	void ArrayListTestRemoveAt::test()
+	{
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/ArrayListTestAt.csv");
+		structures::ArrayList<int>* list;
+		DurationType time = tests::DurationType::zero();
+
+		int size = 100;
+		for (unsigned i = 0; i < 100; i++)
+		{
+			list = new structures::ArrayList<int>();
+			for (int j = 0; j < list->size(); j++)
+			{
+				list->add(j);
+			}
+			for (unsigned k = 0; k < 10; k++)
+			{
+				int index = std::rand() % list->size();
+				this->startStopwatch();
+				list->removeAt(index);
+				this->stopStopwatch();
+				time += this->getElapsedTime();
+
+			}
+			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
+			delete list;
+			size += 10;
+		}
+
+		delete fileLogConsumer;
+	}
+
+	DoubleLinkedListTestRemoveAt::DoubleLinkedListTestRemoveAt() :
+		SimpleTest("DoubleLinkedListTestRemoveAt")
+	{
+	}
+
+	void DoubleLinkedListTestRemoveAt::test()
+	{
+	}
+
 }
