@@ -1,0 +1,5 @@
+ArrayList scenario: 1
+Insert [%]:		20
+RemoveAt [%]:	20
+At [%]:			50
+GetIndexOf [%]:  10

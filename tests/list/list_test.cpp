@@ -89,17 +89,32 @@ namespace tests
 	/// </summary>
 	/// <param name="type"> Typ, 1==arrayList, 2==doubleLinkedList </param>
 	/// <param name="scenario"> Scen·ri· zo zadania. </param>
-	void UnitTest::scenarioTest(int type, int scenario)
+	/// <param name="filePath"> Cesta do s˙boru, do ktorÈho sa maj˙ zapÌsaù v˝stupnÈ d·ta. </param>
+	void UnitTest::scenarioTest(int type, int scenario, std::string filePath)
 	{
+		//structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
+		//structures::Logger::getInstance().registerConsumer(fileLogConsumer);
+		int operationCount = 1000000;
 		int insert = 0;
 		int removeAt = 0;
 		int at = 0;
 		int getIndexOf = 0;
-		if (type > 0 || type < 2) {
+		std::string listType = "";
+
+		if (type == 1) {
+			listType = "ArrayList";
+		}
+		else if (type == 2) {
+			listType = "DoubleLinkedList";
+		} 
+		else {
 			SimpleTest::logInfo("Wrong type.");
 			return;
 		}
 		structures::List<int>* list = this->makeListType(type);
+		if (type == 1) {
+			
+		}
 		switch (scenario) {
 		case 1:
 			insert = 20;
@@ -123,9 +138,82 @@ namespace tests
 			SimpleTest::logInfo("Wrong scenario.");
 			return;
 		}
-			
+
+		int insertCount = (operationCount / 100) * insert;
+		int removeAtCount = (operationCount / 100) * removeAt;
+		int atCount = (operationCount / 100) * at;
+		int getIndexOfCount = (operationCount / 100) * getIndexOf;
+
+		DurationType insertCountTime = tests::DurationType::zero();
+		DurationType removeAtCountTime = tests::DurationType::zero();
+		DurationType atCountTime = tests::DurationType::zero();
+		DurationType getIndexOfCountTime = tests::DurationType::zero();
+
+		srand(time(NULL));
 		
-		SimpleTest::assertTrue(type == scenario, "xdasdfawefasd");
+		SimpleTest::logInfo(listType + " scenario: " + std::to_string(scenario));
+		SimpleTest::logInfo("Insert [%]:	" + std::to_string(insert));
+		SimpleTest::logInfo("RemoveAt [%]:	" + std::to_string(removeAt));
+		SimpleTest::logInfo("At [%]:		" + std::to_string(at));
+		SimpleTest::logInfo("GetIndexOf [%]:" + std::to_string(getIndexOf));
+
+		structures::Logger::getInstance().logInfo(listType + " scenario: " + std::to_string(scenario));
+		structures::Logger::getInstance().logInfo("Insert [%]:		" + std::to_string(insert));
+		structures::Logger::getInstance().logInfo("RemoveAt [%]:	" + std::to_string(removeAt));
+		structures::Logger::getInstance().logInfo("At [%]:			" + std::to_string(at));
+		structures::Logger::getInstance().logInfo("GetIndexOf [%]:  " + std::to_string(getIndexOf));
+			
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < insert && insertCount != 0) {
+				insertCount--;
+				int tempNumb = rand() % list->size() - 1;
+				SimpleTest::startStopwatch();
+				list->insert(tempNumb, tempNumb);
+				SimpleTest::stopStopwatch();
+				insertCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
+			} else if (randChance < removeAt + insert && removeAtCount != 0) {
+				removeAtCount--;
+				int tempNumb = rand() % list->size() - 1;
+				SimpleTest::startStopwatch();
+				list->removeAt(tempNumb);
+				SimpleTest::stopStopwatch();
+				removeAtCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
+			} else if (randChance < at + removeAt + insert && atCount != 0) {
+				atCount--;
+				int tempNumb = rand() % list->size() - 1;
+				SimpleTest::startStopwatch();
+				list->at(tempNumb);
+				SimpleTest::stopStopwatch();
+				atCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+			} else if (randChance < 100 && getIndexOfCount != 0) {
+				getIndexOfCount--;
+				int tempNumb = rand() % list->size() - 1;
+				SimpleTest::startStopwatch();
+				list->getIndexOf(tempNumb);
+				SimpleTest::stopStopwatch();
+				getIndexOfCountTime += SimpleTest::getElapsedTime();
+				structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
+			}
+		}
+
+		structures::Logger::getInstance().logInfo("----------------------------------");
+		structures::Logger::getInstance().logInfo("Dokopy Ëas insert: ;" + std::to_string(insertCountTime.count()) + ";mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Dokopy Ëas removeAt: ;" + std::to_string(removeAtCountTime.count()) + ";mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Dokopy Ëas at: ;" + std::to_string(atCountTime.count()) + " ;mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Dokopy Ëas getIndexOf: ;" + std::to_string(getIndexOfCountTime.count()) + " ;mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Priemern˝ Ëas insert: ;" + std::to_string(insertCountTime.count() / ((operationCount / 100) * insert)) + ";mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Priemern˝ Ëas removeAt: ;" + std::to_string(removeAtCountTime.count() / ((operationCount / 100) * removeAt)) + ";mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Priemern˝ Ëas at: ;" + std::to_string(atCountTime.count() / ((operationCount / 100) * at)) + " ;mikrosek˙nd");
+		structures::Logger::getInstance().logInfo("Priemern˝ Ëas getIndexOf: ;" + std::to_string(getIndexOfCountTime.count() / ((operationCount / 100) * getIndexOf)) + " ;mikrosek˙nd");
+
+
+
+		
+		SimpleTest::assertTrue(type == scenario, "End of scenario.");
 		delete list;
 	}
 
@@ -139,14 +227,26 @@ namespace tests
 		if (type == 1) {
 			return new structures::ArrayList<int>();
 		}
+		return nullptr;
 		/*else {
 			return new structures::DoubleLinkedList<int>();
 		}*/
 	}
 
+	// ArrayList
+
+	ArrayListScenarios::ArrayListScenarios() :
+		ComplexTest("ArrayListScenarios")
+	{
+		addTest(new ArrayListUnitTest());
+		addTest(new ArrayListScenarioA());
+		addTest(new ArrayListScenarioB());
+		addTest(new ArrayListScenarioC());
+	}
+
 	void ArrayListUnitTest::test()
 	{
-		scenarioTest(1, 1);
+		scenarioTest(1, 1, "ArrayListUnitTest.csv");
 	}
 
 	ArrayListUnitTest::ArrayListUnitTest() :
@@ -155,18 +255,83 @@ namespace tests
 
 	}
 
+	// scenarios
+
+	ArrayListScenarioA::ArrayListScenarioA() :
+		UnitTest("ArrayList scenario A")
+	{
+	}
+	void ArrayListScenarioA::test()
+	{
+		scenarioTest(1, 1, "ArrayList_scenarioA.csv");
+	}
+	ArrayListScenarioB::ArrayListScenarioB() :
+		UnitTest("ArrayList scenario B")
+	{
+	}
+	void ArrayListScenarioB::test()
+	{
+		scenarioTest(1, 2, "ArrayList_scenarioB.csv");
+	}
+	ArrayListScenarioC::ArrayListScenarioC() :
+		UnitTest("ArrayList scenario C")
+	{
+	}
+	void ArrayListScenarioC::test()
+	{
+		scenarioTest(1, 3, "ArrayList_scenarioC.csv");
+	}
 	
 
-	ArrayListScenarios::ArrayListScenarios() :
-		ComplexTest("ArrayListScenarios")
-	{
-		addTest(new ArrayListUnitTest());
-	}
+	// DoubleLinkedList
 
 	LinkedListScenarios::LinkedListScenarios() :
 		ComplexTest("LinkedListScenarios")
 	{
+		addTest(new DoubleLinkedListUnitTest());
+		addTest(new DoubleLinkedListScenarioA());
+		addTest(new DoubleLinkedListScenarioB());
+		addTest(new DoubleLinkedListScenarioC());
 	}
 
-	// Unit test linkedlist:
+	DoubleLinkedListUnitTest::DoubleLinkedListUnitTest() :
+		UnitTest("DoubleLinkedListUnitTest")
+	{
+	}
+
+	void DoubleLinkedListUnitTest::test()
+	{
+		scenarioTest(1, 1, "DoubleLinkedListUnitTest.csv");
+	}
+	
+	DoubleLinkedListScenarioA::DoubleLinkedListScenarioA() :
+		UnitTest("DoubleLinkedList scenario A")
+	{
+	}
+
+	void DoubleLinkedListScenarioA::test()
+	{
+		scenarioTest(2, 1, "DoubleLinkedList_scenarioA.csv");
+	}
+
+	DoubleLinkedListScenarioB::DoubleLinkedListScenarioB() :
+		UnitTest("DoubleLinkedList scenario B")
+	{
+	}
+
+	void DoubleLinkedListScenarioB::test()
+	{
+		scenarioTest(2, 2, "DoubleLinkedList_scenarioB.csv");
+	}
+
+	DoubleLinkedListScenarioC::DoubleLinkedListScenarioC() :
+		UnitTest("DoubleLinkedList scenario C")
+	{
+	}
+
+	void DoubleLinkedListScenarioC::test()
+	{
+		scenarioTest(2, 3, "DoubleLinkedList_scenarioC.csv");
+	}
+
 }

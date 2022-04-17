@@ -35,6 +35,7 @@ void main(array<String^>^)
 	// Zadanie 2
 	tests.emplace_back(new tests::ListTestOverall());
 	tests.emplace_back(new tests::ArrayListScenarios());
+	tests.emplace_back(new tests::LinkedListScenarios());
 
 
 	// 01: Vector

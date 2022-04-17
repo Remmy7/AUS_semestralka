@@ -49,36 +49,7 @@ namespace tests
 		structures::List<int>* makeList() const override;
 	};
 
-	class UnitTest
-		: public SimpleTest
-	{
-	public:
-		void scenarioTest(int type, int scenario);
-		UnitTest(std::string name);
-	protected:
-		virtual structures::List<int>* makeListType(int type);
-	};
 	
-	class ArrayListUnitTest
-		: public UnitTest
-	{
-	public:
-		ArrayListUnitTest();
-		void test() override;
-	};
-
-	class ArrayListScenarios
-		: public ComplexTest
-	{
-	public:
-		ArrayListScenarios();
-	};
-	class LinkedListScenarios
-		: public ComplexTest
-	{
-	public:
-		LinkedListScenarios();
-	};
 
 	/// <summary>
 	/// Zahrna v sebe vsetky testy, ktore testuju ArrayList.
@@ -110,6 +81,97 @@ namespace tests
 		ListTestOverall();
 	};
 
+	// Zadanie 2
+
+	class UnitTest
+		: public SimpleTest
+	{
+	public:
+		void scenarioTest(int type, int scenario, std::string filePath);
+		UnitTest(std::string name);
+	protected:
+		virtual structures::List<int>* makeListType(int type);
+	};
+
 	
+	// ArrayList
+	//////////////////////////////////////////////////////////
+
+	class ArrayListScenarios
+		: public ComplexTest
+	{
+	public:
+		ArrayListScenarios();
+	};
+	
+
+	class ArrayListUnitTest
+		: public UnitTest
+	{
+	public:
+		ArrayListUnitTest();
+		void test() override;
+	};
+
+	class ArrayListScenarioA
+		: public UnitTest
+	{
+	public:
+		ArrayListScenarioA();
+		void test() override;
+	};
+	class ArrayListScenarioB
+		: public UnitTest
+	{
+	public:
+		ArrayListScenarioB();
+		void test() override;
+	};
+	class ArrayListScenarioC
+		: public UnitTest
+	{
+	public:
+		ArrayListScenarioC();
+		void test() override;
+	};
+
+	// DoubleLinkedList
+	//////////////////////////////////////////////////////////
+
+	class LinkedListScenarios
+		: public ComplexTest
+	{
+	public:
+		LinkedListScenarios();
+	};
+	class DoubleLinkedListUnitTest
+		: public UnitTest
+	{
+	public:
+		DoubleLinkedListUnitTest();
+		void test() override;
+	};
+
+	class DoubleLinkedListScenarioA
+		: public UnitTest
+	{
+	public:
+		DoubleLinkedListScenarioA();
+		void test() override;
+	};
+	class DoubleLinkedListScenarioB
+		: public UnitTest
+	{
+	public:
+		DoubleLinkedListScenarioB();
+		void test() override;
+	};
+	class DoubleLinkedListScenarioC
+		: public UnitTest
+	{
+	public:
+		DoubleLinkedListScenarioC();
+		void test() override;
+	};
 
 }
