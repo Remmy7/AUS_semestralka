@@ -165,14 +165,12 @@ namespace tests
 		SimpleTest::logInfo("At [%]:		" + std::to_string(at));
 		SimpleTest::logInfo("GetIndexOf [%]:" + std::to_string(getIndexOf));
 
-		fileLogConsumer->log(listType + " scenario: " + std::to_string(scenario));
-		
-		/*structures::Logger::getInstance().logInfo(listType + " scenario: " + std::to_string(scenario));
-		structures::Logger::getInstance().logInfo("Insert [%]:		" + std::to_string(insert));
-		structures::Logger::getInstance().logInfo("RemoveAt [%]:	" + std::to_string(removeAt));
-		structures::Logger::getInstance().logInfo("At [%]:			" + std::to_string(at));
-		structures::Logger::getInstance().logInfo("GetIndexOf [%]:  " + std::to_string(getIndexOf));*/
-			
+		fileLogConsumer->log(listType + " ;scenario: " + std::to_string(scenario));
+		fileLogConsumer->log("Insert [%]:;	" + std::to_string(insert));
+		fileLogConsumer->log("RemoveAt [%]:;	" + std::to_string(removeAt));
+		fileLogConsumer->log("At [%]:;		" + std::to_string(at));
+		fileLogConsumer->log("GetIndexOf [%]:;" + std::to_string(getIndexOf));
+		fileLogConsumer->log("èas[ms];typ_operácie");
 		//vloženie 1000 prvkov na zaèiatok.
 		for (int i = 0; i < 1000; i++) {
 			int tempInsert = rand() % randomRange;
@@ -194,7 +192,7 @@ namespace tests
 				list->insert(tempInsert, tempNumb);
 				SimpleTest::stopStopwatch();
 				insertCountTime += SimpleTest::getElapsedTime();
-				//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
+				//fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
 			} else if (randChance < removeAt + insert && removeAtCount != 0) {
 				if (list->size() != 0) {
 					removeAtCount--;
@@ -202,7 +200,7 @@ namespace tests
 					list->removeAt(tempNumb);
 					SimpleTest::stopStopwatch();
 					removeAtCountTime += SimpleTest::getElapsedTime();
-					//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
+					//fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";removeAt");
 				}
 				else {
 					operationCount++;
@@ -214,7 +212,7 @@ namespace tests
 					list->at(tempNumb);
 					SimpleTest::stopStopwatch();
 					atCountTime += SimpleTest::getElapsedTime();
-					//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
+					//fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";at");
 				}
 				else {
 					operationCount++;
@@ -227,7 +225,7 @@ namespace tests
 					list->getIndexOf(tempInsert);
 					SimpleTest::stopStopwatch();
 					getIndexOfCountTime += SimpleTest::getElapsedTime();
-					//structures::Logger::getInstance().logInfo(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
+					//fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";getIndexOf");
 				}
 				else {
 					operationCount++;
@@ -245,6 +243,8 @@ namespace tests
 		fileLogConsumer->log("Priemerný èas removeAt: ;" + std::to_string(removeAtCountTime.count() / ((operationCount / 100) * removeAt)) + ";mikrosekúnd");
 		fileLogConsumer->log("Priemerný èas at: ;" + std::to_string(atCountTime.count() / ((operationCount / 100) * at)) + " ;mikrosekúnd");
 		fileLogConsumer->log("Priemerný èas getIndexOf: ;" + std::to_string(getIndexOfCountTime.count() / ((operationCount / 100) * getIndexOf)) + " ;mikrosekúnd");
+		fileLogConsumer->log("Celkový èas: ;" + std::to_string(insertCountTime.count() + removeAtCountTime.count() + 
+			atCountTime.count() + getIndexOfCountTime.count()));
 		fileLogConsumer->log("----------------------------------");
 
 		
@@ -263,10 +263,9 @@ namespace tests
 		if (type == 1) {
 			return new structures::ArrayList<int>();
 		}
-		return new structures::ArrayList<int>();;
-		/*else {
+		else {
 			return new structures::DoubleLinkedList<int>();
-		}*/
+		}
 	}
 
 	// ArrayList
@@ -299,7 +298,7 @@ namespace tests
 	}
 	void ArrayListScenarioA::test()
 	{
-		scenarioTest(1, 1, "ArrayList_scenarioA.csv");
+		scenarioTest(1, 1, "zadanie2/ArrayList_scenarioA.csv");
 	}
 	ArrayListScenarioB::ArrayListScenarioB() :
 		UnitTest("ArrayList scenario B")
@@ -307,7 +306,7 @@ namespace tests
 	}
 	void ArrayListScenarioB::test()
 	{
-		scenarioTest(1, 2, "ArrayList_scenarioB.csv");
+		scenarioTest(1, 2, "zadanie2/ArrayList_scenarioB.csv");
 	}
 	ArrayListScenarioC::ArrayListScenarioC() :
 		UnitTest("ArrayList scenario C")
@@ -315,7 +314,7 @@ namespace tests
 	}
 	void ArrayListScenarioC::test()
 	{
-		scenarioTest(1, 3, "ArrayList_scenarioC.csv");
+		scenarioTest(1, 3, "zadanie2/ArrayList_scenarioC.csv");
 	}
 	
 
@@ -347,7 +346,7 @@ namespace tests
 
 	void DoubleLinkedListScenarioA::test()
 	{
-		scenarioTest(2, 1, "DoubleLinkedList_scenarioA.csv");
+		scenarioTest(2, 1, "zadanie2/DoubleLinkedList_scenarioA.csv");
 	}
 
 	DoubleLinkedListScenarioB::DoubleLinkedListScenarioB() :
@@ -357,7 +356,7 @@ namespace tests
 
 	void DoubleLinkedListScenarioB::test()
 	{
-		scenarioTest(2, 2, "DoubleLinkedList_scenarioB.csv");
+		scenarioTest(2, 2, "zadanie2/DoubleLinkedList_scenarioB.csv");
 	}
 
 	DoubleLinkedListScenarioC::DoubleLinkedListScenarioC() :
@@ -367,7 +366,7 @@ namespace tests
 
 	void DoubleLinkedListScenarioC::test()
 	{
-		scenarioTest(2, 3, "DoubleLinkedList_scenarioC.csv");
+		scenarioTest(2, 3, "zadanie2/DoubleLinkedList_scenarioC.csv");
 	}
 
 }

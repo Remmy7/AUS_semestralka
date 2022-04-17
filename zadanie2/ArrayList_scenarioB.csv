@@ -1,0 +1,18 @@
+ArrayList ;scenario: 2
+Insert [%]:;	35
+RemoveAt [%]:;	35
+At [%]:;		20
+GetIndexOf [%]:;10
+èas[ms];typ_operácie
+----------------------------------
+----------------------------------
+Dokopy èas insert: ;481420;mikrosekúnd
+Dokopy èas removeAt: ;478248;mikrosekúnd
+Dokopy èas at: ;67667 ;mikrosekúnd
+Dokopy èas getIndexOf: ;1708378 ;mikrosekúnd
+Priemerný èas insert: ;13;mikrosekúnd
+Priemerný èas removeAt: ;13;mikrosekúnd
+Priemerný èas at: ;3 ;mikrosekúnd
+Priemerný èas getIndexOf: ;170 ;mikrosekúnd
+Celkový èas: ;2735713
+----------------------------------

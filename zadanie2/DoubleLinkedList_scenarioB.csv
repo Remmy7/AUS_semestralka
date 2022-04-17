@@ -1,0 +1,18 @@
+DoubleLinkedList ;scenario: 2
+Insert [%]:;	35
+RemoveAt [%]:;	35
+At [%]:;		20
+GetIndexOf [%]:;10
+èas[ms];typ_operácie
+----------------------------------
+----------------------------------
+Dokopy èas insert: ;425738;mikrosekúnd
+Dokopy èas removeAt: ;422159;mikrosekúnd
+Dokopy èas at: ;56545 ;mikrosekúnd
+Dokopy èas getIndexOf: ;1486143 ;mikrosekúnd
+Priemerný èas insert: ;12;mikrosekúnd
+Priemerný èas removeAt: ;12;mikrosekúnd
+Priemerný èas at: ;2 ;mikrosekúnd
+Priemerný èas getIndexOf: ;148 ;mikrosekúnd
+Celkový èas: ;2390585
+----------------------------------

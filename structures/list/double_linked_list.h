@@ -389,34 +389,43 @@ namespace structures
     template<typename T>
     inline T DoubleLinkedList<T>::removeAt(int index)
     {
-        Utils::rangeCheckExcept(index, size_, "Invalid index!");
+        Utils::rangeCheckExcept(index, size_, "invalid index!");
         DoubleLinkedListItem<T>* itemToDelete;
-
-        if (index != 0) {
-            DoubleLinkedListItem<T>* previousItem = this->getItemAtIndex(index - 1);
-            DoubleLinkedListItem<T>* nextItem = this->getItemAtIndex(index + 1);
-            itemToDelete = previousItem->getNext();
-            previousItem->setNext(nextItem);
-            nextItem->setPrevious(previousItem);
-            if (itemToDelete == last_) {
-                last_ = previousItem;
-            }
+        if (first_ == last_)
+        {
+            itemToDelete = first_;
+            first_ = nullptr;
+            last_ = nullptr;
         }
         else {
-            itemToDelete = first_;
-            first_ = first_->getNext();
-            first_->setPrevious(nullptr);
-            if (itemToDelete == last_) {
-                last_ = nullptr;
-                first_ = nullptr;
+            if (index == 0)
+            {
+                itemToDelete = first_;
+                first_ = first_->getNext();
+                DoubleLinkedListItem<T>* temp = nullptr;
+                first_->setPrevious(temp);
+            }
+            else if (index == size_ - 1)
+            {
+                itemToDelete = this->getItemAtIndex(index);
+                DoubleLinkedListItem<T>* predoslyDelI = itemToDelete->getPrevious();
+                DoubleLinkedListItem<T>* temp = nullptr; 
+                predoslyDelI->setNext(temp);
+                last_ = predoslyDelI;
+            }   
+            else
+            {
+                itemToDelete = this->getItemAtIndex(index);
+                DoubleLinkedListItem<T>* prevDeleteItem = itemToDelete->getPrevious();
+                DoubleLinkedListItem<T>* nextDeleteItem = itemToDelete->getNext();
+                prevDeleteItem->setNext(nextDeleteItem);
+                nextDeleteItem->setPrevious(prevDeleteItem);
             }
         }
-
-        T result = itemToDelete->accessData();
-        delete itemToDelete;
         size_--;
-
-        return result;
+        T data = itemToDelete->accessData();
+        delete itemToDelete;
+        return data;
     }
 
     template<typename T>
