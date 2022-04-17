@@ -36,6 +36,7 @@ void main(array<String^>^)
 	//tests.emplace_back(new tests::ListTestOverall());
 	tests.emplace_back(new tests::ArrayListScenarios());
 	tests.emplace_back(new tests::LinkedListScenarios());
+	tests.emplace_back(new tests::Uloha3Scenarios());
 
 
 	// 01: Vector

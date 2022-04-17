@@ -234,7 +234,7 @@ namespace structures
     template<typename T>
     inline DoubleLinkedListItem<T>* DoubleLinkedList<T>::getItemAtIndex(int index)
     {
-        Utils::rangeCheckExcept(index, size_, "Invalid index!");
+        //Utils::rangeCheckExcept(index, size_, "Invalid index!");
         DoubleLinkedListItem<T>* item = first_;
 
         if (index <= size_ / 2) {
@@ -329,7 +329,7 @@ namespace structures
     template<typename T>
     inline T& DoubleLinkedList<T>::at(int index)
     {
-        Utils::rangeCheckExcept(index, size_, "Invalid index!");
+        //Utils::rangeCheckExcept(index, size_, "Invalid index!");
 
         return this->getItemAtIndex(index)->accessData();
     }
@@ -359,7 +359,7 @@ namespace structures
             add(data);
         }
         else {
-            Utils::rangeCheckExcept(index, size_, "Invalid index insert doublelinkedlist!");
+            //Utils::rangeCheckExcept(index, size_, "Invalid index insert doublelinkedlist!");
 
             DoubleLinkedListItem<T>* newDoubleLinkedListItem = new DoubleLinkedListItem<T>(data);
             if (index == 0) {
@@ -397,7 +397,7 @@ namespace structures
     template<typename T>
     inline T DoubleLinkedList<T>::removeAt(int index)
     {
-        Utils::rangeCheckExcept(index, size_, "invalid index!");
+        //Utils::rangeCheckExcept(index, size_, "invalid index!");
         DoubleLinkedListItem<T>* delItem;
         if (first_ == last_)
         {

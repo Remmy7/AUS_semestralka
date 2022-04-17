@@ -207,8 +207,8 @@ namespace tests
 				}
 			} else if (randChance < at + removeAt + insert && atCount != 0) {			
 				if (list->size() != 0) {
-					SimpleTest::startStopwatch();
 					atCount--;
+					SimpleTest::startStopwatch();
 					list->at(tempNumb);
 					SimpleTest::stopStopwatch();
 					atCountTime += SimpleTest::getElapsedTime();
@@ -387,7 +387,33 @@ namespace tests
 
 	void ArrayListTestAt::test()
 	{
-		
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/ArrayListTestAt.csv");
+		structures::ArrayList<int>* list;
+		DurationType time = tests::DurationType::zero();
+
+		int size = 100;
+		for (int i = 0; i < 100; i++)
+		{
+			list = new structures::ArrayList<int>();
+			for (int j = 0; j < list->size(); j++)
+			{
+				list->add(j);
+			}
+			for (int k = 0; k < 10; k++)
+			{
+				int index = std::rand() % list->size();
+				this->startStopwatch();
+				list->at(index);
+				this->stopStopwatch();
+				time += this->getElapsedTime();
+
+			}
+			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
+			delete list;
+			size += 100;
+		}
+
+		delete fileLogConsumer;
 	}
 
 	DoubleLinkedListTestAt::DoubleLinkedListTestAt() :
@@ -397,6 +423,33 @@ namespace tests
 
 	void DoubleLinkedListTestAt::test()
 	{
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/DoubleLinkedListTestAt.csv");
+		structures::DoubleLinkedList<int>* list;
+		DurationType time = tests::DurationType::zero();
+
+		int size = 100;
+		for (int i = 0; i < 100; i++)
+		{
+			list = new structures::DoubleLinkedList<int>();
+			for (int j = 0; j < list->size(); j++)
+			{
+				list->add(j);
+			}
+			for (int k = 0; k < 10; k++)
+			{
+				int index = std::rand() % list->size();
+				this->startStopwatch();
+				list->at(index);
+				this->stopStopwatch();
+				time += this->getElapsedTime();
+
+			}
+			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
+			delete list;
+			size += 100;
+		}
+
+		delete fileLogConsumer;
 	}
 
 	ArrayListTestInsert::ArrayListTestInsert() :
@@ -406,6 +459,33 @@ namespace tests
 
 	void ArrayListTestInsert::test()
 	{
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/ArrayListTestInsert.csv");
+		structures::ArrayList<int>* list;
+		DurationType time = tests::DurationType::zero();
+
+		int size = 100;
+		for (int i = 0; i < 100; i++)
+		{
+			list = new structures::ArrayList<int>();
+			for (int j = 0; j < list->size(); j++)
+			{
+				list->add(j);
+			}
+			for (int k = 0; k < 10; k++)
+			{
+				int index = std::rand() % list->size();
+				this->startStopwatch();
+				list->insert(index, index);
+				this->stopStopwatch();
+				time += this->getElapsedTime();
+
+			}
+			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
+			delete list;
+			size += 100;
+		}
+
+		delete fileLogConsumer;
 	}
 
 	DoubleLinkedListTestInsert::DoubleLinkedListTestInsert() :
@@ -415,6 +495,33 @@ namespace tests
 
 	void DoubleLinkedListTestInsert::test()
 	{
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/DoubleLinkedListTestInsert.csv");
+		structures::DoubleLinkedList<int>* list;
+		DurationType time = tests::DurationType::zero();
+
+		int size = 100;
+		for (int i = 0; i < 100; i++)
+		{
+			list = new structures::DoubleLinkedList<int>();
+			for (int j = 0; j < list->size(); j++)
+			{
+				list->add(j);
+			}
+			for (int k = 0; k < 10; k++)
+			{
+				int index = std::rand() % list->size();
+				this->startStopwatch();
+				list->insert(index, index);
+				this->stopStopwatch();
+				time += this->getElapsedTime();
+
+			}
+			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
+			delete list;
+			size += 100;
+		}
+
+		delete fileLogConsumer;
 	}
 
 	ArrayListTestRemoveAt::ArrayListTestRemoveAt() :
@@ -424,19 +531,19 @@ namespace tests
 
 	void ArrayListTestRemoveAt::test()
 	{
-		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/ArrayListTestAt.csv");
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/ArrayListTestRemoveAt.csv");
 		structures::ArrayList<int>* list;
 		DurationType time = tests::DurationType::zero();
 
 		int size = 100;
-		for (unsigned i = 0; i < 100; i++)
+		for (int i = 0; i < 100; i++)
 		{
 			list = new structures::ArrayList<int>();
 			for (int j = 0; j < list->size(); j++)
 			{
 				list->add(j);
 			}
-			for (unsigned k = 0; k < 10; k++)
+			for (int k = 0; k < 10; k++)
 			{
 				int index = std::rand() % list->size();
 				this->startStopwatch();
@@ -447,7 +554,7 @@ namespace tests
 			}
 			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
 			delete list;
-			size += 10;
+			size += 100;
 		}
 
 		delete fileLogConsumer;
@@ -460,6 +567,33 @@ namespace tests
 
 	void DoubleLinkedListTestRemoveAt::test()
 	{
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie2/uloha3/DoubleLinkedListTestRemoveAt.csv");
+		structures::DoubleLinkedList<int>* list;
+		DurationType time = tests::DurationType::zero();
+
+		int size = 100;
+		for (int i = 0; i < 100; i++)
+		{
+			list = new structures::DoubleLinkedList<int>();
+			for (int j = 0; j < list->size(); j++)
+			{
+				list->add(j);
+			}
+			for (int k = 0; k < 10; k++)
+			{
+				int index = std::rand() % list->size();
+				this->startStopwatch();
+				list->removeAt(index);
+				this->stopStopwatch();
+				time += this->getElapsedTime();
+
+			}
+			fileLogConsumer->log(std::to_string(time.count()) + ";" + std::to_string(size));
+			delete list;
+			size += 100;
+		}
+
+		delete fileLogConsumer;
 	}
 
 }
