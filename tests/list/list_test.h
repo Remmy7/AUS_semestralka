@@ -77,13 +77,12 @@ namespace tests
 		ListTestOverall();
 	};
 
-	class ArrayListUnitTest :
-		 public SimpleTest
+	/*class ArrayListUnitTest :
+		 public ListTestInterface
 	{
 	public:
 		ArrayListUnitTest();
-		void test() override;
-
-
-	};
+	protected:
+		structures::List<int>* makeList() const override;
+	};*/
 }

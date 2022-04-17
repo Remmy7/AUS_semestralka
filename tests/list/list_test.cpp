@@ -78,11 +78,18 @@ namespace tests
 	{
 		addTest(new ArrayListTestOverall());
 		addTest(new LinkedListTestOverall());
+		//addTest(new ArrayListUnitTest());
 	}
 
 // Unit test list:
 
 
 
-// Unit test linkedlist:
+	/*ArrayListUnitTest::ArrayListUnitTest() :
+		ListTestInterface("ArrayList unit test")
+	{
+
+	}
+	*/
+	// Unit test linkedlist:
 }

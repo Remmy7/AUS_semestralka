@@ -67,8 +67,8 @@ void main(array<String^>^)
 	// Registracia odoberatelov globalneho logu:
 
 	// Odoberatel logu, ktory preposiela spravy do GUI.
-	/*gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
-	structures::Logger::getInstance().registerConsumer(guiLogConsumer);*/
+	gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
+	structures::Logger::getInstance().registerConsumer(guiLogConsumer);
 
 	structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("main.csv");
 	structures::Logger::getInstance().registerConsumer(fileLogConsumer);
@@ -76,7 +76,7 @@ void main(array<String^>^)
 	WF::Application::Run(%form);
 
 	// Ak ste Vas logger alokovali dynamicky, zmazatù ho mÙûete tu:
-	//delete guiLogConsumer;
+	delete guiLogConsumer;
 	delete fileLogConsumer;
 	for (tests::Test* test : tests)
 	{
