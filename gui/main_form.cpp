@@ -33,7 +33,7 @@ void main(array<String^>^)
 	//tests.emplace_back(new tests::MatrixTestOverall());
 
 	// Zadanie 2
-	tests.emplace_back(new tests::ListTestOverall());
+	//tests.emplace_back(new tests::ListTestOverall());
 	tests.emplace_back(new tests::ArrayListScenarios());
 	tests.emplace_back(new tests::LinkedListScenarios());
 

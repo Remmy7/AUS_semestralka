@@ -15,9 +15,15 @@ namespace structures
 		this->fileStream_ << message << std::endl;
 	}
 
+
+
 	void FileLogConsumer::logDuration(size_t size, DurationType duration, const std::string& message)
 	{
 		this->fileStream_ << size << ";" << duration.count() << ";" << message << std::endl;
+	}
+	void FileLogConsumer::log(std::string message)
+	{
+		this->fileStream_ << message << std::endl;
 	}
 }
 

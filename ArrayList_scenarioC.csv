@@ -1,0 +1,12 @@
+ArrayList scenario: 3
+----------------------------------
+----------------------------------
+Dokopy èas insert: ;550872;mikrosekúnd
+Dokopy èas removeAt: ;544277;mikrosekúnd
+Dokopy èas at: ;14405 ;mikrosekúnd
+Dokopy èas getIndexOf: ;734165 ;mikrosekúnd
+Priemerný èas insert: ;12;mikrosekúnd
+Priemerný èas removeAt: ;12;mikrosekúnd
+Priemerný èas at: ;2 ;mikrosekúnd
+Priemerný èas getIndexOf: ;146 ;mikrosekúnd
+----------------------------------

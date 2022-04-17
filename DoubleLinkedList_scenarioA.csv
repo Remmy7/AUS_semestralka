@@ -1,0 +1,15 @@
+DoubleLinkedList scenario: 1
+Insert [%]:		20
+RemoveAt [%]:	20
+At [%]:			50
+GetIndexOf [%]:  10
+----------------------------------
+Dokopy èas insert: ;232730;mikrosekúnd
+Dokopy èas removeAt: ;231101;mikrosekúnd
+Dokopy èas at: ;134375 ;mikrosekúnd
+Dokopy èas getIndexOf: ;1501366 ;mikrosekúnd
+Priemerný èas insert: ;11;mikrosekúnd
+Priemerný èas removeAt: ;11;mikrosekúnd
+Priemerný èas at: ;2 ;mikrosekúnd
+Priemerný èas getIndexOf: ;150 ;mikrosekúnd
+----------------------------------
