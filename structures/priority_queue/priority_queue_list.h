@@ -132,7 +132,7 @@ namespace structures
             return data;
         }
         else {
-            throw std::logic_error("Priority queue is empty!");
+            throw std::logic_error("Priority queue is empty! pop");
         }
     }
 
@@ -144,7 +144,7 @@ namespace structures
             return list_->at(index)->accessData();
         }
         else {
-            throw std::logic_error("Priority queue is empty!");
+            throw std::logic_error("Priority queue is empty! peek");
         }
     }
 
@@ -156,7 +156,7 @@ namespace structures
             return list_->at(index)->getPriority();
         }
         else {
-            throw std::logic_error("Priority queue is empty!");
+            throw std::logic_error("Priority queue is empty! peekPriority");
         }
     }
 }

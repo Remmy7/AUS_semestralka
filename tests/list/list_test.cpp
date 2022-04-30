@@ -120,9 +120,7 @@ namespace tests
 			return;
 		}
 		structures::List<int>* list = this->makeListType(type);
-		if (type == 1) {
-			
-		}
+
 		switch (scenario) {
 		case 1:
 			insert = 20;
@@ -464,9 +462,11 @@ namespace tests
 		DurationType time = tests::DurationType::zero();
 
 		int size = 100;
+		
 		for (int i = 0; i < 100; i++)
 		{
 			list = new structures::ArrayList<int>();
+			list->add(1);
 			for (int j = 0; j < list->size(); j++)
 			{
 				list->add(j);

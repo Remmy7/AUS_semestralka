@@ -34,10 +34,12 @@ void main(array<String^>^)
 
 	// Zadanie 2
 	//tests.emplace_back(new tests::ListTestOverall());
-	tests.emplace_back(new tests::ArrayListScenarios());
-	tests.emplace_back(new tests::LinkedListScenarios());
-	tests.emplace_back(new tests::Uloha3Scenarios());
+	//tests.emplace_back(new tests::ArrayListScenarios());
+	//tests.emplace_back(new tests::LinkedListScenarios());
+	//tests.emplace_back(new tests::Uloha3Scenarios());
 
+	// Zadanie 3
+	tests.emplace_back(new tests::PriorityQueueScenarios());
 
 	// 01: Vector
 	//tests.emplace_back(new tests::VectorTestOverall());

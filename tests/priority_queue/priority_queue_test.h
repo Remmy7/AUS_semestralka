@@ -3,6 +3,8 @@
 #include "../test.h"
 #include "../../structures/priority_queue/priority_queue.h"
 #include "../../structures/priority_queue/priority_queue_list.h"
+#include "../../structures/_logger/file_log_consumer.h"
+
 
 namespace tests
 {
@@ -150,4 +152,94 @@ namespace tests
     public:
         PriorityQueueTestOverall();
     };
+
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+    ///////////////////////////////////////////
+    
+    /// <summary>
+    /// Spoloèná testovacia metóda pre scenáre.
+    /// </summary>
+    class ScenarioTest
+        : public SimpleTest
+    {
+    public:
+        void scenarioTest(int type, int scenario, std::string filePath);
+        ScenarioTest(std::string name);
+    protected:
+        virtual structures::PriorityQueue<int>* makeQueueType(int type);
+    };
+
+    class PriorityQueueScenarios
+        : public ComplexTest
+    {
+    public:
+        PriorityQueueScenarios();
+    };
+
+    /// <summary>
+    /// Heap scenáre.
+    /// </summary>
+
+    class HeapScenarios
+        : public ComplexTest
+    {
+    public:
+        HeapScenarios();
+    };
+
+    class HeapScenarioA
+        : public ScenarioTest
+    {
+    public:
+        HeapScenarioA();
+        void test() override;
+    };
+    class HeapScenarioB
+        : public ScenarioTest
+    {
+    public:
+        HeapScenarioB();
+        void test() override;
+    };
+    class HeapScenarioC
+        : public ScenarioTest
+    {
+    public:
+        HeapScenarioC();
+        void test() override;
+    };
+
+    /// <summary>
+    /// PriorityQueueTwoList scenáre.
+    /// </summary>
+    class PriorityQueueTwoListScenarios
+        : public ComplexTest
+    {
+    public:
+        PriorityQueueTwoListScenarios();
+    };
+
+    class PriorityQueueTwoListsScenarioA
+        : public ScenarioTest
+    {
+    public:
+        PriorityQueueTwoListsScenarioA();
+        void test() override;
+    };
+    class PriorityQueueTwoListsScenarioB
+        : public ScenarioTest
+    {
+    public:
+        PriorityQueueTwoListsScenarioB();
+        void test() override;
+    };
+    class PriorityQueueTwoListsScenarioC
+        : public ScenarioTest
+    {
+    public:
+        PriorityQueueTwoListsScenarioC();
+        void test() override;
+    };
+
 }
