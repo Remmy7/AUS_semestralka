@@ -242,4 +242,89 @@ namespace tests
         void test() override;
     };
 
+    /// Úloha 3
+    class TimeComplexityTests
+        : public SimpleTest
+    {
+    public:
+        void complexityTest(int type, int operation, std::string filePath);
+        TimeComplexityTests(std::string name);
+    protected:
+        virtual structures::PriorityQueue<int>* makeQueueType(int type);
+    };
+
+    class TimeComplexityScenarios
+        : public ComplexTest
+    {
+    public:
+        TimeComplexityScenarios();
+    };
+
+    /// <summary>
+    /// Testy pre Heap.
+    /// </summary>
+    class TimeComplexityScenariosHeap
+        : public ComplexTest
+    {
+    public:
+        TimeComplexityScenariosHeap();
+    };
+
+    class HeapPushComplexity
+        : public TimeComplexityTests
+    {
+    public:
+        HeapPushComplexity();
+        void test() override;
+    };
+    class HeapPopComplexity
+        : public TimeComplexityTests
+    {
+    public:
+        HeapPopComplexity();
+        void test() override;
+    };
+    class HeapPeekComplexity
+        : public TimeComplexityTests
+    {
+    public:
+        HeapPeekComplexity();
+        void test() override;
+    };
+
+
+
+
+    /// <summary>
+    /// Testy pre PriorityQueueTwoList.
+    /// </summary>
+    class TimeComplexityScenariosPriorityQueueTwoList
+        : public ComplexTest
+    {
+    public:
+        TimeComplexityScenariosPriorityQueueTwoList();
+    };
+
+    class PriorityQueueTwoListPushComplexity
+        : public TimeComplexityTests
+    {
+    public:
+        PriorityQueueTwoListPushComplexity();
+        void test() override;
+    };
+    class PriorityQueueTwoListPopComplexity
+        : public TimeComplexityTests
+    {
+    public:
+        PriorityQueueTwoListPopComplexity();
+        void test() override;
+    };
+    class PriorityQueueTwoListPeekComplexity
+        : public TimeComplexityTests
+    {
+    public:
+        PriorityQueueTwoListPeekComplexity();
+        void test() override;
+    };
+
 }

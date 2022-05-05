@@ -1,0 +1,15 @@
+Heap ;scenario: 1
+Push [%]:;	35
+Pop [%]:;	35
+Peek [%]:;		30
+èas[ms];typ_operácie
+----------------------------------
+----------------------------------
+Dokopy èas push: ;0;mikrosekúnd
+Dokopy èas pop: ;0;mikrosekúnd
+Dokopy èas peek: ;0 ;mikrosekúnd
+Priemerný èas push: ;0;mikrosekúnd
+Priemerný èas pop: ;0;mikrosekúnd
+Priemerný èas peek: ;0 ;mikrosekúnd
+Celkový èas: ;0
+----------------------------------
