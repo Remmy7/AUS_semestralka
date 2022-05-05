@@ -321,7 +321,7 @@ namespace tests
     /// <param name="type">Typ priorityqueue, 1=heap 2=PQTL</param>
     /// <param name="operation">Operácia na vykonanie 1=push 2=pop 3=peek</param>
     /// <param name="filePath">Miesto uloženia súboru</param>
-    void TimeComplexityTests::complexityTest(int type, int operation, std::string filePath)
+    void TimeComplexityTests::complexityTest(int type, int operation)
     {
     }
 
@@ -341,34 +341,88 @@ namespace tests
     TimeComplexityScenarios::TimeComplexityScenarios() :
         ComplexTest("TimeComplexityScenarios")
     {
+        addTest(new TimeComplexityScenariosHeap());
+        addTest(new TimeComplexityScenariosPriorityQueueTwoList());
     }
 
-    TimeComplexityScenariosHeap::TimeComplexityScenariosHeap()
+    TimeComplexityScenariosHeap::TimeComplexityScenariosHeap() :
+        ComplexTest("Heap")
     {
+        addTest(new HeapPushComplexity());
+        addTest(new HeapPopComplexity());
+        addTest(new HeapPeekComplexity());
     }
 
-    HeapPushComplexity::HeapPushComplexity()
+    HeapPushComplexity::HeapPushComplexity() :
+        TimeComplexityTests("HeapPush")
     {
     }
 
     void HeapPushComplexity::test()
     {
+
+        SimpleTest::assertTrue(1 == 1, "End of time complexity heap push.");
     }
 
-    HeapPopComplexity::HeapPopComplexity()
+    HeapPopComplexity::HeapPopComplexity() :
+        TimeComplexityTests("HeapPop")
     {
     }
 
     void HeapPopComplexity::test()
     {
+        SimpleTest::assertTrue(1 == 1, "End of time complexity heap pop.");
     }
 
-    HeapPeekComplexity::HeapPeekComplexity()
+    HeapPeekComplexity::HeapPeekComplexity() :
+        TimeComplexityTests("HeapPeek")
     {
     }
 
     void HeapPeekComplexity::test()
     {
+        SimpleTest::assertTrue(1 == 1, "End of time complexity heap peek.");
+    }
+    ////////
+    ////////
+    ////////
+
+    TimeComplexityScenariosPriorityQueueTwoList::TimeComplexityScenariosPriorityQueueTwoList() :
+        ComplexTest("PriorityQueueTwoList")
+    {
+        addTest(new PriorityQueueTwoListPushComplexity());
+        addTest(new PriorityQueueTwoListPopComplexity());
+        addTest(new PriorityQueueTwoListPeekComplexity());
+    }
+
+    PriorityQueueTwoListPushComplexity::PriorityQueueTwoListPushComplexity() :
+        TimeComplexityTests("PriorityQueueTwoListPush")
+    {
+    }
+
+    void PriorityQueueTwoListPushComplexity::test()
+    {
+        SimpleTest::assertTrue(1 == 1, "End of time complexity PriorityQueueTwoList push.");
+    }
+
+    PriorityQueueTwoListPopComplexity::PriorityQueueTwoListPopComplexity() :
+        TimeComplexityTests("PriorityQueueTwoListPop")
+    {
+    }
+
+    void PriorityQueueTwoListPopComplexity::test()
+    {
+        SimpleTest::assertTrue(1 == 1, "End of time complexity PriorityQueueTwoList pop.");
+    }
+
+    PriorityQueueTwoListPeekComplexity::PriorityQueueTwoListPeekComplexity() :
+        TimeComplexityTests("PriorityQueueTwoListPeek")
+    {
+    }
+
+    void PriorityQueueTwoListPeekComplexity::test()
+    {
+        SimpleTest::assertTrue(1 == 1, "End of time complexity PriorityQueueTwoList peek.");
     }
 
 }
