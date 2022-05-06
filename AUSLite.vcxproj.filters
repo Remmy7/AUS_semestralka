@@ -203,9 +203,6 @@
     <ClInclude Include="tests\stack\stack_test.h">
       <Filter>tests\stack</Filter>
     </ClInclude>
-    <ClInclude Include="structures\queue\queue.h">
-      <Filter>structures\queue</Filter>
-    </ClInclude>
     <ClInclude Include="structures\queue\implicit_queue.h">
       <Filter>structures\queue</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="structures\list\double_linked_list.h">
       <Filter>structures\list</Filter>
+    </ClInclude>
+    <ClInclude Include="structures\queue\queue.h">
+      <Filter>structures\queue</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

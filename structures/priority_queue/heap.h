@@ -77,7 +77,7 @@ namespace structures
 	{
 		PriorityQueueList<T>::list_->add(new PriorityQueueItem<T>(priority, data));
 
-		int indexCurrent = PriorityQueueList<T>::list_->size() - 1;
+		int indexCurrent = PriorityQueueList<T>::size() - 1;
 		int indexParent = getParentIndex(indexCurrent);
 
 		while (indexCurrent != 0 &&
@@ -95,42 +95,28 @@ namespace structures
 	template<typename T>
 	T Heap<T>::pop()
 	{
-		int index = PriorityQueueList<T>::indexOfPeek();
-		if (index != -1) {
-			int indexLast = PriorityQueueList<T>::list_->size() - 1;
+		PriorityQueueItem<T>* item = (*this->list_)[0];
+		(*this->list_)[0] = (*this->list_)[this->list_->size() - 1];
+		(*this->list_)[this->list_->size() - 1] = item;
+		this->list_->removeAt(this->list_->size() - 1);
 
-			if (index != indexLast) {
-				Utils::swap(
-					PriorityQueueList<T>::list_->at(index),
-					PriorityQueueList<T>::list_->at(indexLast)
-				);
-			}
+		int indexCurrent = 0;
+		int indexSon = getGreaterSonIndex(indexCurrent);
+		while (indexSon != -1 && (*this->list_)[indexCurrent]->getPriority() > (*this->list_)[indexSon]->getPriority())
+		{
+			PriorityQueueItem<T>* tempItem = (*this->list_)[indexCurrent];
 
-			PriorityQueueItem<T>* item = PriorityQueueList<T>::list_->removeAt(indexLast);
-			T data = item->accessData();
-			delete item;
+			(*this->list_)[indexCurrent] = (*this->list_)[indexSon];
 
-			//upratovanie
-			int indexCurrent = 0;
-			int indexSon = getGreaterSonIndex(indexCurrent);
+			(*this->list_)[indexSon] = tempItem;
 
-			while (indexSon != -1 &&
-				PriorityQueueList<T>::list_->at(indexCurrent)->getPriority() >
-				PriorityQueueList<T>::list_->at(indexSon)->getPriority()) {
-				Utils::swap(
-					PriorityQueueList<T>::list_->at(indexCurrent),
-					PriorityQueueList<T>::list_->at(indexSon)
-				);
-				indexCurrent = indexSon;
-				indexSon = getGreaterSonIndex(indexCurrent);
-			}
-			//koniec
-
-			return data;
+			indexCurrent = indexSon;
+			indexSon = getGreaterSonIndex(indexCurrent);
 		}
-		else {
-			throw std::logic_error("Priority queue is empty!");
-		}
+
+		T result = item->accessData();
+		delete item;
+		return result;
 	}
 
 	template<typename T>
@@ -144,7 +130,7 @@ namespace structures
 	{
 		int indexLeft = 2 * index + 1;
 		int indexRight = 2 * index + 2;
-		int size = PriorityQueueList<T>::list_->size();
+		int size = PriorityQueueList<T>::size();
 
 		if (indexLeft >= size) {
 			return -1;
@@ -154,7 +140,9 @@ namespace structures
 				return indexLeft;
 			}
 			else {
-				return indexRight;
+				PriorityQueueList<T>::list_->at(indexLeft)->getPriority() <
+				PriorityQueueList<T>::list_->at(indexRight)->getPriority() ?
+				indexLeft : indexRight;;
 			}
 		}
 	}

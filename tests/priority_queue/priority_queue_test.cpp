@@ -121,7 +121,7 @@ namespace tests
             SimpleTest::logInfo("Wrong type.");
             return;
         }
-        structures::PriorityQueue<int>* queue = this->makeQueueType(type);
+        structures::PriorityQueue<int>* queueTest = this->makeQueueType(type);
         switch (scenario) {
         case 1:
             push = 35;
@@ -168,56 +168,57 @@ namespace tests
             int randChance = rand() % 100;
             if (randChance < push && pushCount != 0) {
                 pushCount--;
-                int randNumber = rand() % 10000;
+                int randNumber = rand() % 100000;
                 int randPriority = rand() % 100000;
                 SimpleTest::startStopwatch();
-                queue->push(randPriority, randNumber);
+                queueTest->push(randPriority, randNumber);
                 SimpleTest::stopStopwatch();
                 pushTime += SimpleTest::getElapsedTime();
                 //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";push");
             }
             else if (randChance < push + pop && popCount != 0) {
-                if (queue->size() != 0) {
-                    popCount--;
-                    SimpleTest::startStopwatch();
-                    queue->pop();
-                    SimpleTest::stopStopwatch();
-                    popTime += SimpleTest::getElapsedTime();
-                    //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";pop");
+                if (queueTest->size() == 0) {
+                    int randNumber = rand() % 100000;
+                    int randPriority = rand() % 100000;
+                    queueTest->push(randPriority, randNumber);
                 }
-                else {
-                    replication--;
-                }
+                popCount--;
+                SimpleTest::startStopwatch();
+                queueTest->pop();
+                SimpleTest::stopStopwatch();
+                popTime += SimpleTest::getElapsedTime();
+                //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";pop");                           
             }
-            else if (peekCount != 0) {
-                if (queue->size() != 0) {
-                    peekCount--;
-                    SimpleTest::startStopwatch();
-                    queue->peek();
-                    SimpleTest::stopStopwatch();
-                    peekTime += SimpleTest::getElapsedTime();
-                    //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";peek");
+            else if (randChance < push + pop + peek && peekCount != 0) {
+                if (queueTest->size() == 0) {
+                    int randNumber = rand() % 100000;
+                    int randPriority = rand() % 100000;
+                    queueTest->push(randPriority, randNumber);
                 }
-                else {
-                    replication--;
-                }
-            }
-            fileLogConsumer->log("----------------------------------");
-            fileLogConsumer->log("----------------------------------");
-            fileLogConsumer->log("Dokopy èas push: ;" + std::to_string(pushTime.count()) + ";mikrosekúnd");
-            fileLogConsumer->log("Dokopy èas pop: ;" + std::to_string(popTime.count()) + ";mikrosekúnd");
-            fileLogConsumer->log("Dokopy èas peek: ;" + std::to_string(peekTime.count()) + " ;mikrosekúnd");
-            fileLogConsumer->log("Priemerný èas push: ;" + std::to_string(pushTime.count() / ((operationCount / 100) * push)) + ";mikrosekúnd");
-            fileLogConsumer->log("Priemerný èas pop: ;" + std::to_string(popTime.count() / ((operationCount / 100) * pop)) + ";mikrosekúnd");
-            fileLogConsumer->log("Priemerný èas peek: ;" + std::to_string(peekTime.count() / ((operationCount / 100) * peek)) + " ;mikrosekúnd");
-            fileLogConsumer->log("Celkový èas: ;" + std::to_string(pushTime.count() + popTime.count() + peekTime.count()));
-            fileLogConsumer->log("----------------------------------");
-        
-            delete queue;
-            delete fileLogConsumer;
+                peekCount--;
+                SimpleTest::startStopwatch();
+                queueTest->peek();
+                SimpleTest::stopStopwatch();
+                peekTime += SimpleTest::getElapsedTime();
+                //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";peek");
+                /*if (queueTest->size() == 1) {
+                    queueTest->pop();
+                }*/
+                            
+            }         
         }
-
-
+        fileLogConsumer->log("----------------------------------");
+        fileLogConsumer->log("----------------------------------");
+        fileLogConsumer->log("Dokopy èas push: ;" + std::to_string(pushTime.count()) + ";mikrosekúnd");
+        fileLogConsumer->log("Dokopy èas pop: ;" + std::to_string(popTime.count()) + ";mikrosekúnd");
+        fileLogConsumer->log("Dokopy èas peek: ;" + std::to_string(peekTime.count()) + " ;mikrosekúnd");
+        fileLogConsumer->log("Priemerný èas push: ;" + std::to_string(pushTime.count() / ((operationCount / 100) * push)) + ";mikrosekúnd");
+        fileLogConsumer->log("Priemerný èas pop: ;" + std::to_string(popTime.count() / ((operationCount / 100) * pop)) + ";mikrosekúnd");
+        fileLogConsumer->log("Priemerný èas peek: ;" + std::to_string(peekTime.count() / ((operationCount / 100) * peek)) + " ;mikrosekúnd");
+        fileLogConsumer->log("Celkový èas: ;" + std::to_string(pushTime.count() + popTime.count() + peekTime.count()));
+        fileLogConsumer->log("----------------------------------");
+        delete queueTest;
+        delete fileLogConsumer;
     }
     ScenarioTest::ScenarioTest(std::string name) :
         SimpleTest(std::move(name))
