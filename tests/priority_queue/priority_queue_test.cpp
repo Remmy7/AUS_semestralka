@@ -22,8 +22,17 @@ namespace tests
         queue->peekPriority();
         queue->pop();
         queue->assign(*queue);
+
+        for (int i = 0; i < 100; i++) {
+            queue->push(i, x);
+        }
+        
+        //TODO TESTS
+
         delete queue;
         this->logPass("Compiled.");
+
+        
     }
 
     structures::PriorityQueue<int>* PriorityQueueUnsortedArrayListTestInterface::makePriorityQueue()
@@ -239,6 +248,9 @@ namespace tests
         addTest(new HeapScenarios());
         addTest(new PriorityQueueTwoListScenarios());
         addTest(new TimeComplexityScenarios());
+
+        addTest(new PriorityQueueTwoListsTestOverall());
+        addTest(new HeapTestOverall());
     }
 
 
@@ -322,8 +334,107 @@ namespace tests
     /// <param name="type">Typ priorityqueue, 1=heap 2=PQTL</param>
     /// <param name="operation">Operácia na vykonanie 1=push 2=pop 3=peek</param>
     /// <param name="filePath">Miesto uloženia súboru</param>
-    void TimeComplexityTests::complexityTest(int type, int operation)
+    void TimeComplexityTests::complexityTest(int type, int operation, std::string filePath)
     {
+        structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
+        int maxCount = 10000;
+        int currentSize = 0;
+        int increaseSizeBy = 100;
+        std::string queueType = "";
+        if (type == 1) {
+            queueType = "Heap";
+        }
+        else if (type == 2) {
+            queueType = "PriorityQueueTwoLists";
+        }
+        else {
+            SimpleTest::logInfo("Wrong type.");
+            return;
+        }
+        structures::PriorityQueue<int>* queueTest = this->makeQueueType(type);
+
+        srand(time(NULL));
+        DurationType pushTime = tests::DurationType::zero();
+        DurationType popTime = tests::DurationType::zero();
+        DurationType peekTime = tests::DurationType::zero();
+       
+        SimpleTest::logInfo(queueType + " operation: " + std::to_string(operation));
+        fileLogConsumer->log(queueType + " ;operation: " + std::to_string(operation));
+        fileLogConsumer->log("poèet prvkov;èas[ms]");
+
+
+        if (operation == 1) {
+            while (currentSize < maxCount) {
+                currentSize += increaseSizeBy;
+                for (int i = 0; i < increaseSizeBy; i++) {
+                    int randNumber = rand() % 100000;
+                    int randPriority = rand() % 100000;
+                    queueTest->push(randPriority, randNumber);
+                }
+                int randNumber = rand() % 100000;
+                int randPriority = rand() % 100000;
+                SimpleTest::startStopwatch();
+                queueTest->push(randPriority, randNumber);
+                SimpleTest::stopStopwatch();
+                pushTime += SimpleTest::getElapsedTime();
+                fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(SimpleTest::getElapsedTime().count()));
+                queueTest->pop();
+            }
+        }
+        else if (operation == 2) {
+            while (currentSize < maxCount) {
+                currentSize += increaseSizeBy;
+                for (int i = 0; i < increaseSizeBy; i++) {
+                    int randNumber = rand() % 100000;
+                    int randPriority = rand() % 100000;
+                    queueTest->push(randPriority, randNumber);
+                }
+                SimpleTest::startStopwatch();
+                queueTest->pop();
+                SimpleTest::stopStopwatch();
+                popTime += SimpleTest::getElapsedTime();
+                fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(SimpleTest::getElapsedTime().count()));
+                int randNumber = rand() % 100000;
+                int randPriority = rand() % 100000;
+                queueTest->push(randPriority, randNumber);
+            }
+        }
+        else if (operation == 3) {
+            while (currentSize < maxCount) {
+                currentSize += increaseSizeBy;
+                for (int i = 0; i < increaseSizeBy; i++) {
+                    int randNumber = rand() % 100000;
+                    int randPriority = rand() % 100000;
+                    queueTest->push(randPriority, randNumber);
+                }
+                SimpleTest::startStopwatch();
+                queueTest->peek();
+                SimpleTest::stopStopwatch();
+                peekTime += SimpleTest::getElapsedTime();
+                fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(SimpleTest::getElapsedTime().count()));
+            }
+        }
+        else {
+            logInfo("Wrong operation type");
+        }
+        fileLogConsumer->log("----------------------------------");
+        fileLogConsumer->log("----------------------------------");
+        if (operation == 1) {
+            fileLogConsumer->log("Priemerný èas push: ;" + std::to_string(pushTime.count() / (currentSize / increaseSizeBy)) + ";mikrosekúnd");
+        }
+        else if (operation == 2) {
+            fileLogConsumer->log("Priemerný èas pop: ;" + std::to_string(popTime.count() / (currentSize / increaseSizeBy)) + ";mikrosekúnd");
+        }
+        else {
+            fileLogConsumer->log("Priemerný èas peek: ;" + std::to_string(peekTime.count() / (currentSize / increaseSizeBy)) + " ;mikrosekúnd");
+        }
+        fileLogConsumer->log("Celkový èas: ;" + std::to_string(pushTime.count() + popTime.count() + peekTime.count()));
+        
+        delete fileLogConsumer;
+        delete queueTest;
+
+        
+
     }
 
     TimeComplexityTests::TimeComplexityTests(std::string name) :
@@ -361,7 +472,7 @@ namespace tests
 
     void HeapPushComplexity::test()
     {
-
+        complexityTest(1, 1, "zadanie3_uloha3/Heap_push.csv");
         SimpleTest::assertTrue(1 == 1, "End of time complexity heap push.");
     }
 
@@ -372,6 +483,7 @@ namespace tests
 
     void HeapPopComplexity::test()
     {
+        complexityTest(1, 2, "zadanie3_uloha3/Heap_pop.csv");
         SimpleTest::assertTrue(1 == 1, "End of time complexity heap pop.");
     }
 
@@ -382,6 +494,7 @@ namespace tests
 
     void HeapPeekComplexity::test()
     {
+        complexityTest(1, 3, "zadanie3_uloha3/Heap_peek.csv");
         SimpleTest::assertTrue(1 == 1, "End of time complexity heap peek.");
     }
     ////////
@@ -403,6 +516,7 @@ namespace tests
 
     void PriorityQueueTwoListPushComplexity::test()
     {
+        complexityTest(2, 1, "zadanie3_uloha3/PriorityQueueTwoList_push.csv");
         SimpleTest::assertTrue(1 == 1, "End of time complexity PriorityQueueTwoList push.");
     }
 
@@ -413,6 +527,7 @@ namespace tests
 
     void PriorityQueueTwoListPopComplexity::test()
     {
+        complexityTest(2, 2, "zadanie3_uloha3/PriorityQueueTwoList_pop.csv");
         SimpleTest::assertTrue(1 == 1, "End of time complexity PriorityQueueTwoList pop.");
     }
 
@@ -423,6 +538,7 @@ namespace tests
 
     void PriorityQueueTwoListPeekComplexity::test()
     {
+        complexityTest(2, 3, "zadanie3_uloha3/PriorityQueueTwoList_peek.csv");
         SimpleTest::assertTrue(1 == 1, "End of time complexity PriorityQueueTwoList peek.");
     }
 

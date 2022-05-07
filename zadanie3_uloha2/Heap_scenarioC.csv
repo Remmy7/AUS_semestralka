@@ -5,11 +5,11 @@ Peek [%]:;		5
 èas[ms];typ_operácie
 ----------------------------------
 ----------------------------------
-Dokopy èas push: ;1733848;mikrosekúnd
-Dokopy èas pop: ;750187;mikrosekúnd
-Dokopy èas peek: ;18415 ;mikrosekúnd
-Priemerný èas push: ;24;mikrosekúnd
-Priemerný èas pop: ;30;mikrosekúnd
+Dokopy èas push: ;1612579;mikrosekúnd
+Dokopy èas pop: ;668294;mikrosekúnd
+Dokopy èas peek: ;15988 ;mikrosekúnd
+Priemerný èas push: ;23;mikrosekúnd
+Priemerný èas pop: ;26;mikrosekúnd
 Priemerný èas peek: ;3 ;mikrosekúnd
-Celkový èas: ;2502450
+Celkový èas: ;2296861
 ----------------------------------

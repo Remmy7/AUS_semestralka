@@ -247,7 +247,7 @@ namespace tests
         : public SimpleTest
     {
     public:
-        void complexityTest(int type, int operation);
+        void complexityTest(int type, int operation, std::string filePath);
         TimeComplexityTests(std::string name);
     protected:
         virtual structures::PriorityQueue<int>* makeQueueType(int type);
