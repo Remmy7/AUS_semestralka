@@ -75,7 +75,7 @@ namespace structures
 	template<typename T>
 	void Heap<T>::push(int priority, const T& data)
 	{
-		PriorityQueueList<T>::list_->add(new PriorityQueueItem<T>(priority, data));
+		this->list_->add(new PriorityQueueItem<T>(priority, data));
 
 		int indexCurrent = PriorityQueueList<T>::size() - 1;
 		int indexParent = getParentIndex(indexCurrent);
@@ -95,25 +95,22 @@ namespace structures
 	template<typename T>
 	T Heap<T>::pop()
 	{
-		PriorityQueueItem<T>* item = (*this->list_)[0];
-		(*this->list_)[0] = (*this->list_)[this->list_->size() - 1];
-		(*this->list_)[this->list_->size() - 1] = item;
-		this->list_->removeAt(this->list_->size() - 1);
+		int indexBest = this->indexOfPeek();
+		int indexLast = this->list_->size() - 1;
+		if (indexBest != indexLast) {
+			Utils::swap((*this->list_)[indexBest], (*this->list_)[indexLast]);
+		}
+		PriorityQueueItem<T>* item = this->list_->removeAt(indexLast);
 
 		int indexCurrent = 0;
 		int indexSon = getGreaterSonIndex(indexCurrent);
-		while (indexSon != -1 && (*this->list_)[indexCurrent]->getPriority() > (*this->list_)[indexSon]->getPriority())
-		{
-			PriorityQueueItem<T>* tempItem = (*this->list_)[indexCurrent];
-
-			(*this->list_)[indexCurrent] = (*this->list_)[indexSon];
-
-			(*this->list_)[indexSon] = tempItem;
-
+		while (indexSon != -1
+			&& PriorityQueueList<T>::list_->at(indexCurrent)->getPriority() > 
+			PriorityQueueList<T>::list_->at(indexSon)->getPriority()) {
+			Utils::swap((*this->list_)[indexCurrent], (*this->list_)[indexSon]);
 			indexCurrent = indexSon;
 			indexSon = getGreaterSonIndex(indexCurrent);
 		}
-
 		T result = item->accessData();
 		delete item;
 		return result;

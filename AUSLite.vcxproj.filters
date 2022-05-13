@@ -123,9 +123,6 @@
     <ClCompile Include="tests\table\table_test.cpp">
       <Filter>tests\table</Filter>
     </ClCompile>
-    <ClCompile Include="structures\table\sorting\sort.cpp">
-      <Filter>structures\table\sorting</Filter>
-    </ClCompile>
     <ClCompile Include="tests\tree\tree_test.cpp">
       <Filter>tests\tree</Filter>
     </ClCompile>
@@ -137,6 +134,9 @@
     </ClCompile>
     <ClCompile Include="structures\_logger\file_log_consumer.cpp">
       <Filter>structures\_logger</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\table\sorting_test.cpp">
+      <Filter>tests\table</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +337,9 @@
     </ClInclude>
     <ClInclude Include="structures\queue\queue.h">
       <Filter>structures\queue</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\table\sorting_test.h">
+      <Filter>tests\table</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -251,9 +251,12 @@ namespace structures
 	template<typename T>
 	inline T ArrayList<T>::removeAt(int index)
 	{
-		T temp = at(index);
-		if (index != size_ - 1) {
-			Array<T>::copy(*array_, index + 1, *array_, index, size_ - index - 1);
+		T temp = array_->at(index);
+		if (index == 0) {
+			Array<T>::copy(*array_, index + 1, *array_, index, size_ - 1);
+		}
+		else {
+			Array<T>::copy(*array_, index, *array_, index - 1, size_ - index - 1);
 		}
 		size_--;
 		return temp;
@@ -262,7 +265,7 @@ namespace structures
 	template<typename T>
 	inline int ArrayList<T>::getIndexOf(const T& data)
 	{
-		for (int i = 0; i < size_; i++) {
+		for (int i = 0; i < size_ - 1; i++) {
 			if (array_->at(i) == data) {
 				return i;
 			}

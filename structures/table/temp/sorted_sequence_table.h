@@ -20,11 +20,6 @@ namespace structures
 		/// <param name = "other"> SortedSequenceTable, z ktorej sa prevezmu vlastnosti. </param>
 		SortedSequenceTable(SortedSequenceTable<K, T>& other);
 
-		/// <summary> Priradenie struktury. </summary>
-		/// <param name = "other"> Struktura, z ktorej ma prebrat vlastnosti. </param>
-		/// <returns> Adresa, na ktorej sa struktura nachadza. </returns>
-		Structure& assign(Structure& other) override;
-
 		/// <summary> Porovnanie struktur. </summary>
 		/// <param name="other">Struktura, s ktorou sa ma tato struktura porovnat. </param>
 		/// <returns>True ak su struktury zhodne typom aj obsahom. </returns>
@@ -66,68 +61,29 @@ namespace structures
 	}
 
 	template<typename K, typename T>
-	inline Structure& SortedSequenceTable<K, T>::assign(Structure& other)
-	{
-		return SequenceTable<K, T>::assignSequenceTable(dynamic_cast<SortedSequenceTable<K, T>&>(other));
-	}
-
-	template<typename K, typename T>
 	inline bool SortedSequenceTable<K, T>::equals(Structure& other)
 	{
-		return Table<K, T>::equalsTable(dynamic_cast<SortedSequenceTable<K, T>*>(&other));
+		return Table<K, T>::equals(dynamic_cast<SortedSequenceTable<K, T>*>(&other));
 	}
 
 	template<typename K, typename T>
 	inline void SortedSequenceTable<K, T>::insert(const K& key, const T& data)
 	{
-		bool found = false;
-		int index = indexOfKey(key, 0, this->size() - 1, found);
-
-		if (!found) {
-			list_->insert(new TableItem<K, T>(key, data), index);
-		}
-		else {
-			throw std::logic_error("Key already exists!");
-		}
+		//TODO 08: SortedSequenceTable
+		throw std::runtime_error("SortedSequenceTable<K, T>::insert: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline TableItem<K, T>* SortedSequenceTable<K, T>::findTableItem(const K& key)
 	{
-		bool found = false;
-		int index = indexOfKey(key, 0, this->size() - 1, found);
-
-		return found ? SequenceTable<K, T>::list_->at(index) : nullptr;
+		//TODO 08: SortedSequenceTable
+		throw std::runtime_error("SortedSequenceTable<K, T>::findTableItem: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline int SortedSequenceTable<K, T>::indexOfKey(K key, int indexStart, int indexEnd, bool& found)
 	{
-		if (indexEnd == -1) {
-			found = false;
-			return 0;
-		}
-
-		int indexMiddle = (indexStart + indexEnd) / 2;
-		K keyMiddle = SequenceTable<K, T>::list_->at(indexMiddle)->getKey();
-
-		if (key == keyMiddle) {
-			found = true;
-			return indexMiddle;
-		}
-		else {
-			if (indexStart == indexEnd) {
-				found = false;
-				return key < keyMiddle ? indexMiddle : indexMiddle + 1;
-			}
-			else {
-				if (keyMiddle < key) {
-					return indexOfKey(key, indexMiddle + 1, indexEnd, found);
-				}
-				else {
-					return indexOfKey(key, indexStart, indexMiddle - 1, found);
-				}
-			}
-		}
+		//TODO 08: SortedSequenceTable
+		throw std::runtime_error("SortedSequenceTable<K, T>::indexOfKey: Not implemented yet.");
 	}
 }

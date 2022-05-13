@@ -78,9 +78,7 @@ namespace structures
 	template<typename T>
 	PriorityQueueTwoLists<T>::~PriorityQueueTwoLists()
 	{
-		clear();
-		delete shortList_;
-		delete longList_;
+		//TODO 06: PriorityQueueTwoLists
 	}
 
 	template<typename T>
@@ -116,20 +114,19 @@ namespace structures
 	{
 		//TODO 06: PriorityQueueTwoLists
 		throw std::runtime_error("PriorityQueueTwoLists<T>::pop: Not implemented yet.");
-		/*if (shortList_.size() == 0) {
-
-		}*/
 	}
 
 	template<typename T>
 	T& PriorityQueueTwoLists<T>::peek()
 	{
+		//TODO 06: PriorityQueueTwoLists
 		throw std::runtime_error("PriorityQueueTwoLists<T>::peek: Not implemented yet.");
 	}
 
 	template<typename T>
 	int PriorityQueueTwoLists<T>::peekPriority()
 	{
-		return shortList_->minPriority();
+		//TODO 06: PriorityQueueTwoLists
+		throw std::runtime_error("PriorityQueueTwoLists<T>::peekPriority: Not implemented yet.");
 	}
 }

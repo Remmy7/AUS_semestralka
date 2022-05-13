@@ -31,9 +31,9 @@ namespace structures
 		/// <returns> Pocet prvkov v tabulke. </returns>
 		size_t size() override;
 
-		/// <summary> Priradenie struktury. </summary>
-		/// <param name = "other"> Struktura, z ktorej ma prebrat vlastnosti. </param>
-		/// <returns> Adresa, na ktorej sa struktura nachadza. </returns>
+		/// <summary> Porovnanie struktur. </summary>
+		/// <param name="other">Struktura, s ktorou sa ma tato struktura porovnat. </param>
+		/// <returns>True ak su struktury zhodne typom aj obsahom. </returns>
 		Structure& assign(Structure& other) override;
 
 		/// <summary> Porovnanie struktur. </summary>
@@ -108,7 +108,7 @@ namespace structures
 	};
 
 	template<typename K, typename T>
-	inline BinarySearchTree<K, T>::BinarySearchTree() :
+	inline BinarySearchTree<K, T>::BinarySearchTree():
 		Table<K, T>(),
 		binaryTree_(new BinaryTree<TableItem<K, T>*>()),
 		size_(0)
@@ -116,7 +116,7 @@ namespace structures
 	}
 
 	template<typename K, typename T>
-	inline BinarySearchTree<K, T>::BinarySearchTree(BinarySearchTree<K, T>& other) :
+	inline BinarySearchTree<K, T>::BinarySearchTree(BinarySearchTree<K, T>& other):
 		BinarySearchTree()
 	{
 		assign(other);
@@ -125,254 +125,104 @@ namespace structures
 	template<typename K, typename T>
 	inline BinarySearchTree<K, T>::~BinarySearchTree()
 	{
-		clear();
-		delete binaryTree_;
-		binaryTree_ = nullptr;
+		//TODO 10: BinarySearchTree
 	}
 
 	template<typename K, typename T>
 	inline size_t BinarySearchTree<K, T>::size()
 	{
-		return size_;
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::size: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline Structure& BinarySearchTree<K, T>::assign(Structure& other)
 	{
-		
-
-		if (this != &other) {
-
-			BinarySearchTree<K, T>& otherBST = dynamic_cast<BinarySearchTree<K, T>&>(other);
-
-			clear();
-
-			auto beginIterator = new Tree<TableItem<K, T>*>::PreOrderTreeIterator(otherBST.binaryTree_->getRoot());
-
-			auto endIterator = new Tree<TableItem<K, T>*>::PreOrderTreeIterator(nullptr);
-
-			while (*beginIterator != *endIterator) {
-				TableItem<K, T>* tableItem = **beginIterator;
-				insert(tableItem->getKey(), tableItem->accessData());
-
-				++*beginIterator;
-			}
-
-			delete beginIterator;
-			delete endIterator;
-			/*
-			*  nikdy nevkladaù cez for each
-			* 
-			for (auto item : *other.list_) {
-				list_add(new TableItem<K, T>*(*item));
-			}
-			*/
-
-
-			return *this;
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::assign: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline bool BinarySearchTree<K, T>::equals(Structure& other)
 	{
-		return Table<K, T>::equalsTable(dynamic_cast<BinarySearchTree<K, T>*>(&other));
+		return Table<K, T>::equals(dynamic_cast<BinarySearchTree<K, T>*>(&other));
 	}
 
 	template<typename K, typename T>
 	inline T& BinarySearchTree<K, T>::find(const K& key)
 	{
-		bool found;
-		auto node = findBSTNode(key, found);
-
-		if (found) {
-			return node->accessData()->accessData();
-		}
-		else {
-			throw std::out_of_range("No such key!");
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::find: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline void BinarySearchTree<K, T>::insert(const K& key, const T& data)
 	{
-		TableItem<K, T>* item = new TableItem<K, T>(key, data);
-		BSTTreeNode* node = new BSTTreeNode(item);
-
-		if (!tryToInsertNode(node)) {
-			delete node;
-			delete item;
-
-			throw std::logic_error("Key already exists");
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::insert: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline T BinarySearchTree<K, T>::remove(const K& key)
 	{
-		bool found = false;
-		BinaryTreeNode<TableItem<K, T>*>* nodeToRemove = findBSTNode(key, found);
-		if (found)
-		{
-			extractNode(nodeToRemove);
-			T result = nodeToRemove->accessData()->accessData();
-			delete nodeToRemove->accessData();
-			delete nodeToRemove;
-
-			size_--;
-			return result;
-		}
-		else
-		{
-			throw std::logic_error("Key not found");
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::remove: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline bool BinarySearchTree<K, T>::tryFind(const K& key, T& data)
 	{
-		bool found;
-		auto node = findBSTNode(key, found);
-
-		if (found) {
-			data = node->accessData()->accessData();
-			return true;
-		}
-		else {
-			return false;
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::tryFind: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline bool BinarySearchTree<K, T>::containsKey(const K& key)
 	{
-		bool found = false;
-		findBSTNode(key, found);
-		return found;
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::containsKey: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline void BinarySearchTree<K, T>::clear()
 	{
-		for (auto item: *binaryTree_) {
-			delete item;
-		}
-		binaryTree_->clear();
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::clear: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline Iterator<TableItem<K, T>*>* BinarySearchTree<K, T>::getBeginIterator()
 	{
-		return new BinaryTree<TableItem<K, T>*>::InOrderTreeIterator(binaryTree_->getRoot());
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::getBeginIterator: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline Iterator<TableItem<K, T>*>* BinarySearchTree<K, T>::getEndIterator()
 	{
-		return new BinaryTree<TableItem<K, T>*>::InOrderTreeIterator(nullptr);
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::getEndIterator: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
-	inline typename BinarySearchTree<K, T>::BSTTreeNode* BinarySearchTree<K, T>::findBSTNode(K key, bool& found)
+	inline typename BinarySearchTree<K,T>::BSTTreeNode* BinarySearchTree<K, T>::findBSTNode(K key, bool& found)
 	{
-		BSTTreeNode* current = dynamic_cast<BSTTreeNode*>(binaryTree_->getRoot());
-
-		BSTTreeNode result = nullptr;
-		found = false;
-
-		if (current == nullptr) {
-			return nullptr;
-		}
-		else {
-			while (key != current->accessData()->getKey()) {
-				if (key < current->accessData()->getKey()) {
-					if (current->hasLeftSon()) {
-						current = current->getLeftSon();
-					}
-					else {
-						return current;
-					}
-					if (current->hasRightSon()) {
-						current = current->getRightSon();
-					}
-					else {
-						return current;
-					}
-				}
-			}
-
-			found = true;
-			return current;
-		}
-
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::findBSTNode: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline bool BinarySearchTree<K, T>::tryToInsertNode(BSTTreeNode* node)
 	{
-		bool found = false;
-		auto parent = findBSTNode(node->accessData()->getKey(), found);
-
-		if (!found) {
-			if (parent == nullptr) {
-				binaryTree_->replaceRoot(node);
-			}
-			else {
-				if (node->accessData()->getKey() < parent->accessData()->getKey()) {
-					parent->setLeftSon(node);
-				}
-				else {
-					parent->setRightSon(node);
-				}
-			}
-
-			size_++;
-
-			return true;
-		}
-		else {
-			return false;
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::tryToInsertNode: Not implemented yet.");
 	}
 
 	template<typename K, typename T>
 	inline void BinarySearchTree<K, T>::extractNode(BSTTreeNode* node)
 	{
-		BSTTreeNode* parent = node->getParent();
-		BSTTreeNode* replaceNode = nullptr;
-		switch (node->numberOfSons())
-		{
-		case 1:
-			replaceNode = node->hasLeftSon() ? node->changeLeftSon(nullptr) : node->changeRightSon(nullptr);
-			break;
-		case 2:
-			replaceNode = node->getRightSon();
-			while (replaceNode->hasLeftSon())
-			{
-				replaceNode = replaceNode->getLeftSon();
-			}
-			extractNode(replaceNode);
-			replaceNode->setLeftSon(node->changeLeftSon(nullptr));
-			replaceNode->setRightSon(node->changeRightSon(nullptr));
-		}
-		if (parent == nullptr)
-		{
-			binaryTree_->replaceRoot(replaceNode);
-		}
-		else
-		{
-			if (node->isLeftSon())
-			{
-				parent->setLeftSon(replaceNode);
-			}
-			else {
-				parent->setRightSon(replaceNode);
-			}
-		}
-		if (replaceNode != nullptr)
-		{
-			replaceNode->setParent(parent);
-		}
+		//TODO 10: BinarySearchTree
+		throw std::runtime_error("BinarySearchTree<K, T>::extractNode: Not implemented yet.");
 	}
 
 }

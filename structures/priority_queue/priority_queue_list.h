@@ -85,21 +85,25 @@ namespace structures
     template<typename T>
     inline void PriorityQueueList<T>::clear()
     {
-        for (auto item: *list_) {
+        for (PriorityQueueItem<T>* item : *(list_))
+        {
             delete item;
         }
+
         list_->clear();
     }
 
     template<typename T>
     inline int PriorityQueueList<T>::indexOfPeek()
     {
-        //vracia index prvku s najvyššou prioritou (najmenšie èíslo)
+        if (list_->size() == 0) {
+            throw std::logic_error("Priority Queue is empty! IndexOfPeek cannot be called.");
+        }
         int prioritaNaj = INT_MAX;
-        int indexNaj = -1;
+        int indexNaj = 0;
         int index = 0;
 
-        for (auto item : *list_) {
+        for (PriorityQueueItem<T>* item : *list_) {
             if (item->getPriority() < prioritaNaj) {
                 prioritaNaj = item->getPriority();
                 indexNaj = index;
@@ -124,16 +128,10 @@ namespace structures
     template<typename T>
     inline T PriorityQueueList<T>::pop()
     {
-        int index = indexOfPeek();
-        if (index != -1) {
-            PriorityQueueItem<T>* item = PriorityQueueList<T>::list_->removeAt(index);
-            T data = item->accessData();
-            delete item;
-            return data;
-        }
-        else {
-            throw std::logic_error("Priority queue is empty! pop");
-        }
+        PriorityQueueItem<T>* prvok = list_->removeAt(indexOfPeek());
+        T data = prvok->accessData();
+        delete prvok;
+        return data;
     }
 
     template<typename T>

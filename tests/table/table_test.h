@@ -149,4 +149,140 @@ namespace tests
 	public:
 		TableTestOverall();
 	};
+
+
+	////////////////////////////
+	/////////////DZ4////////////
+	////////////////////////////
+
+	class ScenarioTest
+		: public SimpleTest
+	{
+	public:
+		void scenarioTest(int type, int scenario, std::string filePath);
+		ScenarioTest(std::string name);
+	};
+
+	class PriorityQueueScenarios
+		: public ComplexTest
+	{
+	public:
+		PriorityQueueScenarios();
+	};
+
+	////////////////////////////////
+	//////Sorted sequence table/////
+	////////////////////////////////
+
+	class SortedSequenceTableScenarios
+		: public ComplexTest
+	{
+		SortedSequenceTableScenarios();
+	};
+	/////////////////////////////////
+	/////////unit testy//////////////
+	/////////////////////////////////
+	class SSTCopyConstr
+		: public SimpleTest
+	{
+		SSTCopyConstr();
+		void test() override;
+	};
+
+	class SSTAssign
+		: public SimpleTest
+	{
+		SSTAssign();
+		void test() override;
+	};
+	class SSTEquals
+		: public SimpleTest
+	{
+		SSTEquals();
+		void test() override;
+	};
+	class SSTInsert
+		: public SimpleTest
+	{
+		SSTInsert();
+		void test() override;
+	};
+	class SSTFindTableItem
+		: public SimpleTest
+	{
+		SSTFindTableItem();
+		void test() override;
+	};
+	class SSTFindTableItem
+		: public SimpleTest
+	{
+		SSTFindTableItem();
+		void test() override;
+	};
+
+
+
+	/////////////////////////////////
+	////////scenáre//////////////////
+	/////////////////////////////////
+
+
+	class SSTScenarioA
+		: public ScenarioTest
+	{
+	public:
+		SSTScenarioA();
+		void test() override;
+	};
+	class SSTScenarioB
+		: public ScenarioTest
+	{
+	public:
+		SSTScenarioB();
+		void test() override;
+	};
+	class SSTScenarioC
+		: public ScenarioTest
+	{
+	public:
+		SSTScenarioC();
+		void test() override;
+	};
+
+	///////////////////////////////
+	//////Binary search tree///////
+	///////////////////////////////
+
+	class BinarySearchTreeScenarios
+		: public ComplexTest
+	{
+		BinarySearchTreeScenarios();
+	};
+
+	class BSTScenarioA
+		: public ScenarioTest
+	{
+	public:
+		BSTScenarioA();
+		void test() override;
+	};
+	class BSTScenarioB
+		: public ScenarioTest
+	{
+	public:
+		BSTScenarioB();
+		void test() override;
+	};
+	class BSTScenarioC
+		: public ScenarioTest
+	{
+	public:
+		BSTScenarioC();
+		void test() override;
+	};
+
+	//////////////////////////////////
+	/////Time complexity scenarios////
+	//////////////////////////////////
+
 }

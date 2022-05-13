@@ -13,6 +13,7 @@
 #include "../tests/table/table_test.h"
 #include "../tests/stdvector/stdvector_test.h"
 #include "../tests/matrix/matrix_test.h"
+#include "../tests/table/sorting_test.h"
 #include <algorithm>
 #include <vector>
 
@@ -39,7 +40,7 @@ void main(array<String^>^)
 	//tests.emplace_back(new tests::Uloha3Scenarios());
 
 	// Zadanie 3
-	tests.emplace_back(new tests::PriorityQueueScenarios());
+	//tests.emplace_back(new tests::PriorityQueueScenarios());
 
 	// 01: Vector
 	//tests.emplace_back(new tests::VectorTestOverall());
@@ -63,7 +64,9 @@ void main(array<String^>^)
 	//tests.emplace_back(new tests::TreeTestOverall());
 
 	// TODO 08: Table
-	//tests.emplace_back(new tests::TableTestOverall());
+	
+	tests.emplace_back(new tests::TableTestOverall());
+	tests.emplace_back(new tests::SortsTest());
 
 	
 

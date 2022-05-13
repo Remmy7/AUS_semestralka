@@ -81,24 +81,41 @@ namespace structures
     void PriorityQueueLimitedSortedArrayList<T>::push(int priority, const T& data)
     {
         if (list_->size() == capacity_) {
-            throw std::logic_error("ArrayList capacity is not big enough!" + std::to_string(list_->size()) + " " + std::to_string(capacity_));
+            throw std::logic_error("LimitedList is full! push");
+        } 
+        if (list_->size() < capacity_) {
+            PriorityQueueItem<T>* item = new PriorityQueueItem<T>(priority, data);
+            int leftIndex = 0;
+            int rightIndex = list_->size();
+
+            while (leftIndex < rightIndex) {
+                int middleIndex = leftIndex + ((rightIndex - leftIndex) / 2);
+                if (item->getPriority() < list_->at(middleIndex)->getPriority()) {
+                    leftIndex = middleIndex + 1;
+                }
+                if (item->getPriority() >= list_->at(middleIndex)->getPriority()) {
+                    rightIndex = middleIndex;
+                }
+            }
+            list_->insert(item, leftIndex);
+            
         }
         else {
-            PriorityQueueSortedArrayList::push(priority, data);
+            throw std::logic_error("PriorityQueueLimitedSortedArrayList is full!");
         }
     }
 
     template<typename T>
     inline PriorityQueueItem<T>* PriorityQueueLimitedSortedArrayList<T>::pushAndRemove(int priority, T data)
     {
-        PriorityQueueItem<T>* itemToDelete;
-        if (list_->size() == capacity_) {
-            itemToDelete = list_->removeAt(0);
-            PriorityQueueSortedArrayList::push(priority, data);
-            return itemToDelete;
+        int size = list_->size();
+        if (size >= capacity_) {
+            auto item = list_->removeAt(0);
+            push(priority, data);
+            return item;
         }
-        else {
-            PriorityQueueSortedArrayList::push(priority, data);
+        if (size < capacity_) {
+            push(priority, data);
             return nullptr;
         }
     }
@@ -106,17 +123,13 @@ namespace structures
     template<typename T>
     inline int PriorityQueueLimitedSortedArrayList<T>::minPriority()
     {
-        if (list_->size() == 0) {
-            throw std::logic_error("List is empty!");
-        }
-        return list_->at(0)->getPriority();
+        return (*PriorityQueueList<T>::list_)[0]->getPriority();
     }
 
     template<typename T>
     inline bool PriorityQueueLimitedSortedArrayList<T>::trySetCapacity(size_t capacity)
     {
-        if (list_->size() < capacity)
-        {
+        if (capacity >= PriorityQueueList<T>::list_->size()) {
             capacity_ = capacity;
             return true;
         }

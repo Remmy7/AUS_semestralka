@@ -55,30 +55,18 @@ namespace structures
 	template<typename T>
 	void PriorityQueueUnsortedArrayList<T>::push(int priority, const T& data)
 	{
-		PriorityQueueList<T>::list_->add(new PriorityQueueItem<T>(priority, data));
+		list_->add(new PriorityQueueItem<T>(priority, data));
 	}
 
 	template<typename T>
 	inline T PriorityQueueUnsortedArrayList<T>::pop()
 	{
-		int index = PriorityQueueList<T>::indexOfPeek();
-		if (index != -1) {
-			int indexLast = PriorityQueueList<T>::list_->size() - 1;
-			
-			if (index != indexLast) {
-				Utils::swap(
-					PriorityQueueList<T>::list_->at(index),
-					PriorityQueueList<T>::list_->at(indexLast)
-				);
-			}
-			
-			PriorityQueueItem<T>* item = PriorityQueueList<T>::list_->removeAt(indexLast);
-			T data = item->accessData();
-			delete item;
-			return data;
-		}
-		else {
-			throw std::logic_error("Priority queue is empty!");
-		}
+		int index = indexOfPeek();
+		PriorityQueueItem<T>* item = (*list_)[index];
+		(*list_)[index] = (*list_)[static_cast<int>(size()) - 1];
+		list_->removeAt(static_cast<int>(size()) - 1);
+		T data = item->accessData();
+		delete item;
+		return data;
 	}
 }

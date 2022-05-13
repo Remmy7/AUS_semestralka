@@ -17,11 +17,14 @@ namespace tests
     {
         int x = 0;
         structures::PriorityQueue<int>* queue = this->makePriorityQueue();
+        structures::PriorityQueue<int>* queue2 = this->makePriorityQueue();
         queue->push(0, x);
         queue->peek();
         queue->peekPriority();
         queue->pop();
         queue->assign(*queue);
+
+        queue->assign(*queue2);
 
         for (int i = 0; i < 100; i++) {
             queue->push(i, x);
@@ -30,6 +33,7 @@ namespace tests
         //TODO TESTS
 
         delete queue;
+        delete queue2;
         this->logPass("Compiled.");
 
         
@@ -177,18 +181,18 @@ namespace tests
             int randChance = rand() % 100;
             if (randChance < push && pushCount != 0) {
                 pushCount--;
-                int randNumber = rand() % 100000;
-                int randPriority = rand() % 100000;
+                int randNumber = (rand() * rand()) % 100000;
+                int randPriority = (rand() * rand()) % 100000;
                 SimpleTest::startStopwatch();
                 queueTest->push(randPriority, randNumber);
                 SimpleTest::stopStopwatch();
                 pushTime += SimpleTest::getElapsedTime();
-                //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";push");
+                fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";push");
             }
             else if (randChance < push + pop && popCount != 0) {
                 if (queueTest->size() == 0) {
-                    int randNumber = rand() % 100000;
-                    int randPriority = rand() % 100000;
+                    int randNumber = (rand() * rand()) % 100000;
+                    int randPriority = (rand() * rand()) % 100000;
                     queueTest->push(randPriority, randNumber);
                 }
                 popCount--;
@@ -196,12 +200,12 @@ namespace tests
                 queueTest->pop();
                 SimpleTest::stopStopwatch();
                 popTime += SimpleTest::getElapsedTime();
-                //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";pop");                           
+                fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";pop");                           
             }
             else if (randChance < push + pop + peek && peekCount != 0) {
                 if (queueTest->size() == 0) {
-                    int randNumber = rand() % 100000;
-                    int randPriority = rand() % 100000;
+                    int randNumber = (rand() * rand()) % 100000;
+                    int randPriority = (rand() * rand()) % 100000;
                     queueTest->push(randPriority, randNumber);
                 }
                 peekCount--;
@@ -209,7 +213,7 @@ namespace tests
                 queueTest->peek();
                 SimpleTest::stopStopwatch();
                 peekTime += SimpleTest::getElapsedTime();
-                //fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";peek");
+                fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";peek");
                 /*if (queueTest->size() == 1) {
                     queueTest->pop();
                 }*/
@@ -337,9 +341,10 @@ namespace tests
     void TimeComplexityTests::complexityTest(int type, int operation, std::string filePath)
     {
         structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
-        int maxCount = 10000;
+        int maxCount = 100000;
         int currentSize = 0;
         int increaseSizeBy = 100;
+        int operationCount = 100;
         std::string queueType = "";
         if (type == 1) {
             queueType = "Heap";
@@ -351,8 +356,8 @@ namespace tests
             SimpleTest::logInfo("Wrong type.");
             return;
         }
-        structures::PriorityQueue<int>* queueTest = this->makeQueueType(type);
-
+        //structures::PriorityQueue<int>* queueTest = this->makeQueueType(type);
+        structures::PriorityQueue<int>* queueTest;
         srand(time(NULL));
         DurationType pushTime = tests::DurationType::zero();
         DurationType popTime = tests::DurationType::zero();
@@ -362,79 +367,90 @@ namespace tests
         fileLogConsumer->log(queueType + " ;operation: " + std::to_string(operation));
         fileLogConsumer->log("poèet prvkov;èas[ms]");
 
-
-        if (operation == 1) {
-            while (currentSize < maxCount) {
-                currentSize += increaseSizeBy;
-                for (int i = 0; i < increaseSizeBy; i++) {
-                    int randNumber = rand() % 100000;
-                    int randPriority = rand() % 100000;
-                    queueTest->push(randPriority, randNumber);
+        for (int i = 0; i < 10; i++) {
+            currentSize = 0;
+            structures::PriorityQueue<int>* queueTest = this->makeQueueType(type);
+            if (operation == 1) {
+                while (currentSize < maxCount) {
+                    currentSize += increaseSizeBy;
+                    for (int i = 0; i < increaseSizeBy; i++) {
+                        int randNumber = (rand() * rand()) % 100000;
+                        int randPriority = (rand() * rand()) % 100000;
+                        queueTest->push(randPriority, randNumber);
+                    }
+                    for (int i = 0; i < operationCount; i++) {
+                        int randNumber = (rand() * rand()) % 100000;
+                        int randPriority = (rand() * rand()) % 100000;
+                        SimpleTest::startStopwatch();
+                        queueTest->push(randPriority, randNumber);
+                        SimpleTest::stopStopwatch();
+                        pushTime += SimpleTest::getElapsedTime();
+                        queueTest->pop();
+                    }
+                    fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(pushTime.count()));
+                    pushTime = tests::DurationType::zero();                   
                 }
-                int randNumber = rand() % 100000;
-                int randPriority = rand() % 100000;
-                SimpleTest::startStopwatch();
-                queueTest->push(randPriority, randNumber);
-                SimpleTest::stopStopwatch();
-                pushTime += SimpleTest::getElapsedTime();
-                fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(SimpleTest::getElapsedTime().count()));
-                queueTest->pop();
             }
-        }
-        else if (operation == 2) {
-            while (currentSize < maxCount) {
-                currentSize += increaseSizeBy;
-                for (int i = 0; i < increaseSizeBy; i++) {
-                    int randNumber = rand() % 100000;
-                    int randPriority = rand() % 100000;
-                    queueTest->push(randPriority, randNumber);
+            else if (operation == 2) {
+                while (currentSize < maxCount) {
+                    currentSize += increaseSizeBy;
+                    for (int i = 0; i < increaseSizeBy; i++) {
+                        int randNumber = (rand() * rand()) % 100000;
+                        int randPriority = (rand() * rand()) % 100000;
+                        queueTest->push(randPriority, randNumber);
+                    }
+                    for (int i = 0; i < operationCount; i++) {
+                        SimpleTest::startStopwatch();
+                        queueTest->pop();
+                        SimpleTest::stopStopwatch();
+                        popTime += SimpleTest::getElapsedTime();                       
+                        int randNumber = (rand() * rand()) % 100000;
+                        int randPriority = (rand() * rand()) % 100000;
+                        queueTest->push(randPriority, randNumber);
+                    }
+                    fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(popTime.count()));
+                    popTime = tests::DurationType::zero();                
                 }
-                SimpleTest::startStopwatch();
-                queueTest->pop();
-                SimpleTest::stopStopwatch();
-                popTime += SimpleTest::getElapsedTime();
-                fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(SimpleTest::getElapsedTime().count()));
-                int randNumber = rand() % 100000;
-                int randPriority = rand() % 100000;
-                queueTest->push(randPriority, randNumber);
             }
-        }
-        else if (operation == 3) {
-            while (currentSize < maxCount) {
-                currentSize += increaseSizeBy;
-                for (int i = 0; i < increaseSizeBy; i++) {
-                    int randNumber = rand() % 100000;
-                    int randPriority = rand() % 100000;
-                    queueTest->push(randPriority, randNumber);
+            else if (operation == 3) {
+                while (currentSize < maxCount) {
+                    currentSize += increaseSizeBy;
+                    for (int i = 0; i < increaseSizeBy; i++) {
+                        int randNumber = (rand() * rand()) % 100000;
+                        int randPriority = (rand() * rand()) % 100000;
+                        queueTest->push(randPriority, randNumber);
+                    }
+                    for (int i = 0; i < operationCount; i++) {
+                        SimpleTest::startStopwatch();
+                        queueTest->peek();
+                        SimpleTest::stopStopwatch();
+                        peekTime += SimpleTest::getElapsedTime();
+                    }
+                    fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(peekTime.count()));
+                    peekTime = tests::DurationType::zero();
                 }
-                SimpleTest::startStopwatch();
-                queueTest->peek();
-                SimpleTest::stopStopwatch();
-                peekTime += SimpleTest::getElapsedTime();
-                fileLogConsumer->log(std::to_string(currentSize) + ";" + std::to_string(SimpleTest::getElapsedTime().count()));
             }
-        }
-        else {
-            logInfo("Wrong operation type");
+            else {
+                logInfo("Wrong operation type");
+            }
+            queueTest->clear();
+            delete queueTest;
         }
         fileLogConsumer->log("----------------------------------");
         fileLogConsumer->log("----------------------------------");
         if (operation == 1) {
-            fileLogConsumer->log("Priemerný èas push: ;" + std::to_string(pushTime.count() / (currentSize / increaseSizeBy)) + ";mikrosekúnd");
+            fileLogConsumer->log("Priemerný èas push: ;" + std::to_string(pushTime.count() / ((currentSize / increaseSizeBy) * 10)) + ";mikrosekúnd");
         }
         else if (operation == 2) {
-            fileLogConsumer->log("Priemerný èas pop: ;" + std::to_string(popTime.count() / (currentSize / increaseSizeBy)) + ";mikrosekúnd");
+            fileLogConsumer->log("Priemerný èas pop: ;" + std::to_string(popTime.count() / ((currentSize / increaseSizeBy) *10 )) + ";mikrosekúnd");
         }
         else {
-            fileLogConsumer->log("Priemerný èas peek: ;" + std::to_string(peekTime.count() / (currentSize / increaseSizeBy)) + " ;mikrosekúnd");
+            fileLogConsumer->log("Priemerný èas peek: ;" + std::to_string(peekTime.count() / ((currentSize / increaseSizeBy) * 10)) + " ;mikrosekúnd");
         }
         fileLogConsumer->log("Celkový èas: ;" + std::to_string(pushTime.count() + popTime.count() + peekTime.count()));
         
         delete fileLogConsumer;
-        delete queueTest;
-
-        
-
+        //delete queueTest;
     }
 
     TimeComplexityTests::TimeComplexityTests(std::string name) :
