@@ -2,6 +2,7 @@
 
 #include "../test.h"
 #include "../../structures/table/table.h"
+#include "../../structures/_logger/file_log_consumer.h"
 
 namespace tests
 {
@@ -155,94 +156,171 @@ namespace tests
 	/////////////DZ4////////////
 	////////////////////////////
 
-	class ScenarioTest
+	class ScenarioTestDZ4
 		: public SimpleTest
 	{
 	public:
-		void scenarioTest(int type, int scenario, std::string filePath);
-		ScenarioTest(std::string name);
+		void scenarioTestDZ4(int type, int scenario, std::string filePath);
+		ScenarioTestDZ4(std::string name);
 	};
-
-	class PriorityQueueScenarios
-		: public ComplexTest
-	{
-	public:
-		PriorityQueueScenarios();
-	};
-
-	////////////////////////////////
-	//////Sorted sequence table/////
-	////////////////////////////////
 
 	class SortedSequenceTableScenarios
 		: public ComplexTest
 	{
+	public:
 		SortedSequenceTableScenarios();
 	};
+
+	class BinarySearchTreeScenarios
+		: public ComplexTest
+	{
+	public:
+		BinarySearchTreeScenarios();
+	};
+
+
 	/////////////////////////////////
 	/////////unit testy//////////////
 	/////////////////////////////////
 	class SSTCopyConstr
-		: public SimpleTest
+		: public ScenarioTestDZ4
 	{
+	public:
 		SSTCopyConstr();
 		void test() override;
 	};
 
 	class SSTAssign
-		: public SimpleTest
+		: public ScenarioTestDZ4
 	{
+	public:
 		SSTAssign();
 		void test() override;
 	};
 	class SSTEquals
-		: public SimpleTest
+		: public ScenarioTestDZ4
 	{
+	public:
 		SSTEquals();
 		void test() override;
 	};
 	class SSTInsert
-		: public SimpleTest
+		: public ScenarioTestDZ4
 	{
+	public:
 		SSTInsert();
 		void test() override;
 	};
-	class SSTFindTableItem
-		: public SimpleTest
+	class SSTFind
+		: public ScenarioTestDZ4
 	{
-		SSTFindTableItem();
+	public:
+		SSTFind();
 		void test() override;
 	};
-	class SSTFindTableItem
-		: public SimpleTest
+	class SSTRemove
+		: public ScenarioTestDZ4
 	{
-		SSTFindTableItem();
+	public:
+		SSTRemove();
+		void test() override;
+	};
+	class SSTTryFind
+		: public ScenarioTestDZ4
+	{
+	public:
+		SSTTryFind();
+		void test() override;
+	}; 
+	class SSTContainsKey
+		: public ScenarioTestDZ4
+	{
+	public:
+		SSTContainsKey();
+		void test() override;
+	};
+	/////////////////////////////////////
+
+	class BSTCopyConstr
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTCopyConstr();
 		void test() override;
 	};
 
-
+	class BSTAssign
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTAssign();
+		void test() override;
+	};
+	class BSTEquals
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTEquals();
+		void test() override;
+	};
+	class BSTInsert
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTInsert();
+		void test() override;
+	};
+	class BSTFind
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTFind();
+		void test() override;
+	};
+	class BSTRemove
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTRemove();
+		void test() override;
+	};
+	class BSTTryFind
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTTryFind();
+		void test() override;
+	};
+	class BSTContainsKey
+		: public ScenarioTestDZ4
+	{
+	public:
+		BSTContainsKey();
+		void test() override;
+	};
 
 	/////////////////////////////////
 	////////scenáre//////////////////
+	//////Sorted sequence table//////
 	/////////////////////////////////
 
 
 	class SSTScenarioA
-		: public ScenarioTest
+		: public ScenarioTestDZ4
 	{
 	public:
 		SSTScenarioA();
 		void test() override;
 	};
 	class SSTScenarioB
-		: public ScenarioTest
+		: public ScenarioTestDZ4
 	{
 	public:
 		SSTScenarioB();
 		void test() override;
 	};
 	class SSTScenarioC
-		: public ScenarioTest
+		: public ScenarioTestDZ4
 	{
 	public:
 		SSTScenarioC();
@@ -253,28 +331,22 @@ namespace tests
 	//////Binary search tree///////
 	///////////////////////////////
 
-	class BinarySearchTreeScenarios
-		: public ComplexTest
-	{
-		BinarySearchTreeScenarios();
-	};
-
 	class BSTScenarioA
-		: public ScenarioTest
+		: public ScenarioTestDZ4
 	{
 	public:
 		BSTScenarioA();
 		void test() override;
 	};
 	class BSTScenarioB
-		: public ScenarioTest
+		: public ScenarioTestDZ4
 	{
 	public:
 		BSTScenarioB();
 		void test() override;
 	};
 	class BSTScenarioC
-		: public ScenarioTest
+		: public ScenarioTestDZ4
 	{
 	public:
 		BSTScenarioC();
@@ -284,5 +356,54 @@ namespace tests
 	//////////////////////////////////
 	/////Time complexity scenarios////
 	//////////////////////////////////
-
+	class TimeComplexityDZ4
+		: public SimpleTest
+	{
+	public:
+		void timeComplexityDZ4(int type, int scenario, std::string filePath);
+		TimeComplexityDZ4(std::string name);
+	};
+	class SSTTimeComplexityInsert
+		: public TimeComplexityDZ4
+	{
+	public:
+		SSTTimeComplexityInsert();
+		void test() override;
+	};
+	class SSTTimeComplexityRemove
+		: public TimeComplexityDZ4
+	{
+	public:
+		SSTTimeComplexityRemove();
+		void test() override;
+	};
+	class SSTTimeComplexityTryFind
+		: public TimeComplexityDZ4
+	{
+	public:
+		SSTTimeComplexityTryFind();
+		void test() override;
+	};
+	class BSTTimeComplexityInsert
+		: public TimeComplexityDZ4
+	{
+	public:
+		BSTTimeComplexityInsert();
+		void test() override;
+	};
+	class BSTTimeComplexityRemove
+		: public TimeComplexityDZ4
+	{
+	public:
+		BSTTimeComplexityRemove();
+		void test() override;
+	};
+	class BSTTimeComplexityTryFind
+		: public TimeComplexityDZ4
+	{
+	public:
+		BSTTimeComplexityTryFind();
+		void test() override;
+	};
+	
 }

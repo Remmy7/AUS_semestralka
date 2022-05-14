@@ -14,6 +14,7 @@
 #include "../tests/stdvector/stdvector_test.h"
 #include "../tests/matrix/matrix_test.h"
 #include "../tests/table/sorting_test.h"
+#include "../tests/table/table_test.h"
 #include <algorithm>
 #include <vector>
 
@@ -67,6 +68,9 @@ void main(array<String^>^)
 	
 	tests.emplace_back(new tests::TableTestOverall());
 	tests.emplace_back(new tests::SortsTest());
+
+	tests.emplace_back(new tests::SortedSequenceTableScenarios());
+	tests.emplace_back(new tests::BinarySearchTreeScenarios());
 
 	
 
