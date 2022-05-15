@@ -495,8 +495,141 @@ namespace tests
 	/// <param name="type"></param>
 	/// <param name="scenario"></param>
 	/// <param name="filePath"></param>
-	void TimeComplexityDZ4::timeComplexityDZ4(int type, int scenario, std::string filePath)
+	void TimeComplexityDZ4::timeComplexityDZ4(int type, int operation, std::string filePath)
 	{
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
+
+		int maxCount = 1000;		// maximum size
+		int startingSize = 5;		// starting size
+		int increaseSizeBy = 100;	// increasing size of table by increaseSizeBy value before operations
+		int operationCount = 100;	// how many times an operation repeats before going to next iteration
+		int replicationCount = 1;	// has to be above 0!
+
+		std::string tableType = "";
+		structures::Table<int, int>* tableTest;
+
+		if (type == 1) {
+			tableType = "SortedSequenceTable";
+			tableTest = new structures::SortedSequenceTable<int, int>;
+
+		}
+		else if (type == 2) {
+			tableType = "BinarySearchTree";
+			tableTest = new structures::BinarySearchTree<int, int>;
+		}
+		else {
+			SimpleTest::logInfo("Wrong type.");
+			return;
+		}
+
+		DurationType insertTime = tests::DurationType::zero();
+		DurationType removeTime = tests::DurationType::zero();
+		DurationType tryFindTime = tests::DurationType::zero();
+		DurationType totalTime = tests::DurationType::zero();
+
+		srand(time(NULL));
+
+		SimpleTest::logInfo(tableType + " operation: " + std::to_string(operation));
+		fileLogConsumer->log(tableType + " ;operation: " + std::to_string(operation));
+		fileLogConsumer->log("poèet prvkov;èas[ms]");
+
+		for (int i = 0; i < replicationCount; i++) {
+			if (startingSize > tableTest->size()) { // match size of table with startingSize
+				int temp = tableTest->size();
+				for (int i = 0; i < startingSize - temp; i++) {
+					int randKey = (rand() * rand()) % 100000;
+					int randValue = (rand() * rand()) % 100000;
+					tableTest->insert(randKey, randValue);
+				}
+			}
+			if (operation == 1) {
+				while (tableTest->size() < maxCount) { // while size of table is smaller than maximum
+					for (int i = 0; i < increaseSizeBy; i++) { // increase size of table by increaseSizeBy
+						int randKey = (rand() * rand()) % 100000;
+						int randValue = (rand() * rand()) % 100000;
+						tableTest->insert(randKey, randValue);
+					}
+					for (int i = 0; i < operationCount; i++) { //do operationCount of same operation, then average it
+						int randKey = (rand() * rand()) % 100000;
+						int randValue = (rand() * rand()) % 100000;
+						SimpleTest::startStopwatch();
+						tableTest->insert(randKey, randValue);
+						SimpleTest::stopStopwatch();
+						insertTime += SimpleTest::getElapsedTime();
+						tableTest->remove(randKey); // remove the item, otherwise table would be bigger than intended
+					}
+					fileLogConsumer->log(std::to_string(tableTest->size()) + ";" + std::to_string(insertTime.count()/operationCount)); // this should calculate average, needs testing TODO
+					totalTime += insertTime;
+					insertTime = tests::DurationType::zero();
+				}
+			}
+			else if (operation == 2) {
+				while (tableTest->size() < maxCount) {
+					for (int i = 0; i < increaseSizeBy; i++) {
+						int randKey = (rand() * rand()) % 100000;
+						int randValue = (rand() * rand()) % 100000;
+						tableTest->insert(randKey, randValue);
+					}
+					for (int i = 0; i < operationCount; i++) {
+						int randKey = (rand() * rand()) % 100000;
+						SimpleTest::startStopwatch();
+						tableTest->remove(randKey);
+						SimpleTest::stopStopwatch();
+						removeTime += SimpleTest::getElapsedTime();
+						int randValue = (rand() * rand()) % 100000;
+						tableTest->insert(randKey, randValue); // you removed it, so add it back duh
+					}
+					fileLogConsumer->log(std::to_string(startingSize) + ";" + std::to_string(removeTime.count()/operationCount));
+					totalTime += removeTime;
+					removeTime = tests::DurationType::zero();
+				}
+			}
+			else if (operation == 3) {
+				while (tableTest->size() < maxCount) {
+					for (int i = 0; i < increaseSizeBy; i++) {
+						int randKey = (rand() * rand()) % 100000;
+						int randValue = (rand() * rand()) % 100000;
+						tableTest->insert(randKey, randValue);
+					}
+					for (int i = 0; i < operationCount; i++) {
+						int randKey = (rand() * rand()) % 100000;
+						int randValue = (rand() * rand()) % 100000;
+						SimpleTest::startStopwatch();
+						tableTest->tryFind(randKey,randValue);
+						SimpleTest::stopStopwatch();
+						tryFindTime += SimpleTest::getElapsedTime();
+					}
+					fileLogConsumer->log(std::to_string(startingSize) + ";" + std::to_string(tryFindTime.count()/operationCount));
+					totalTime += tryFindTime;
+					tryFindTime = tests::DurationType::zero();
+				}
+			}
+			else {
+				logInfo("Wrong operation type");
+			}
+			tableTest->clear();
+		}
+
+		fileLogConsumer->log("----------------------------------");
+		fileLogConsumer->log("----------------------------------");
+		if (operation == 1) {
+			fileLogConsumer->log("Priemerný èas insert: ;" + std::to_string(totalTime.count() / 
+				(((maxCount / increaseSizeBy) - (startingSize / increaseSizeBy) * replicationCount))) + ";mikrosekúnd");
+		}
+		else if (operation == 2) {
+			fileLogConsumer->log("Priemerný èas remove: ;" + std::to_string(totalTime.count() /
+				(((maxCount / increaseSizeBy) - (startingSize / increaseSizeBy) * replicationCount))) + ";mikrosekúnd");
+		}
+		else {
+			fileLogConsumer->log("Priemerný èas tryFind: ;" + std::to_string(totalTime.count() /
+				(((maxCount / increaseSizeBy) - (startingSize / increaseSizeBy) * replicationCount))) + ";mikrosekúnd");
+		}
+		fileLogConsumer->log("Celkový èas: ;" + std::to_string(totalTime.count()));
+
+		delete fileLogConsumer;
+		delete tableTest;
+
+		SimpleTest::assertTrue(1 == 1, "Time Complexity scenario successful!");
 
 	}
 	TimeComplexityDZ4::TimeComplexityDZ4(std::string name) :
@@ -509,7 +642,7 @@ namespace tests
 	}
 	void SSTTimeComplexityInsert::test()
 	{
-		timeComplexityDZ4(1, 1, "uloha3_zadanie4/SSTInsert.csv");
+		timeComplexityDZ4(1, 1, "zadanie4_uloha3/SSTInsert.csv");
 		SimpleTest::logInfo("SSTInsert passed successfully!");
 	}
 	SSTTimeComplexityRemove::SSTTimeComplexityRemove() :
@@ -518,7 +651,7 @@ namespace tests
 	}
 	void SSTTimeComplexityRemove::test()
 	{
-		timeComplexityDZ4(1, 2, "uloha3_zadanie4/SSTRemove.csv");
+		timeComplexityDZ4(1, 2, "zadanie4_uloha3/SSTRemove.csv");
 		SimpleTest::logInfo("SSTRemove passed successfully!");
 	}
 	SSTTimeComplexityTryFind::SSTTimeComplexityTryFind() :
@@ -527,7 +660,7 @@ namespace tests
 	}
 	void SSTTimeComplexityTryFind::test()
 	{
-		timeComplexityDZ4(1, 3, "uloha3_zadanie4/SSTTryFind.csv");
+		timeComplexityDZ4(1, 3, "zadanie4_uloha3/SSTTryFind.csv");
 		SimpleTest::logInfo("SSTTryFind passed successfully!");
 	}
 	BSTTimeComplexityInsert::BSTTimeComplexityInsert() :
@@ -536,7 +669,7 @@ namespace tests
 	}
 	void BSTTimeComplexityInsert::test()
 	{
-		timeComplexityDZ4(2, 1, "uloha3_zadanie4/BSTInsert.csv");
+		timeComplexityDZ4(2, 1, "zadanie4_uloha3/BSTInsert.csv");
 		SimpleTest::logInfo("BSTInsert passed successfully!");
 	}
 	BSTTimeComplexityRemove::BSTTimeComplexityRemove() :
@@ -545,7 +678,7 @@ namespace tests
 	}
 	void BSTTimeComplexityRemove::test()
 	{
-		timeComplexityDZ4(2, 2, "uloha3_zadanie4/BSTRemove.csv");
+		timeComplexityDZ4(2, 2, "zadanie4_uloha3/BSTRemove.csv");
 		SimpleTest::logInfo("BSTRemove passed successfully!");
 	}
 	BSTTimeComplexityTryFind::BSTTimeComplexityTryFind() :
@@ -554,7 +687,7 @@ namespace tests
 	}
 	void BSTTimeComplexityTryFind::test()
 	{
-		timeComplexityDZ4(2, 3, "uloha3_zadanie4/BSTTryFind.csv");
+		timeComplexityDZ4(2, 3, "zadanie4_uloha3/BSTTryFind.csv");
 		SimpleTest::logInfo("BSTTryFind passed successfully!");
 	}
 }

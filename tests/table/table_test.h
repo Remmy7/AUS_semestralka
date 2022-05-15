@@ -348,7 +348,7 @@ namespace tests
 		: public SimpleTest
 	{
 	public:
-		void timeComplexityDZ4(int type, int scenario, std::string filePath);
+		void timeComplexityDZ4(int type, int operation, std::string filePath);
 		TimeComplexityDZ4(std::string name);
 	};
 	class SSTTimeComplexityInsert

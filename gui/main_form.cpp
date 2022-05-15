@@ -66,8 +66,8 @@ void main(array<String^>^)
 
 	// TODO 08: Table
 	
-	tests.emplace_back(new tests::TableTestOverall());
-	tests.emplace_back(new tests::SortsTest());
+	//tests.emplace_back(new tests::TableTestOverall());
+	//tests.emplace_back(new tests::SortsTest());
 
 	tests.emplace_back(new tests::SortedSequenceTableScenarios());
 	tests.emplace_back(new tests::BinarySearchTreeScenarios());
@@ -82,14 +82,14 @@ void main(array<String^>^)
 	gui::GuiLogConsumer* guiLogConsumer = new gui::GuiLogConsumer(%form);
 	structures::Logger::getInstance().registerConsumer(guiLogConsumer);
 
-	structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie3_uloha3.csv");
-	structures::Logger::getInstance().registerConsumer(fileLogConsumer);
+	//structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer("zadanie3_uloha3.csv");
+	//structures::Logger::getInstance().registerConsumer(fileLogConsumer);
 
 	WF::Application::Run(%form);
 
 	// Ak ste Vas logger alokovali dynamicky, zmazatù ho mÙûete tu:
 	delete guiLogConsumer;
-	delete fileLogConsumer;
+	//delete fileLogConsumer;
 	for (tests::Test* test : tests)
 	{
 		delete test;
