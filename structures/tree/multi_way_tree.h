@@ -80,6 +80,16 @@ namespace structures
 		/// <param name = "other"> Viaccestny strom, z ktoreho sa prevezmu vlastnosti. </param>
 		MultiWayTree(MultiWayTree<T>& other);
 
+		/// <summary> Priradenie struktury. </summary>
+		/// <param name = "other"> Struktura, z ktorej ma prebrat vlastnosti. </param>
+		/// <returns> Adresa, na ktorej sa struktura nachadza. </returns>
+		Structure& assign(Structure& other) override;
+
+		/// <summary> Porovnanie struktur. </summary>
+		/// <param name="other">Struktura, s ktorou sa ma tato struktura porovnat. </param>
+		/// <returns>True ak su struktury zhodne typom aj obsahom. </returns>
+		bool equals(Structure& other) override;
+
 		/// <summary> Vytvori a vrati instanciu vrcholu k-cestneho stromu. </summary>
 		/// <returns> Vytvorena instancia vrcholu k-cestneho stromu. </returns>
 		TreeNode<T>* createTreeNodeInstance() override;
@@ -105,56 +115,82 @@ namespace structures
 	template<typename T>
 	inline MultiWayTreeNode<T>::~MultiWayTreeNode()
 	{
-		//TODO 07: MultiWayTreeNode<T>
+		for (MultiWayTreeNode<T>* child : *children_)
+		{
+			if (child != nullptr)
+			{
+				delete child;
+			}
+		}
+		delete children_;
+		children_ = nullptr;
 	}
 
 	template<typename T>
 	inline TreeNode<T>* MultiWayTreeNode<T>::shallowCopy()
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::shallowCopy: Not implemented yet.");
+		return new MultiWayTreeNode<T>(*this);
 	}
 
 	template<typename T>
 	inline bool MultiWayTreeNode<T>::isLeaf()
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::isLeaf: Not implemented yet.");
+		return children_->size() == 0;
 	}
 
 	template<typename T>
 	inline TreeNode<T>* MultiWayTreeNode<T>::getSon(int order)
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::getSon: Not implemented yet.");
+		return children_->at(order);
 	}
 
 	template<typename T>
 	inline void MultiWayTreeNode<T>::insertSon(TreeNode<T>* son, int order)
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::insertSon: Not implemented yet.");
+		children_->insert(dynamic_cast<MultiWayTreeNode<T>*>(son), order);
+
+		if (son != nullptr)
+		{
+			son->setParent(this);
+		}
 	}
 
 	template<typename T>
 	inline TreeNode<T>* MultiWayTreeNode<T>::replaceSon(TreeNode<T>* son, int order)
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::replaceSon: Not implemented yet.");
+		MultiWayTreeNode<T>* result = children_->at(order);
+		children_->at(order) = dynamic_cast<MultiWayTreeNode<T>*>(son);
+
+		if (son != nullptr)
+		{
+			son->setParent(this);
+		}
+		if (result != nullptr)
+		{
+			result->setParent(nullptr);
+		}
+
+		return result;
 	}
 
 	template<typename T>
 	inline TreeNode<T>* MultiWayTreeNode<T>::removeSon(int order)
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::removeSon: Not implemented yet.");
+		MultiWayTreeNode<T>* result = children_->at(order);
+		children_->removeAt(order);
+
+		if (result != nullptr)
+		{
+			result->setParent(this);
+		}
+
+		return result;
 	}
 
 	template<typename T>
 	inline int MultiWayTreeNode<T>::degree()
 	{
-		//TODO 07: MultiWayTreeNode<T>
-		throw std::exception("MultiWayTreeNode<T>::degree: Not implemented yet.");
+		return static_cast<int>(children_->size());
 	}
 
 	template<typename T>
@@ -167,6 +203,18 @@ namespace structures
 	inline MultiWayTree<T>::MultiWayTree(MultiWayTree<T>& other) :
 		Tree<T>(other)
 	{
+	}
+
+	template<typename T>
+	inline Structure& MultiWayTree<T>::assign(Structure& other)
+	{
+		return Tree<T>::assignTree(dynamic_cast<MultiWayTree<T>&>(other));
+	}
+
+	template<typename T>
+	inline bool MultiWayTree<T>::equals(Structure& other)
+	{
+		return Tree<T>::equalsTree(dynamic_cast<MultiWayTree<T>*>(&other));
 	}
 
 	template<typename T>

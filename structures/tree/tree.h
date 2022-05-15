@@ -114,16 +114,6 @@ namespace structures
 		/// <summary> Destruktor. </summary>
 		~Tree();
 
-		/// <summary> Priradenie struktury. </summary>
-		/// <param name = "other"> Struktura, z ktorej ma prebrat vlastnosti. </param>
-		/// <returns> Adresa, na ktorej sa struktura nachadza. </returns>
-		Structure& assign(Structure& other) override;
-
-		/// <summary> Porovnanie struktur. </summary>
-		/// <param name="other">Struktura, s ktorou sa ma tato struktura porovnat. </param>
-		/// <returns>True ak su struktury zhodne typom aj obsahom. </returns>
-		bool equals(Structure& other) override;
-
 		/// <summary> Zisti, ci je struktura prazdna. </summary>
 		/// <returns> true, ak je struktura prazdna, false inak. </returns>
 		bool isEmpty() override;
@@ -162,6 +152,17 @@ namespace structures
 		/// <returns> Iterator na koniec struktury. </returns>
 		/// <remarks> Zabezpecuje polymorfizmus. </remarks>
 		Iterator<T>* getEndIterator() override;
+
+	protected:
+		/// <summary> Priradenie struktury. </summary>
+		/// <param name = "other"> Struktura, z ktorej ma prebrat vlastnosti. </param>
+		/// <returns> Adresa, na ktorej sa struktura nachadza. </returns>
+		Structure& assignTree(Tree<T>& other);
+
+		/// <summary> Porovnanie struktur. </summary>
+		/// <param name="other">Struktura, s ktorou sa ma tato struktura porovnat. </param>
+		/// <returns>True ak su struktury zhodne typom aj obsahom. </returns>
+		bool equalsTree(Tree<T>* other);
 
 	private:
 		/// <summary> Koren stromu. </summary>
@@ -215,7 +216,7 @@ namespace structures
 			void populatePath(TreeNode<T>* current);
 		};
 
-		class PostOrderTreeIterator: public TreeIterator
+		class PostOrderTreeIterator : public TreeIterator
 		{
 		public:
 			/// <summary> Konstruktor. </summary>
@@ -244,9 +245,11 @@ namespace structures
 	template<typename T>
 	inline TreeNode<T>* TreeNode<T>::deepCopy()
 	{
-		auto result = shallowCopy();
+		//PREORDER prehladanie
 
+		auto result = shallowCopy();
 		int pocetSpracovanychSynov = 0;
+
 		for (int i = 0; pocetSpracovanychSynov < degree(); i++) {
 			auto son = getSon(i);
 			if (son != nullptr) {
@@ -288,34 +291,37 @@ namespace structures
 			return parent_->getSon(brothersOrder);
 		}
 		else {
-			throw std::logic_error("Root has no brother!");
+			throw std::logic_error("Root has no brother");
 		}
 	}
 
 	template<typename T>
 	inline size_t TreeNode<T>::sizeOfSubtree()
 	{
- 		int result = 1;
+		// PREODER prejdenie stromu
+
+		int result = 1;
 		int pocetSpracovanychSynov = 0;
+
 		for (int i = 0; pocetSpracovanychSynov < degree(); i++) {
 			auto son = getSon(i);
 			if (son != nullptr) {
 				result += son->sizeOfSubtree();
-				pocetSpracovanychSynov++;			
+				pocetSpracovanychSynov++;
 			}
 		}
 		return result;
 	}
 
 	template<typename T>
-	inline TreeNode<T>::TreeNode(const T& data):
+	inline TreeNode<T>::TreeNode(const T& data) :
 		DataItem<T>(data),
 		parent_(nullptr)
 	{
 	}
 
 	template<typename T>
-	inline TreeNode<T>::TreeNode(TreeNode<T>& other):
+	inline TreeNode<T>::TreeNode(TreeNode<T>& other) :
 		DataItem<T>(other),
 		parent_(other.parent_)
 	{
@@ -328,43 +334,20 @@ namespace structures
 	}
 
 	template<typename T>
-	inline bool Tree<T>::equals(Structure& other)
-	{
-		//TODO 07: Tree
-		throw std::runtime_error("Tree<T>::equals: Not implemented yet.");
-		/*
-		if (other == nullptr) {
-			return false;
-		}
-
-		if (this == other) {
-			return true;
-		}
-		auto iteratorThis = this->begin();
-		auto iteratorOther = other->begin();
-		auto iteratorEnd = this->end();
-
-		while (iteratorThis != iteratorEnd) {
-			if (*iteratorThis != *iteratorOther) {
-				return false;
-			}
-			iteratorThis++;
-			iteratorOther++;
-		}
-		return !(iteratorOther != other->end());
-		*/
-	}
-
-	template<typename T>
 	inline bool Tree<T>::isEmpty()
 	{
-		return root_ == nullptr;
+		return root_ != nullptr;
 	}
 
 	template<typename T>
 	inline size_t Tree<T>::size()
 	{
-		return root_ == nullptr ? 0 : root_->sizeOfSubtree();
+		if (root_ != nullptr) {
+			return root_->sizeOfSubtree();
+		}
+		else {
+			return 0;
+		}
 	}
 
 	template<typename T>
@@ -380,7 +363,47 @@ namespace structures
 	}
 
 	template<typename T>
-	inline Tree<T>::Tree():
+	inline Structure& Tree<T>::assignTree(Tree<T>& other)
+	{
+		if (this != &other) {
+			clear();
+
+			if (other.root_ != nullptr) {
+				root_ = other.root_->deepCopy();
+			}
+		}
+
+		return *this;
+	}
+
+	template<typename T>
+	inline bool Tree<T>::equalsTree(Tree<T>* other)
+	{
+
+		if (other == nullptr) {
+			return false;
+		}
+
+		if (this == other) {
+			return true;
+		}
+
+		auto iteratorThis = this->begin();
+		auto iteratorOther = other->begin();
+		auto iteratorEnd = this->end();
+
+
+		while (iteratorThis != iteratorEnd) {
+			if (*iteratorThis != *iteratorOther) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	template<typename T>
+	inline Tree<T>::Tree() :
 		Structure(),
 		Iterable<T>(),
 		root_(nullptr)
@@ -388,25 +411,10 @@ namespace structures
 	}
 
 	template<typename T>
-	inline Tree<T>::Tree(Tree<T>& other):
+	inline Tree<T>::Tree(Tree<T>& other) :
 		Tree<T>()
 	{
-		assign(other);
-	}
-
-	template<typename T>
-	inline Structure& Tree<T>::assign(Structure& other)
-	{
-		//TODO 07: Tree<T>::assign
-		throw std::runtime_error("Tree<T>::assign: Not implemented yet.");
-		/*if (this != other) {
-			clear();
-			if (other.root_ != nullptr) {
-				root_ = other.root_->deepCopy();
-			}
-		}
-
-		return *this;*/
+		assignTree(other);
 	}
 
 	template<typename T>
@@ -414,7 +422,6 @@ namespace structures
 	{
 		delete root_;
 		root_ = nullptr;
-
 	}
 
 	template<typename T>
@@ -429,11 +436,10 @@ namespace structures
 		auto result = root_;
 		root_ = newRoot;
 		return result;
-
 	}
 
 	template<typename T>
-	inline Tree<T>::TreeIterator::TreeIterator():
+	inline Tree<T>::TreeIterator::TreeIterator() :
 		Iterator<T>(),
 		path_(new std::queue<TreeNode<T>*>())
 	{
@@ -442,39 +448,38 @@ namespace structures
 	template<typename T>
 	inline Tree<T>::TreeIterator::~TreeIterator()
 	{
-		//TODO 07: Tree<T>::TreeIterator
+		delete path_;
+		path_ = nullptr;
 	}
 
 	template<typename T>
 	inline Iterator<T>& Tree<T>::TreeIterator::operator=(Iterator<T>& other)
 	{
-		//TODO 07: Tree<T>::TreeIterator
-		throw std::runtime_error("Tree<T>::TreeIterator::operator=: Not implemented yet.");
+		*path_ = *dynamic_cast<TreeIterator&>(other).path_;
+		return *this;
 	}
 
 	template<typename T>
 	inline bool Tree<T>::TreeIterator::operator!=(Iterator<T>& other)
 	{
-		//TODO 07: Tree<T>::TreeIterator
-		throw std::runtime_error("Tree<T>::TreeIterator::operator!=: Not implemented yet.");
+		return 	*path_ != *dynamic_cast<TreeIterator&>(other).path_;
 	}
 
 	template<typename T>
 	inline T Tree<T>::TreeIterator::operator*()
 	{
-		//TODO 07: Tree<T>::TreeIterator
-		throw std::runtime_error("Tree<T>::TreeIterator::operator*: Not implemented yet.");
+		return path_->front()->accessData();
 	}
 
 	template<typename T>
 	inline Iterator<T>& Tree<T>::TreeIterator::operator++()
 	{
-		//TODO 07: Tree<T>::TreeIterator
-		throw std::runtime_error("Tree<T>::TreeIterator::operator++: Not implemented yet.");
+		path_->pop();
+		return *this;
 	}
 
 	template<typename T>
-	inline Tree<T>::PreOrderTreeIterator::PreOrderTreeIterator(TreeNode<T>* startNode):
+	inline Tree<T>::PreOrderTreeIterator::PreOrderTreeIterator(TreeNode<T>* startNode) :
 		TreeIterator()
 	{
 		populatePath(startNode);
@@ -483,15 +488,46 @@ namespace structures
 	template<typename T>
 	inline void Tree<T>::PreOrderTreeIterator::populatePath(TreeNode<T>* current)
 	{
-		//TODO 07: Tree<T>::PreOrderTreeIterator
-		throw std::runtime_error("Tree<T>::PreOrderTreeIterator::populatePath: Not implemented yet.");
+		// PREODER prejdenie stromu
+
+		if (current != nullptr) {
+
+			TreeIterator::path_->push(current);
+
+			int pocetSpracovanychSynov = 0;
+
+			for (int i = 0; pocetSpracovanychSynov < current->degree(); i++) {
+				auto son = current->getSon(i);
+				if (son != nullptr) {
+					populatePath(son);
+					pocetSpracovanychSynov++;
+				}
+			}
+		}
 	}
 
 	template<typename T>
 	inline Tree<T>::PostOrderTreeIterator::PostOrderTreeIterator(TreeNode<T>* startNode) :
 		TreeIterator()
 	{
-		populatePath(startNode);
+		// PREODER prejdenie stromu
+
+		if (current != nullptr) {
+
+
+
+			int pocetSpracovanychSynov = 0;
+
+			for (int i = 0; pocetSpracovanychSynov < current->degree(); i++) {
+				auto son = current->getSon(i);
+				if (son != nullptr) {
+					populatePath(son);
+					pocetSpracovanychSynov++;
+				}
+			}
+
+			TreeIterator::path_->push(current);
+		}
 	}
 
 	template<typename T>
