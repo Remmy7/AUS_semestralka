@@ -319,13 +319,7 @@ namespace tests
 		SSTScenarioB();
 		void test() override;
 	};
-	class SSTScenarioC
-		: public ScenarioTestDZ4
-	{
-	public:
-		SSTScenarioC();
-		void test() override;
-	};
+	
 
 	///////////////////////////////
 	//////Binary search tree///////
@@ -345,13 +339,7 @@ namespace tests
 		BSTScenarioB();
 		void test() override;
 	};
-	class BSTScenarioC
-		: public ScenarioTestDZ4
-	{
-	public:
-		BSTScenarioC();
-		void test() override;
-	};
+	
 
 	//////////////////////////////////
 	/////Time complexity scenarios////

@@ -115,7 +115,122 @@ namespace tests
 	}
 	void ScenarioTestDZ4::scenarioTestDZ4(int type, int scenario, std::string filePath)
 	{
-		SimpleTest::logInfo("Scenar does nothing");
+		structures::FileLogConsumer* fileLogConsumer = new structures::FileLogConsumer(filePath);
+		int operationCount = 100000;
+		int insert	= 0;
+		int remove	= 0;
+		int tryFind	= 0;
+		std::string tableType = "";
+		structures::Table<int, int>* tableTest;
+
+		if (type == 1) {
+			tableType = "SortedSequenceTable";
+			tableTest = new structures::SortedSequenceTable<int, int>;
+
+		}
+		else if (type == 2) {
+			tableType = "BinarySearchTree";
+			tableTest = new structures::BinarySearchTree<int, int>;
+		}
+		else {
+			SimpleTest::logInfo("Wrong type.");
+			return;
+		}
+		switch (scenario) {
+		case 1:
+			insert = 20;
+			remove = 20;
+			tryFind = 60;
+			break;
+		case 2:
+			insert = 40;
+			remove = 40;
+			tryFind = 20;
+			break;
+		default:
+			SimpleTest::logInfo("Wrong scenario.");
+			return;
+		}
+
+		int insertCount = (operationCount / 100) * insert;
+		int removeCount = (operationCount / 100) * remove;
+		int tryFindCount = (operationCount / 100) * tryFind;
+
+		DurationType insertTime = tests::DurationType::zero();
+		DurationType removeTime = tests::DurationType::zero();
+		DurationType tryFindTime = tests::DurationType::zero();
+
+		srand(time(NULL));
+		
+		SimpleTest::logInfo(tableType + " scenario: " + std::to_string(scenario));
+		SimpleTest::logInfo("Insert [%]:	" + std::to_string(insert));
+		SimpleTest::logInfo("Remove [%]:	" + std::to_string(remove));
+		SimpleTest::logInfo("TryFind [%]:		" + std::to_string(tryFind));
+
+		fileLogConsumer->log(tableType + " ;scenario: " + std::to_string(scenario));
+		fileLogConsumer->log("Insert [%]:;	" + std::to_string(insert));
+		fileLogConsumer->log("Remove [%]:;	" + std::to_string(remove));
+		fileLogConsumer->log("TryFind [%]:;		" + std::to_string(tryFind));
+		fileLogConsumer->log("èas[ms];typ_operácie");
+
+		for (int replication = 1; replication <= operationCount; replication++) {
+			int randChance = rand() % 100;
+			if (randChance < insert && insertCount != 0) {
+				insertCount--;
+				int randKey = (rand() * rand()) % 100000;
+				int randValue = (rand() * rand()) % 100000;
+				SimpleTest::startStopwatch();
+				tableTest->insert(randKey, randValue);
+				SimpleTest::stopStopwatch();
+				insertTime += SimpleTest::getElapsedTime();
+				fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";insert");
+			}
+			else if (randChance < insert + remove && removeCount != 0) {
+				int randKey = (rand() * rand()) % 100000;
+				if (tableTest->size() == 0) {					
+					int randValue = (rand() * rand()) % 100000;
+					tableTest->insert(randKey, randValue);
+				}
+				removeCount--;
+				SimpleTest::startStopwatch();
+				tableTest->remove(randKey);
+				SimpleTest::stopStopwatch();
+				removeTime += SimpleTest::getElapsedTime();
+				fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";remove");
+			}
+			else if (randChance < insert + remove + tryFind && tryFindCount != 0) {
+				int randKey = (rand() * rand()) % 100000;
+				int randValue = (rand() * rand()) % 100000;
+				if (tableTest->size() == 0) {				
+					tableTest->insert(randKey, randValue);
+				}
+				tryFindCount--;
+				SimpleTest::startStopwatch();
+				tableTest->tryFind(randKey, randValue);
+				SimpleTest::stopStopwatch();
+				tryFindTime += SimpleTest::getElapsedTime();
+				fileLogConsumer->log(std::to_string(SimpleTest::getElapsedTime().count()) + ";tryFind");
+				if (tableTest->size() == 1) {
+					tableTest->remove(randKey);
+				}
+
+			}
+		}
+
+		fileLogConsumer->log("----------------------------------");
+		fileLogConsumer->log("----------------------------------");
+		fileLogConsumer->log("Dokopy èas insert: ;" + std::to_string(insertTime.count()) + ";mikrosekúnd");
+		fileLogConsumer->log("Dokopy èas remove: ;" + std::to_string(removeTime.count()) + ";mikrosekúnd");
+		fileLogConsumer->log("Dokopy èas tryFind: ;" + std::to_string(tryFindTime.count()) + " ;mikrosekúnd");
+		fileLogConsumer->log("Priemerný èas insert: ;" + std::to_string(insertTime.count() / ((operationCount / 100) * insert)) + ";mikrosekúnd");
+		fileLogConsumer->log("Priemerný èas remove: ;" + std::to_string(removeTime.count() / ((operationCount / 100) * remove)) + ";mikrosekúnd");
+		fileLogConsumer->log("Priemerný èas tryFind: ;" + std::to_string(tryFindTime.count() / ((operationCount / 100) * tryFind)) + " ;mikrosekúnd");
+		fileLogConsumer->log("Celkový èas: ;" + std::to_string(insertTime.count() + removeTime.count() + tryFindTime.count()));
+		fileLogConsumer->log("----------------------------------");
+		delete tableTest;
+		delete fileLogConsumer;
+
+		SimpleTest::assertTrue(1 == 1, "Scenario passed successfully!");
 	}
 
 	
@@ -133,7 +248,7 @@ namespace tests
 
 		addTest(new SSTScenarioA());
 		addTest(new SSTScenarioB());
-		addTest(new SSTScenarioC());
+
 
 		addTest(new SSTTimeComplexityInsert());
 		addTest(new SSTTimeComplexityRemove());
@@ -154,7 +269,7 @@ namespace tests
 
 		addTest(new BSTScenarioA());
 		addTest(new BSTScenarioB());
-		addTest(new BSTScenarioC());
+
 
 		addTest(new BSTTimeComplexityInsert());
 		addTest(new BSTTimeComplexityRemove());
@@ -351,17 +466,6 @@ namespace tests
 		SimpleTest::logInfo("SST scenario B passed successfully!");
 	}
 
-	SSTScenarioC::SSTScenarioC() :
-		ScenarioTestDZ4("Scenario C")
-	{
-	}
-
-	void SSTScenarioC::test()
-	{
-		scenarioTestDZ4(1, 3, "zadanie4_uloha2/SSTScenarioC.csv");
-		SimpleTest::logInfo("SST scenario C passed successfully!");
-	}
-
 	BSTScenarioA::BSTScenarioA() :
 		ScenarioTestDZ4("Scenario A")
 	{
@@ -384,17 +488,6 @@ namespace tests
 		SimpleTest::logInfo("BST scenario B passed successfully!");
 	}
 
-	BSTScenarioC::BSTScenarioC() :
-		ScenarioTestDZ4("Scenario C")
-	{
-	}
-
-	void BSTScenarioC::test()
-	{
-		scenarioTestDZ4(2, 3, "zadanie4_uloha2/BSTScenarioC.csv");
-		SimpleTest::logInfo("BST scenario C passed successfully!");
-	}
-
 
 	/// <summary>
 	/// 
@@ -404,6 +497,7 @@ namespace tests
 	/// <param name="filePath"></param>
 	void TimeComplexityDZ4::timeComplexityDZ4(int type, int scenario, std::string filePath)
 	{
+
 	}
 	TimeComplexityDZ4::TimeComplexityDZ4(std::string name) :
 		SimpleTest(std::move(name))
